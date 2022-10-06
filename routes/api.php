@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use  App\Http\Controllers\Api\User\AuthController;
+use  App\Http\Controllers\Api\Subsystem\Outgoing\OutDocumentController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +17,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+
+
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'user'
+], function ($router) {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/refresh', [AuthController::class, 'refresh']);
+});
+
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'subsystem/outgoing',
+],function ($router) {
+    Route::post('/documents', [OutDocumentController::class, 'getOutgoingDocuments']);
+    Route::post('/create', [OutDocumentController::class, 'createOutgoingDocument']);
 });
