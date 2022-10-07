@@ -30,7 +30,6 @@ Route::group([
     Route::post('/refresh', [AuthController::class, 'refresh']);
 });
 
-
 Route::group([
     'middleware' => 'api',
     'prefix' => 'subsystem/outgoing',

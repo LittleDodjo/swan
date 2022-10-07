@@ -10,7 +10,6 @@ class OutDocument extends Model
     use HasFactory;
 
 
-
     protected $table = 'outgoing_documents';
 
     /**
