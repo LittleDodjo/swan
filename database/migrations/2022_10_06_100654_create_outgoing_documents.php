@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer("document_type")->default(0); // Тип документа * +
             $table->integer("departure_type")->default(0); // Тип документа +
             $table->integer("departure_view")->default(0); // Вид отправления* +
-            $table->date("departure_date"); // Дата отправления письма( физического конверта ) +
+            $table->date("departure_date")->nullable(); // Дата отправления письма( физического конверта ) +
             $table->date("departure_email_date")->nullable(); // Дата отправления электронной почтой +
             $table->string("outgoing_number")->nullable(); // Исходящий номер +
             $table->date("outgoing_date")->nullable(); // Дата регистрации исходяшего номера +

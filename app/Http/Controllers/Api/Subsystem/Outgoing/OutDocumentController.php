@@ -5,16 +5,18 @@ namespace App\Http\Controllers\Api\Subsystem\Outgoing;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Subsystem\OutDocumentResource;
 use App\Http\Resources\Subsystem\OutDocumentResourceCollection;
+use App\Models\Subsystem\Outgoing\OutDocHistory;
 use App\Models\Subsystem\Outgoing\OutDocument;
+use App\Models\Subsystem\SubsystemHelper;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 
 
 class OutDocumentController extends Controller
 {
+    use SubsystemHelper;
 
     public $paginate = 5;
+    public $subsystemPrefix = "Исходящие";
 
 
     public function __construct()
@@ -27,33 +29,87 @@ class OutDocumentController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getOutgoingDocuments(Request $request){
-        if($this->isAuthorize()) {
-            $r = new OutDocumentResourceCollection(
-                OutDocument::paginate(2)
-            );
-            return response()->json([$r], 200);
-        }
+    public function getOutgoingDocuments(Request $request)
+    {
+        $result = $this->subsystemAccess(OutDocument::class, 'viewAny');
+        if($result !== true) return $result;
+        $documentList = new OutDocumentResourceCollection(
+            OutDocument::paginate($this->paginate)
+        );
+        return response()->json([$documentList] ,200);
     }
 
 
-    public function createOutgoingDocument(Request $request){
-        $data = new OutDocument(
-            $request->toArray()
+    public function getOutgoingDocument(Request $request, $id){
+        $result = $this->subsystemAccess(OutDocument::class, 'view');
+        if($result !== true) return $result;
+        if(!$this->subjectExists(OutDocument::class, $id)) {
+            return response()->json([
+                'message' => 'Такой документ не найден',
+            ], 404);
+        }
+        $document = new OutDocumentResource(
+            OutDocument::find($id)->first()
         );
-        $data->save();
-        return response([
-            'status' => true,
-            'message' => "Документ создан",
-            'data' => $data,
+        return  response()->json([
+            'data' => $document,
         ], 200);
     }
 
-    public function changeOutgoingDocument(Request $request){
 
+    public function createOutgoingDocument(Request $request)
+    {
+        $result = $this->subsystemAccess(OutDocument::class, 'create');
+        if($result !== true) return $result;
+        $document = new OutDocument(
+            $request->toArray()
+        );
+        $document->save();
+        return response([
+            'status' => true,
+            'message' => "Документ создан",
+            'data' => $document,
+        ], 200);
     }
 
-    public function removeOutgoingDocument(Request $request){
-
+    public function changeOutgoingDocument(Request $request)
+    {
+        $result = $this->subsystemAccess(OutDocument::class, 'update');
+        if($result !== true) return $result;
+        if(!$this->checkValidateAndExists(OutDocument::class, $request)){
+            return response()->json([
+                'message' => $this->subsystemPrefix.': Такой документ не найден'
+            ], 404);
+        }
+        $document = OutDocument::find($this->getKey($request));
+        $document = $this->updateSubject($request, $document, OutDocHistory::class);
+        if($result == false){
+            return response([
+                'message' => $this->subsystemPrefix.': Не удалось обновить документ'
+            ], 422);
+        }
+        return response()->json([
+            'message' => $this->subsystemPrefix.': документ №'. $document->id. ' успешно изменен',
+            'data' => $document,
+        ], 200);
     }
+
+    public function removeOutgoingDocument(Request $request)
+    {
+        $result = $this->subsystemAccess(OutDocument::class, 'delete');
+        if($result !== true) return $result;
+        if(!$this->checkValidateAndExists(OutDocument::class, $request)){
+            return response()->json([
+                'message' => $this->subsystemPrefix.': Такой документ не найден'
+            ], 404);
+        }
+        $document = OutDocument::find($this->getKey($request));
+        $document = $this->deleteSubject($document, OutDocHistory::class);
+        return response()->json([
+            'message' => $this->subsystemPrefix.': Документ № '. $document . ' удален',
+            'data' => $document,
+        ], 200);
+    }
+
+
 }

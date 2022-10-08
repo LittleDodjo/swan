@@ -18,6 +18,7 @@ class OutDocument extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
         'executor_id',
         'department_id',
         'out_correspondent_id',

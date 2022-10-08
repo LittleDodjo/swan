@@ -1,21 +1,16 @@
 <?php
 
-namespace App\Models\Subsystem\Outgoing;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class OutDocHistory extends Model
+class Admin extends Model
 {
     use HasFactory;
 
-    protected $table = 'outgoing_history';
-
     protected $fillable = [
         'user_id',
-        'document_id',
-        'actions',
-
     ];
 
 }

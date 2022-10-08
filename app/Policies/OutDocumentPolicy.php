@@ -10,6 +10,7 @@ use App\Models\User;
 class OutDocumentPolicy
 {
     use HandlesAuthorization;
+    use SubsystemPolicy;
 
     /**
      * Determine whether the user can view any models.
@@ -19,7 +20,8 @@ class OutDocumentPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->id == 1;
+        if($this->isAdmin($user)) return true;
+        else return $this->isRole($user, 'isViewAny');
     }
 
     /**
@@ -29,9 +31,10 @@ class OutDocumentPolicy
      * @param  \App\Models\Subsystem\Outgoing\OutDocument  $outDocument
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, OutDocument $outDocument)
+    public function view(User $user)
     {
-        return (bool)true;
+        if($this->isAdmin($user)) return true;
+        else return $this->isRole($user, 'isView');
     }
 
     /**
@@ -42,19 +45,18 @@ class OutDocumentPolicy
      */
     public function create(User $user)
     {
-        return (bool)true;
+        if($this->isAdmin($user)) return true;
+        else return $this->isRole($user, 'isCreate');
     }
 
     /**
      * Determine whether the user can update the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Subsystem\Outgoing\OutDocument  $outDocument
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return bool
      */
-    public function update(User $user, OutDocument $outDocument)
+    public function update(User $user)
     {
-        return true;
+        if($this->isAdmin($user)) return true;
+        else return $this->isRole($user, 'isChange');
     }
 
     /**
@@ -64,9 +66,10 @@ class OutDocumentPolicy
      * @param  \App\Models\Subsystem\Outgoing\OutDocument  $outDocument
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, OutDocument $outDocument)
+    public function delete(User $user)
     {
-        return true;
+        if($this->isAdmin($user)) return true;
+        else return $this->isRole($user, 'isDelete');
     }
 
     /**
@@ -76,7 +79,7 @@ class OutDocumentPolicy
      * @param  \App\Models\Subsystem\Outgoing\OutDocument  $outDocument
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, OutDocument $outDocument)
+    public function restore(User $user)
     {
         return true;
     }
@@ -88,7 +91,7 @@ class OutDocumentPolicy
      * @param  \App\Models\Subsystem\Outgoing\OutDocument  $outDocument
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, OutDocument $outDocument)
+    public function forceDelete(User $user)
     {
         return true;
     }
