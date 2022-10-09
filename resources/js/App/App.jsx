@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {BrowserRouter} from 'react-router-dom';
+import AuthProvider from './AppProvider/AuthProvider';
 import AppRouter from "./AppRouter";
 
 class App extends Component {
@@ -8,14 +9,10 @@ class App extends Component {
         super(props);
     }
 
-    componentDidMount() {
-
-    }
-
     render() {
         return (
             <BrowserRouter>
-                <AppRouter/>
+                <AppRouter />
             </BrowserRouter>
         );
     }

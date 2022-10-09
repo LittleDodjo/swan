@@ -1,4 +1,8 @@
+@import "Subsystems/Sidebar.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
 

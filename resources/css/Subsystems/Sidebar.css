@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.aside-box {
+    @apply flex h-screen basis-16 flex-col;
+    @apply bg-white  shadow-md;
+}
+
+.side-menu {
+    @apply flex h-full w-full flex-col;
+}
+
+.side-menu > li {
+    @apply w-full fill-slate-600 p-4;
+}
+
+.side-menu > li > svg {
+    @apply mx-auto;
+}
+
+.aside-btn {
+    @apply transition-colors delay-150 ease-in-out;
+    @apply hover:bg-slate-100 hover:fill-indigo-500;
+}
