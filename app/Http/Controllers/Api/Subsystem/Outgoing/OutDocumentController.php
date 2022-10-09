@@ -15,10 +15,21 @@ class OutDocumentController extends Controller
 {
     use SubsystemHelper;
 
+    /**
+     * уровень пагинации
+     * @var int
+     */
     public $paginate = 5;
+    /**
+     * префикс
+     * @var string
+     */
     public $subsystemPrefix = "Исходящие";
 
 
+    /**
+     * авторизация ресурсов
+     */
     public function __construct()
     {
         $this->authorizeResource(OutDocument::class, 'OutDocument');
@@ -40,6 +51,12 @@ class OutDocumentController extends Controller
     }
 
 
+    /**
+     * получить документ по id
+     * @param Request $request
+     * @param $id
+     * @return bool|\Illuminate\Http\JsonResponse
+     */
     public function getOutgoingDocument(Request $request, $id){
         $result = $this->subsystemAccess(OutDocument::class, 'view');
         if($result !== true) return $result;
@@ -57,6 +74,11 @@ class OutDocumentController extends Controller
     }
 
 
+    /**
+     * Создать новый документ
+     * @param Request $request
+     * @return bool|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     */
     public function createOutgoingDocument(Request $request)
     {
         $result = $this->subsystemAccess(OutDocument::class, 'create');
@@ -72,6 +94,11 @@ class OutDocumentController extends Controller
         ], 200);
     }
 
+    /**
+     * Отредактировать существующий документ
+     * @param Request $request
+     * @return bool|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     */
     public function changeOutgoingDocument(Request $request)
     {
         $result = $this->subsystemAccess(OutDocument::class, 'update');
@@ -94,6 +121,11 @@ class OutDocumentController extends Controller
         ], 200);
     }
 
+    /**
+     * Удалить документ по id
+     * @param Request $request
+     * @return bool|\Illuminate\Http\JsonResponse
+     */
     public function removeOutgoingDocument(Request $request)
     {
         $result = $this->subsystemAccess(OutDocument::class, 'delete');
