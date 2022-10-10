@@ -27,6 +27,8 @@
         "@tailwindcss/line-clamp": "^0.4.2",
         "@tailwindcss/typography": "^0.5.7",
         "query-string": "^7.1.1",
-        "react-router-dom": "^6.4.1"
+        "react-notifications": "^1.7.4",
+        "react-router-dom": "^6.4.1",
+        "react-toastify": "^9.0.8"
     }
 }

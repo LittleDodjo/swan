@@ -1,4 +1,5 @@
 @import "Subsystems/Sidebar.css";
+@import "Main/Main.css";
 
 @tailwind base;
 @tailwind components;

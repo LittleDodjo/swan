@@ -1,4 +1,5 @@
 import axios from 'axios';
+import AppProvider from "./AppProvider";
 
 class AuthProvider{
 
@@ -17,46 +18,62 @@ class AuthProvider{
         this.authProvider = provider;
     }
 
-    refresh(token, redirect, save){
-        console.log("will ref");
+    async refresh(token, func){
         const provider = axios.create({
             headers:{
                 Accept: "application/json",
                 Authorization: token.type + " " + token.token,
             }
         });
-        const res = provider.post(this.baseUrl + "refresh").then((res) => {
-            return save(res.data.authorization, res.data.user);
+        await provider.post(this.baseUrl + "refresh").then((res) => {
+            console.log(res.data);
+            AppProvider.saveAuth(res.data.authorization, res.data.user);
+            func(true);
+
         }).catch((e) => {
-            console.log("redirect");
-            redirect();
+            func(false);
         });
     }
 
     // метод авторизации
-    authorize(login, password, handleMessage){
+    async authorize(login, password, func){
         const body = {"login" : login, "password" : password};
         const provider = this.authProvider;
-        provider.post(this.baseUrl + "login", body).then((res) => {
+        await provider.post(this.baseUrl + "login", body).then((res) => {
             const data = {
                 code: res.status,
                 message: res.data.status,
                 token: res.data.authorization,
                 user: res.data.user,
             };
-            handleMessage(data);
+            func(data);
         }).catch((e) => {
             const data = {
                 code: e.response.status,
                 message: e.response.data,
             };
-            handleMessage(data);
+            func(data);
         });
     }
 
     // метод регистрации
-    register(data){
-
+    async register(body, func){
+        const provider = this.authProvider;
+        await provider.post("../" + this.baseUrl+"register", body).then((res) => {
+            const data = {
+                message: res.data.message,
+                status: res.status,
+                user: res.data.user,
+                token: res.data.authorization
+            };
+            console.log(data);
+            func(data);
+        }).catch((e) => {
+            const data = {
+                status: e.response.status,
+            }
+            func(data);
+        });
     }
 }
 

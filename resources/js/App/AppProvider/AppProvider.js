@@ -1,7 +1,7 @@
 import CookieProvider from "./CookieProvider";
 import AuthProvider from "./AuthProvider";
 
-class AppProvider{
+class AppProvider {
 
     state = {
         authProvider: null,
@@ -13,49 +13,49 @@ class AppProvider{
         this.state.cookieProvider = new CookieProvider();
     }
 
-    saveAuth(token, user){
-        const CookieProvider = this.state.cookieProvider;
-        CookieProvider.writeSession("token", JSON.stringify(token));
-        CookieProvider.writeSession("user", JSON.stringify(user));
+    getAuthProvider() {
+        return this.state.authProvider;
     }
 
-    updateTokenTime(time){
-        const CookieProvider = this.state.cookieProvider;
-        CookieProvider.writeSession("lastTimeToken", JSON.stringify(time));
-    }
-
-    getTokenTime(){
-        const CookieProvider = this.state.cookieProvider;
-        const time = CookieProvider.readSession("lastTimeToken");
-        if(time === "null") return false;
-        else return parseInt(time);
-    }
-
-    getToken() {
-        const token = sessionStorage.getItem('token');
-        return JSON.parse(token);
-    }
-
-    getUser() {
-        const user = sessionStorage.getItem('user');
-        return JSON.parse(user);
-    }
-
-    willAuthorized(redirect, willSave){
-        if(sessionStorage.getItem('token') !== null) {
-            const provider = this.getAuthProvider();
-            const data = provider.refresh(this.getToken(), redirect, willSave);
-        }else{
-            redirect();
+    //проверить авторизацию пользователя
+    willAuthorize(func) {
+        const cookieProvider = this.state.cookieProvider;
+        const authProvider = this.state.authProvider;
+        if (!cookieProvider.issetSession("token")) {
+            func(false);
+        }else {
+            if (!cookieProvider.issetSession("tokenTime")) {
+                const token = cookieProvider.readSession("token");
+                authProvider.refresh(token, func);
+            } else {
+                const tokenTime = cookieProvider.readSession("tokenTime");
+                const token = cookieProvider.readSession("token");
+                if (tokenTime > 720) authProvider.refresh(token, func);
+                else func(true);
+            }
         }
     }
 
-    getCookieProvider(){
-        return this.state.cookieProvider;
+    saveAuth(token, user) {
+        const cookieProvider = this.state.cookieProvider;
+        cookieProvider.writeSession("token", JSON.stringify(token));
+        cookieProvider.writeSession("user", JSON.stringify(user));
+        this.resetTokenTime();
     }
 
-    getAuthProvider(){
-        return this.state.authProvider;
+    getTokenTime(){
+        const cookieProvider = this.state.cookieProvider;
+        return parseInt(cookieProvider.readSession("tokenTime"));
+    }
+
+    resetTokenTime(){
+        const cookieProvider = this.state.cookieProvider;
+        cookieProvider.writeSession("tokenTime", JSON.stringify(0));
+    }
+
+    updateTokenTime(time){
+        const cookieProvider = this.state.cookieProvider;
+        cookieProvider.writeSession("tokenTime", JSON.stringify(time));
     }
 }
 
