@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers\Api\Subsystem\Outgoing;
 
+use App\Http\Controllers\Api\Subsystem\SubsystemHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Subsystem\OutDocumentResource;
 use App\Http\Resources\Subsystem\OutDocumentResourceCollection;
 use App\Models\Subsystem\Outgoing\OutDocHistory;
 use App\Models\Subsystem\Outgoing\OutDocument;
-use App\Models\Subsystem\SubsystemHelper;
 use Illuminate\Http\Request;
 
 
 class OutDocumentController extends Controller
 {
-    use SubsystemHelper;
 
     /**
      * уровень пагинации

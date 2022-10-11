@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers\Api\User;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Subsystem\Outgoing\OutUsersRole;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Database\Eloquent\Model;
 
 
 class AuthController extends Controller
 {
+
+    use SubsystemConfig;
+
 
     private $errorMessages = [
         'first_name.required' => 'Необходимо указать имя',
@@ -45,7 +49,6 @@ class AuthController extends Controller
     }
 
 
-
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -56,25 +59,25 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|confirmed|string|min:6',
         ], $this->errorMessages);
-
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
-
         $user = User::create(array_merge(
             $validator->validated(),
             ['password' => Hash::make($request->password)]
         ));
-
-        $token = Auth::login($user , true);
+        $s = $this->appendUserRoles($user);
+        $token = Auth::login($user, true);
+//        $token = ''; $user = '';
         return response()->json([
             'message' => 'Пользователь успешно создан',
             'user' => $user,
-            'password'  => Hash::make($request->password),
+            'password' => Hash::make($request->password),
             'authorisation' => [
                 'token' => $token,
                 'type' => 'Bearer',
-            ]
+            ],
+            's' => $s
         ], 201);
     }
 
@@ -85,9 +88,9 @@ class AuthController extends Controller
             'password' => 'required|min:6',
         ], $this->errorMessages);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             $data = [];
-            foreach($validator->errors()->toArray() as $v => $k){
+            foreach ($validator->errors()->toArray() as $v => $k) {
                 $data[] = $k[0];
             }
             return response()->json($data, 401);
@@ -136,6 +139,19 @@ class AuthController extends Controller
             'status' => 'Успешно',
             'message' => 'Вы успешно вышли из системы',
         ]);
+    }
+
+
+    private function appendUserRoles($user)
+    {
+        $role = $this->subsystemRoleConfig;
+        foreach ($role as $k => $v) {
+            $system = new $v(
+                ['user_id' => $user->id]
+            );
+            $system->save();
+        }
+        return true;
     }
 
 }
