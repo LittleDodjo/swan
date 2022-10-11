@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Navigate, Route, Routes, Link} from 'react-router-dom';
 import AuthProvider from "../../AppProvider/AuthProvider";
 import LogoComponent from "../Common/LogoComponent";
 import InputComponent from "../Common/InputComponent";
@@ -7,6 +6,8 @@ import SubmitForm from "../Common/SubmitForm";
 import SwapWindow from "../Common/SwapWindow";
 import CardCaption from "../Common/CardCaption";
 import MainCard from "../Common/MainCard";
+import {toast} from "react-toastify";
+import Notify from "../../Notify";
 
 
 class AuthorizeView extends Component {
@@ -14,7 +15,6 @@ class AuthorizeView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isError: false,
             isLoading: false,
             isSuccess: false,
             login: "",
@@ -43,9 +43,11 @@ class AuthorizeView extends Component {
             this.props.willAuth(true);
             const appProvider = this.props.appProvider;
             appProvider.saveAuth(data.token, data.user);
+            toast.success(<Notify text={"Добрый день, " + data.user.first_name}/>, {autoClose : 1000 });
 
         } else {
-            this.setState({isError: true});
+            this.setState({isLoading: false});
+            toast.error(<Notify text="Ошибка авторизации"/>, {autoClose : 1000 });
         }
     }
 

@@ -4,6 +4,7 @@ import AppProvider from "./AppProvider/AppProvider";
 import MainBase from "./MainViews/MainBase";
 import AuthorizeView from "./MainViews/AuthorizeView/AuthorizeView";
 import RegisterView from "./MainViews/RegisterView/RegisterView";
+import {ToastContainer} from "react-toastify";
 
 class App extends Component {
 
@@ -48,35 +49,38 @@ class App extends Component {
 
     render() {
         return (
-            <BrowserRouter>
-                <Routes>
-                    <Route exact path='/' element={
-                        <>
-                            {this.state.auth ? <Navigate to="/app"/> : ""}
-                            <MainBase>
-                                <AuthorizeView appProvider={this.state.appProvider} willAuth={this.willAuthorized}/>
-                            </MainBase>
-                        </>
-                    }/>
-                    <Route exact path='/register' element={
-                        <>
-                            {this.state.auth ? <Navigate to="/app"/> : ""}
-                            <MainBase>
-                                <RegisterView appProvider={this.state.appProvider} willAuth={this.willAuthorized}/>
-                            </MainBase>
-                        </>
-                    }/>
+            <>
+                <ToastContainer/>
+                <BrowserRouter>
+                    <Routes>
+                        <Route exact path='/' element={
+                            <>
+                                {this.state.auth ? <Navigate to="/app"/> : ""}
+                                <MainBase>
+                                    <AuthorizeView appProvider={this.state.appProvider} willAuth={this.willAuthorized}/>
+                                </MainBase>
+                            </>
+                        }/>
+                        <Route exact path='/register' element={
+                            <>
+                                {this.state.auth ? <Navigate to="/app"/> : ""}
+                                <MainBase>
+                                    <RegisterView appProvider={this.state.appProvider} willAuth={this.willAuthorized}/>
+                                </MainBase>
+                            </>
+                        }/>
 
-                    <Route exact path='/app' element={
-                        <>
-                            {this.state.auth ?
-                                <>test</>
-                                : <Navigate to="/"/>
-                            }
-                        </>
-                    }/>
-                </Routes>
-            </BrowserRouter>
+                        <Route exact path='/app' element={
+                            <>
+                                {this.state.auth ?
+                                    <>test</>
+                                    : <Navigate to="/"/>
+                                }
+                            </>
+                        }/>
+                    </Routes>
+                </BrowserRouter>
+            </>
         );
     }
 }

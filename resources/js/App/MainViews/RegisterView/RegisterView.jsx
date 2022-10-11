@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import AuthProvider from "../../AppProvider/AuthProvider";
 import LogoComponent from "../Common/LogoComponent";
@@ -38,6 +38,7 @@ class RegisterView extends Component {
             const appProvider = this.props.appProvider;
             appProvider.saveAuth(data.token, data.user);
         }else{
+            this.setState({isLoading: false});
             toast.error(<Notify text="Ошибка регистрации"/>, {autoClose : 1000 });
         }
     }
@@ -51,7 +52,6 @@ class RegisterView extends Component {
     render() {
         return (
             <>
-                <ToastContainer />
                 <LogoComponent/>
                 <MainCard>
                     <CardCaption caption="Регистрация"/>
