@@ -40,4 +40,11 @@ class OutDocument extends Model
         'envelope_type',
         'brand_price',
     ];
+
+
+    protected function hasHistory()
+    {
+        return $this->hasMany(OutDocHistory::class, 'document_id');
+    }
+
 }

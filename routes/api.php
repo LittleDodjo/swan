@@ -1,10 +1,13 @@
 <?php
 
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use  App\Http\Controllers\Api\User\AuthController;
 use  App\Http\Controllers\Api\Subsystem\Outgoing\OutDocumentController;
+use App\Http\Controllers\Api\User\UserController;
+use App\Http\Controllers\Api\User\UserRoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +31,16 @@ Route::group([
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
+});
+
+
+//группа роутов администрирования
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'user/role'
+], function ($router) {
+    Route::post('/setRole', [UserRoleController::class, 'updateUserRole']);
+    Route::post('/setAdmin', [UserRoleController::class, 'setUserAdmin']);
 });
 
 
