@@ -37,11 +37,10 @@ class OutDocumentController extends Controller
     }
 
     /**
-     * Получить список документов
-     * @param Request $request
+     * Получить список всех документов
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getOutgoingDocuments(Request $request)
+    public function getOutgoingDocuments()
     {
         $result = $this->subsystemAccess(OutDocument::class, 'viewAny');
         if($result !== true) return $result;
@@ -54,11 +53,10 @@ class OutDocumentController extends Controller
 
     /**
      * получить документ по id
-     * @param Request $request
      * @param $id
      * @return bool|\Illuminate\Http\JsonResponse
      */
-    public function getOutgoingDocument(Request $request, $id){
+    public function getOutgoingDocument($id){
         $result = $this->subsystemAccess(OutDocument::class, 'view');
         if($result !== true) return $result;
         if(!$this->subjectExists(OutDocument::class, $id)) {
@@ -67,7 +65,7 @@ class OutDocumentController extends Controller
             ], 404);
         }
         $document = new OutDocumentResource(
-            OutDocument::find($id)->first()
+            OutDocument::find($id)
         );
         return  response()->json([
             'data' => $document,

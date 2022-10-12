@@ -2,10 +2,13 @@
 
 namespace App\Http\Resources\Subsystem;
 
+use App\Models\Subsystem\Outgoing\OutDocument;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class OutDocumentResourceCollection extends ResourceCollection
 {
+
+
 
 
     /**
@@ -23,7 +26,7 @@ class OutDocumentResourceCollection extends ResourceCollection
                 'currentPage' => $this->currentPage(),
                 'totalPage' => $this->lastPage(),
                 'nextPage' => $this->nextPageUrl(),
-                'prevPage' => $this->previousPageUrl()
+                'prevPage' => $this->previousPageUrl(),
             ]
         ];
     }
