@@ -1,9 +1,9 @@
 @import "Subsystems/Sidebar.css";
+@import "Subsystems/Outgoing.css";
+@import "Subsystems/Base.css";
 @import "Main/Main.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-
 

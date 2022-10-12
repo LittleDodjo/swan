@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
+import {ToastContainer} from "react-toastify";
 import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
 import AppProvider from "./AppProvider/AppProvider";
 import MainBase from "./MainViews/MainBase";
 import AuthorizeView from "./MainViews/AuthorizeView/AuthorizeView";
 import RegisterView from "./MainViews/RegisterView/RegisterView";
-import {ToastContainer} from "react-toastify";
+import SubsystemBase from "./Subsystems/SubsystemBase";
+import appProvider from "./AppProvider/AppProvider";
+
 
 class App extends Component {
 
@@ -13,6 +16,7 @@ class App extends Component {
         this.state = {
             appProvider: new AppProvider(),
             lastRefreshToken: 0,
+            refreshTokenInterval: null,
             auth: false,
         }
 
@@ -27,17 +31,22 @@ class App extends Component {
     willAuthorized(result) {
         this.setState({auth: result});
         if (result) {
-            this.interval = setInterval(
-                () => {
-                    if (this.state.lastRefreshToken > 720) {
-                        this.state.appProvider.willAuthorized(this.unauthorized, this.saveUser);
-                    }
-                    this.setState((prevState) => ({
-                        lastRefreshToken: prevState.lastRefreshToken + 1
-                    }));
-                    this.state.appProvider.updateTokenTime(this.state.lastRefreshToken);
-                },
-                1000);
+            this.setState({
+                refreshTokenInterval: setInterval(
+                    () => {
+                        if (this.state.lastRefreshToken > this.state.appProvider.state.maxTokenTime) {
+                            console.log("bad(");
+                            this.setState({lastRefreshToken: 0});
+                            const provider = this.getProvider();
+                            provider.willAuthorize(this.willAuthorized);
+                        }
+                        this.setState((prevState) => ({
+                            lastRefreshToken: prevState.lastRefreshToken + 1
+                        }));
+                        this.state.appProvider.updateTokenTime(this.state.lastRefreshToken);
+                    },
+                    1000)
+            });
         }
     }
 
@@ -45,6 +54,12 @@ class App extends Component {
         const provider = this.getProvider();
         this.setState({auth: false});
         provider.willAuthorize(this.willAuthorized);
+    }
+
+
+    componentWillUnmount() {
+        clearInterval(this.state.refrshTokenInterval);
+        this.setState({refreshTokenInterval: null});
     }
 
     render() {
@@ -73,7 +88,7 @@ class App extends Component {
                         <Route exact path='/app' element={
                             <>
                                 {this.state.auth ?
-                                    <>test</>
+                                    <SubsystemBase appProvider={this.state.appProvider} willAuth={this.willAuthorized}/>
                                     : <Navigate to="/"/>
                                 }
                             </>

@@ -20,6 +20,6 @@
 }
 
 .aside-btn {
-    @apply transition-colors delay-150 ease-in-out;
+    @apply transition-colors delay-75 ease-in-out;
     @apply hover:bg-slate-100 hover:fill-indigo-500;
 }

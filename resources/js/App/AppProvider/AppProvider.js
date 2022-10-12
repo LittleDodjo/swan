@@ -1,16 +1,20 @@
 import CookieProvider from "./CookieProvider";
 import AuthProvider from "./AuthProvider";
+import AppListener from "./AppListener";
 
 class AppProvider {
 
     state = {
         authProvider: null,
         cookieProvider: null,
+        appListener: null,
+        maxTokenTime: 5,
     }
 
     constructor() {
         this.state.authProvider = new AuthProvider();
         this.state.cookieProvider = new CookieProvider();
+        this.state.appListener = new AppListener();
     }
 
     getAuthProvider() {
@@ -25,12 +29,14 @@ class AppProvider {
             func(false);
         }else {
             if (!cookieProvider.issetSession("tokenTime")) {
+                console.log("refreshing...");
                 const token = cookieProvider.readSession("token");
                 authProvider.refresh(token, func);
             } else {
+                console.log("refreshing...1");
                 const tokenTime = cookieProvider.readSession("tokenTime");
-                const token = cookieProvider.readSession("token");
-                if (tokenTime > 720) authProvider.refresh(token, func);
+                const token = JSON.parse(cookieProvider.readSession("token"));
+                if (tokenTime > this.state.maxTokenTime) authProvider.refresh(token, func);
                 else func(true);
             }
         }

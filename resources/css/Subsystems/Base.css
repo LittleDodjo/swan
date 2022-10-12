@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.main-subsystem-base{
+    @apply overflow-x-clip flex h-full w-full flex-col overflow-y-auto;
+}

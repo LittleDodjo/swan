@@ -1,5 +1,6 @@
 import axios from 'axios';
 import AppProvider from "./AppProvider";
+import CookieProvider from "./CookieProvider";
 
 class AuthProvider{
 
@@ -18,20 +19,23 @@ class AuthProvider{
         this.authProvider = provider;
     }
 
-    async refresh(token, func){
+    refresh(token, func){
         const provider = axios.create({
             headers:{
                 Accept: "application/json",
                 Authorization: token.type + " " + token.token,
             }
         });
-        await provider.post(this.baseUrl + "refresh").then((res) => {
+        provider.post(this.baseUrl + "refresh").then((res) => {
             console.log(res.data);
-            AppProvider.saveAuth(res.data.authorization, res.data.user);
+            const provider  = new AppProvider();
+            provider.saveAuth(res.data.authorization, res.data.user);
             func(true);
-
+            console.log("ok!");
+            return true;
         }).catch((e) => {
             func(false);
+            console.log("not ok!(");
         });
     }
 
