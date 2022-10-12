@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 class OutDocumentController extends Controller
 {
 
+    use SubsystemHelper;
+
     /**
      * уровень пагинации
      * @var int

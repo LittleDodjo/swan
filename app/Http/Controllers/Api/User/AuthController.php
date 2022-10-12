@@ -68,7 +68,6 @@ class AuthController extends Controller
         ));
         $s = $this->appendUserRoles($user);
         $token = Auth::login($user, true);
-//        $token = ''; $user = '';
         return response()->json([
             'message' => 'Пользователь успешно создан',
             'user' => $user,
