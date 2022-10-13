@@ -8,10 +8,13 @@ class SubsystemHelper{
 
     }
 
+    
+
     //Получить текущий токен пользователя
     getUserToken(){
         const cookieProvider = new CookieProvider();
         const token = JSON.parse(cookieProvider.readSession("token"));
+        if(token == null) return false;
         return token.type + " " + token.token;
     }
 

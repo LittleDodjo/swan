@@ -6,7 +6,6 @@ import MainBase from "./MainViews/MainBase";
 import AuthorizeView from "./MainViews/AuthorizeView/AuthorizeView";
 import RegisterView from "./MainViews/RegisterView/RegisterView";
 import SubsystemBase from "./Subsystems/SubsystemBase";
-import appProvider from "./AppProvider/AppProvider";
 
 
 class App extends Component {
@@ -15,51 +14,44 @@ class App extends Component {
         super(props);
         this.state = {
             appProvider: new AppProvider(),
+            maxTokenTime: 720,
             lastRefreshToken: 0,
             refreshTokenInterval: null,
             auth: false,
         }
 
         this.getProvider = this.getProvider.bind(this);
-        this.willAuthorized = this.willAuthorized.bind(this);
+        this.updateAuth = this.updateAuth.bind(this);
     }
 
     getProvider() {
         return this.state.appProvider;
     }
 
-    willAuthorized(result) {
+    updateAuth(result) {
         this.setState({auth: result});
-        if (result) {
-            this.setState({
-                refreshTokenInterval: setInterval(
-                    () => {
-                        if (this.state.lastRefreshToken > this.state.appProvider.state.maxTokenTime) {
-                            console.log("bad(");
-                            this.setState({lastRefreshToken: 0});
-                            const provider = this.getProvider();
-                            provider.willAuthorize(this.willAuthorized);
-                        }
-                        this.setState((prevState) => ({
-                            lastRefreshToken: prevState.lastRefreshToken + 1
-                        }));
-                        this.state.appProvider.updateTokenTime(this.state.lastRefreshToken);
-                    },
-                    1000)
-            });
-        }
     }
 
     componentDidMount() {
-        const provider = this.getProvider();
-        this.setState({auth: false});
-        provider.willAuthorize(this.willAuthorized);
+        const appProvider = this.getProvider();
+        appProvider.checkAuth(this.updateAuth);
+        const interval = setInterval(() => {
+            const maxTokenTime = this.state.maxTokenTime;
+            if (this.state.auth === false) return;
+            if (this.state.lastRefreshToken >= maxTokenTime) {
+                appProvider.checkAuth(this.updateAuth);
+                this.setState({lastRefreshToken: 0});
+            }
+            this.setState((prevState) => ({
+                lastRefreshToken: prevState.lastRefreshToken + 1
+            }));
+        }, 1000);
+        this.setState({refreshTokenInterval: interval});
     }
 
 
     componentWillUnmount() {
-        clearInterval(this.state.refrshTokenInterval);
-        this.setState({refreshTokenInterval: null});
+        clearInterval(this.state.refreshTokenInterval);
     }
 
     render() {
@@ -72,7 +64,7 @@ class App extends Component {
                             <>
                                 {this.state.auth ? <Navigate to="/app"/> : ""}
                                 <MainBase>
-                                    <AuthorizeView appProvider={this.state.appProvider} willAuth={this.willAuthorized}/>
+                                    <AuthorizeView appProvider={this.state.appProvider} willAuth={this.updateAuth}/>
                                 </MainBase>
                             </>
                         }/>
@@ -80,7 +72,7 @@ class App extends Component {
                             <>
                                 {this.state.auth ? <Navigate to="/app"/> : ""}
                                 <MainBase>
-                                    <RegisterView appProvider={this.state.appProvider} willAuth={this.willAuthorized}/>
+                                    <RegisterView appProvider={this.state.appProvider} willAuth={this.updateAuth}/>
                                 </MainBase>
                             </>
                         }/>
@@ -88,7 +80,7 @@ class App extends Component {
                         <Route exact path='/app' element={
                             <>
                                 {this.state.auth ?
-                                    <SubsystemBase appProvider={this.state.appProvider} willAuth={this.willAuthorized}/>
+                                    <SubsystemBase appProvider={this.state.appProvider} willAuth={this.updateAuth}/>
                                     : <Navigate to="/"/>
                                 }
                             </>

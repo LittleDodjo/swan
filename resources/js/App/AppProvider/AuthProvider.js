@@ -19,23 +19,20 @@ class AuthProvider{
         this.authProvider = provider;
     }
 
-    refresh(token, func){
+    async refresh(token, func){
         const provider = axios.create({
             headers:{
                 Accept: "application/json",
                 Authorization: token.type + " " + token.token,
             }
         });
-        provider.post(this.baseUrl + "refresh").then((res) => {
-            console.log(res.data);
+        await provider.post(this.baseUrl + "refresh").then((res) => {
             const provider  = new AppProvider();
             provider.saveAuth(res.data.authorization, res.data.user);
             func(true);
-            console.log("ok!");
             return true;
         }).catch((e) => {
             func(false);
-            console.log("not ok!(");
         });
     }
 
@@ -53,8 +50,9 @@ class AuthProvider{
             func(data);
         }).catch((e) => {
             const data = {
-                code: e.response.status,
-                message: e.response.data,
+                e: e,
+                // code: e.response.status,
+                // message: e.response.data,
             };
             func(data);
         });
@@ -70,7 +68,6 @@ class AuthProvider{
                 user: res.data.user,
                 token: res.data.authorization
             };
-            console.log(data);
             func(data);
         }).catch((e) => {
             const data = {

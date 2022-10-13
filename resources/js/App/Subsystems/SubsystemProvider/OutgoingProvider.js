@@ -26,9 +26,11 @@ class OutgoingProvider{
         const provider = this.provider;
         provider.get(this.baseUrl + "documents").then((res) => {
             const data = {
-                result : res.data.data,
-                meta: res.data.meta
+                status: 200,
+                data : res.data[0].data,
+                meta: res.data[0].meta
             };
+            func(data);
         }).catch((e) => {
             const data = {
                 status : e.response.status,
