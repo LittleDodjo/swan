@@ -33,9 +33,10 @@ class OutgoingProvider{
             func(data);
         }).catch((e) => {
             const data = {
-                status : e.response.status,
+                // status : e.response.status,
             };
-            func(data);
+            console.log(e);
+            func(e);
         });
     }
 

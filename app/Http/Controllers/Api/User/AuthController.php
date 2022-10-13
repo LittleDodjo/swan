@@ -72,7 +72,7 @@ class AuthController extends Controller
             'message' => 'Пользователь успешно создан',
             'user' => $user,
             'password' => Hash::make($request->password),
-            'authorisation' => [
+            'authorization' => [
                 'token' => $token,
                 'type' => 'Bearer',
             ],

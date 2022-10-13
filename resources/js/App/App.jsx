@@ -72,7 +72,7 @@ class App extends Component {
                             <>
                                 {this.state.auth ? <Navigate to="/app"/> : ""}
                                 <MainBase>
-                                    <RegisterView appProvider={this.state.appProvider} willAuth={this.updateAuth}/>
+                                    <RegisterView willAuth={this.updateAuth}/>
                                 </MainBase>
                             </>
                         }/>
@@ -80,7 +80,7 @@ class App extends Component {
                         <Route exact path='/app' element={
                             <>
                                 {this.state.auth ?
-                                    <SubsystemBase appProvider={this.state.appProvider} willAuth={this.updateAuth}/>
+                                    <SubsystemBase willAuth={this.updateAuth}/>
                                     : <Navigate to="/"/>
                                 }
                             </>
