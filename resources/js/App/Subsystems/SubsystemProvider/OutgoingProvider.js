@@ -40,7 +40,23 @@ class OutgoingProvider{
         });
     }
 
-    viewDocument(){}
+    viewDocument(documentId, func){
+        const provider = this.provider;
+        provider.get(this.baseUrl + "document/" + documentId).then((res) => {
+            const data = {
+                status: 200,
+                data : res.data[0].data,
+                meta: res.data[0].meta
+            };
+            func(data);
+        }).catch((e) => {
+            const data = {
+                // status : e.response.status,
+            };
+            console.log(e);
+            func(e);
+        });
+    }
 
     createDocument(){}
 
