@@ -20,7 +20,7 @@ class OutDocumentController extends Controller
      * уровень пагинации
      * @var int
      */
-    public $paginate = 5;
+    public $paginate = 50;
     /**
      * префикс
      * @var string

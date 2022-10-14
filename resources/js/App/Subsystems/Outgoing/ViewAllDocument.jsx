@@ -4,6 +4,11 @@ import Loader from "../Common/Loader";
 import OutgoingProvider from "../SubsystemProvider/OutgoingProvider";
 import {toast} from "react-toastify";
 import Table from "../Common/Components/Table/Table";
+import BaseButton from "../Common/Components/Inputs/BaseButton";
+import FormBase from "../Common/FormBase";
+import AddResource from "../Common/Resources/AddResource";
+import SearchResource from "../Common/Resources/SearchResource";
+import BaseInput from "../Common/Components/Inputs/BaseInput";
 
 class ViewAllDocument extends Component {
 
@@ -38,8 +43,8 @@ class ViewAllDocument extends Component {
         }
     }
 
-    openDocument(id) {
-        this.props.action(id);
+    openDocument(data) {
+        this.props.openDocument(data);
     }
 
 
@@ -55,11 +60,14 @@ class ViewAllDocument extends Component {
         const tHead = this.state.tableConfig;
         const tableData = this.state.loadedData.data;
         const tableFilter = this.state.tableBodyFileds;
-        console.log(this.state.loadedData.data);
         return (
             <>
                 <SubsystemCaption caption="Карточки исходящих документов"/>
-
+                <FormBase>
+                    <BaseInput placeholder="Поиск"/>
+                    <BaseButton value="Найти"/>
+                    <BaseButton resource={<AddResource/>} value="Создать" action={this.props.createDocument}/>
+                </FormBase>
                 {this.state.isLoaded ?
                     <Table tHead={tHead} tableData={tableData} filter={tableFilter} action={this.openDocument}/> :
                     <Loader/>}

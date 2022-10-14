@@ -20,8 +20,9 @@ class OutgoingBase extends Component {
         this.createDocument = this.createDocument.bind(this);
     }
 
-    openDocument(id) {
-        this.setState({openId: id});
+    openDocument(data) {
+        const documentId = "open";
+        this.setState({openId: documentId, document: data});
     }
 
     closeDocument() {
@@ -33,7 +34,7 @@ class OutgoingBase extends Component {
     }
 
     createDocument() {
-        this.setState({openId: -1});
+        this.setState({openId: "create", document: null});
     }
 
 
@@ -44,9 +45,9 @@ class OutgoingBase extends Component {
     render() {
         return (
             <>
-                {this.state.openId !== null ?
-                    <ViewDocument documentId={this.state.openId} action={this.closeDocument}/>
-                    : <ViewAllDocument action={this.openDocument}/>
+                {(this.state.openId !== null && this.state.openId !== 0) ?
+                    <ViewDocument closeDocument={this.closeDocument}  document={this.state.document}/>
+                    : <ViewAllDocument openDocument={this.openDocument} createDocument={this.createDocument}/>
                 }
 
             </>

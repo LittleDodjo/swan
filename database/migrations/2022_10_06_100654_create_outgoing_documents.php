@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('outgoing_documents', function (Blueprint $table) {
             $table->id(); // идентификатор документа +
+            $table->date("date_admission_to_office")->nullable(); // Дата поступления в канцелярию
             $table->string("executor_id")->nullable(); // Исполнитель ФИО +
             $table->integer("department_id")->nullable(); // Номер отдела +
             $table->string("out_correspondent_id")->nullable(); // Номер исходящего корреспондента +

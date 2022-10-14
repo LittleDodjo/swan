@@ -20,6 +20,7 @@ class OutDocument extends Model
     protected $fillable = [
         'id',
         'executor_id',
+        'date_admission_to_office',
         'department_id',
         'out_correspondent_id',
         'out_correspondent_date',
