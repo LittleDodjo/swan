@@ -1,7 +1,7 @@
 <?php
 
+use App\Models\BaseModels\Departaments\EmployeeDepartament;
 use App\Models\BaseModels\Employees\Employee;
-use App\Models\UserRoles;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,15 +15,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('employee_departaments_to_employee', function (Blueprint $table) {
             $table->id();
-//            $table->foreignIdFor("employee")->nullable();
-            $table->string("login")->unique();
-            $table->string("password");
-            $table->boolean("isConfirmed")->default(false);
-            $table->foreignIdFor(UserRoles::class);
             $table->foreignIdFor(Employee::class);
-            $table->rememberToken();
+            $table->foreignIdFor(EmployeeDepartament::class);
             $table->timestamps();
         });
     }
@@ -35,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('employee_departaments_to_employee');
     }
 };

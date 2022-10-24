@@ -20,13 +20,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
-        'first_name',
-        'last_name',
-        'patronymic',
-        'login',
-        'email',
-        'phone',
-        'password',
+
     ];
 
     /**
@@ -48,19 +42,13 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function Admin(){
-        return $this->hasOne(Admin::class);
+
+
+    public function GlobalRoles()
+    {
+        return $this->hasOne(UserRoles::class);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function OutUserRole(){
-        return $this->hasOne(OutUsersRole::class);
-    }
 
     /**
      * @return mixed
