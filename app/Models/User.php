@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\BaseModels\Employees\Employee;
 use App\Models\Subsystem\Outgoing\OutDocument;
 use App\Models\Subsystem\Outgoing\OutUsersRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,6 +21,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
+        'login',
 
     ];
 
@@ -43,8 +45,20 @@ class User extends Authenticatable implements JWTSubject
     ];
 
 
+    /**
+     * Отношение учетной записи к сотруднику (Один к одному)
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function employee(){
+        return $this->hasOne(Employee::class);
+    }
 
-    public function GlobalRoles()
+    /**
+     *
+     * Отношение учетной записи к глобальным ролям (Один к одному)
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function globalRoles()
     {
         return $this->hasOne(UserRoles::class);
     }

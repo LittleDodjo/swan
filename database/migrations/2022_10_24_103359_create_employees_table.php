@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string("patronymic")->nullable();
             $table->string("phone_number");
             $table->foreignIdFor(Appointment::class);
-            $table->foreignIdFor(EmployeeDepency::class);
+            $table->foreignIdFor(EmployeeDepency::class)->nullable()->default(null);
             $table->string("email")->unique();
             $table->boolean("personal_data_access")->default(false);
             $table->timestamps();

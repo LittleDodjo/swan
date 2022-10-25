@@ -2,6 +2,8 @@
 
 namespace App\Models\BaseModels\Departaments;
 
+use App\Models\BaseModels\Employees\Employee;
+use App\Models\BaseModels\Managments\Managment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,5 +20,16 @@ class Departament extends Model
         'display_number',
     ];
 
+    public function managmentDepends(){
+        return $this->hasOne(Managment::class);
+    }
+
+    public function employeeManager(){
+        return $this->hasOne(Employee::class);
+    }
+
+    public function employeePrimaryManager(){
+        return $this->hasOne(Employee::class);
+    }
 
 }

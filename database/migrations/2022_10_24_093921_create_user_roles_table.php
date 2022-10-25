@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('user_roles', function (Blueprint $table) {
             $table->id();
-            $table->boolean('is_root');
-            $table->boolean('is_admin');
-            $table->boolean('is_control_manager');
+            $table->boolean('is_root')->default(false);
+            $table->boolean('is_admin')->default(false);
+            $table->boolean('is_control_manager')->default(false);
             $table->timestamps();
         });
     }

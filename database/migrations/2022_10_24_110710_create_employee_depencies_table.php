@@ -1,5 +1,9 @@
 <?php
 
+use App\Models\BaseModels\Departaments\Departament;
+use App\Models\BaseModels\Departaments\EmployeeDepartament;
+use App\Models\BaseModels\Employees\Employee;
+use App\Models\BaseModels\Managments\Managment;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,10 +19,10 @@ return new class extends Migration
     {
         Schema::create('employee_depencies', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("employee_id")->constrained("employees");
-            $table->foreignId("managment_id")->constrained("managments");
-            $table->foreignId("departament_id")->constrained("departaments");
-            $table->foreignId("employee_departament_id")->constrained("employee_departaments");
+            $table->foreignIdFor(Employee::class)->nullable();
+            $table->foreignIdFor(Managment::class)->nullable();
+            $table->foreignIdFor(Departament::class)->nullable();
+            $table->foreignIdFor(EmployeeDepartament::class)->nullable();
             $table->timestamps();
         });
     }
