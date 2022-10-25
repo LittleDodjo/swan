@@ -10,7 +10,6 @@ class OutDocument extends Model
     use HasFactory;
 
 
-
     protected $table = 'outgoing_documents';
 
     /**
@@ -19,7 +18,9 @@ class OutDocument extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'id',
         'executor_id',
+        'date_admission_to_office',
         'department_id',
         'out_correspondent_id',
         'out_correspondent_date',
@@ -40,4 +41,11 @@ class OutDocument extends Model
         'envelope_type',
         'brand_price',
     ];
+
+
+    protected function hasHistory()
+    {
+        return $this->hasMany(OutDocHistory::class, 'document_id');
+    }
+
 }
