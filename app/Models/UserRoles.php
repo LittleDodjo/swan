@@ -10,6 +10,7 @@ class UserRoles extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'is_root',
         'is_admin',
         'is_control_manager'

@@ -1,13 +1,14 @@
 <?php
 
 
+use App\Http\Controllers\Api\BaseController\Employee\EmployeeController;
+use App\Http\Controllers\Api\BaseController\OrganizationController;
+use App\Http\Controllers\Api\BaseController\User\AuthController;
+use App\Http\Controllers\Api\BaseController\User\UserRolesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use  App\Http\Controllers\Api\User\AuthController;
-use  App\Http\Controllers\Api\Subsystem\Outgoing\OutDocumentController;
-use App\Http\Controllers\Api\User\UserController;
-use App\Http\Controllers\Api\User\UserRoleController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +22,14 @@ use App\Http\Controllers\Api\User\UserRoleController;
 */
 
 
-
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'admin'
+], function ($router) {
+    Route::post('/admin', [UserRolesController::class, 'setAsAdmin']);
+    Route::post('/root', [UserRolesController::class, 'setAsRoot']);
+    Route::post('/manager', [UserRolesController::class, 'setAsControlManager']);
+});
 
 Route::group([
     'middleware' => 'api',
@@ -33,3 +41,18 @@ Route::group([
     Route::post('/refresh', [AuthController::class, 'refresh']);
 });
 
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'employee',
+], function($router){
+    Route::post('/create', [EmployeeController::class, 'newEmployee']);
+});
+
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'organization',
+], function($router){
+    Route::post('/create', [OrganizationController::class, 'newOrganization']);
+
+});

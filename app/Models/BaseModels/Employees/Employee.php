@@ -18,13 +18,14 @@ class Employee extends Model
         'phone_number',
         'appointment_id',
         'employee_depency_id',
+        'user_id',
         'email',
         'personal_data_access',
     ];
 
 
     public function organization(){
-        return $this->hasOne(Organization::class);
+        return $this->belongsTo(Organization::class);
     }
 
     public function employeeDepency(){

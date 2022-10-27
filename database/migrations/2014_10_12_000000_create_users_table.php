@@ -20,8 +20,6 @@ return new class extends Migration
             $table->string("login")->unique();
             $table->string("password");
             $table->boolean("isConfirmed")->default(false);
-            $table->foreignIdFor(UserRoles::class);
-            $table->foreignIdFor(Employee::class);
             $table->rememberToken();
             $table->timestamps();
         });
