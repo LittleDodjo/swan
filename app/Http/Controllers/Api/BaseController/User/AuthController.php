@@ -72,8 +72,8 @@ class AuthController extends Controller
         $token = Auth::login($user, true);
         return response()->json([
             'message' => 'Пользователь успешно создан',
-            'user' => $user,
-            'employee' => $user->employee,
+            'user' => $user->employee,
+            'roles' => $user->globalRoles,
             'token' => 'Bearer' . $token,
         ], 201);
     }
@@ -94,23 +94,22 @@ class AuthController extends Controller
         if (!$token) {
             return response()->json([
                 'status' => 'Ошибка',
-                'message' => 'Неудачная авторизация',
-                'data' => $credentials
+                'message' => 'Неудачная авторизация'
             ], 401);
         }
         $user = Auth::user();
         return response()->json([
             'status' => 'Успешная авторизация',
-            'user' => $user,
-            'employee' => $user->employee,
-            'token' => 'Bearer '.$token
+            'user' => $user->employee,
+            'roles' => $user->globalRoles,
+            'token' => 'Bearer ' . $token
         ], 200);
     }
 
     public function refresh()
     {
         return response()->json([
-            'token' => 'Bearer '.Auth::refresh(),
+            'token' => 'Bearer ' . Auth::refresh(),
         ], 200);
     }
 
@@ -134,5 +133,7 @@ class AuthController extends Controller
         $employee = Employee::where('id', $employeeId)->first();
         return $employee->user_id !== null;
     }
+
+
 
 }

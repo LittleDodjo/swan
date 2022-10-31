@@ -33,6 +33,18 @@ Route::group([
 
 Route::group([
     'middleware' => 'api',
+    'prefix' => 'organization',
+], function($router){
+    Route::post('/create', [OrganizationController::class, 'newOrganization']);
+    Route::post('/update', [OrganizationController::class, 'updateOrganization']);
+    Route::post('/delete', [OrganizationController::class, 'deleteOrganization']);
+    Route::post('/view/{id}', [OrganizationController::class, 'viewOrganization']);
+    Route::post('/view', [OrganizationController::class, 'viewAllOrganizations']);
+
+});
+
+Route::group([
+    'middleware' => 'api',
     'prefix' => 'user'
 ], function ($router) {
     Route::post('/login', [AuthController::class, 'login']);
@@ -46,13 +58,4 @@ Route::group([
     'prefix' => 'employee',
 ], function($router){
     Route::post('/create', [EmployeeController::class, 'newEmployee']);
-});
-
-
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'organization',
-], function($router){
-    Route::post('/create', [OrganizationController::class, 'newOrganization']);
-
 });
