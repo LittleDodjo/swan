@@ -12,13 +12,27 @@ use Illuminate\Support\Facades\Validator;
 class UserRolesController extends Controller
 {
 
+    /**
+     * @var string
+     * Пароль суперпользователя
+     */
     public $rootPassword = "123456";
 
+    /**
+     * UserRolesController constructor.
+     * Конструктор
+     */
     public function __construct()
     {
         $this->middleware('api');
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     *
+     * Установить флаг администратора пользователю
+     */
     public function setAsAdmin(Request $request)
     {
         $validator = $validator = Validator::make($request->all(), [
@@ -43,6 +57,11 @@ class UserRolesController extends Controller
         ], 200);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * Установить флаг суперпользователя
+     */
     public function setAsRoot(Request $request)
     {
         $validator = $validator = Validator::make($request->all(), [
@@ -67,6 +86,11 @@ class UserRolesController extends Controller
         ], 200);
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * Установить флаг контролирующего сотрудника
+     */
     public function setAsControlManager(Request $request)
     {
         $validator = $validator = Validator::make($request->all(), [
@@ -91,6 +115,12 @@ class UserRolesController extends Controller
         ], 200);
     }
 
+    /**
+     * @param $password
+     * @return bool
+     *
+     * Проверить права пользователя
+     */
     private function validateUser($password){
         $userRoles = Auth::user();
         if($userRoles == null) return false;

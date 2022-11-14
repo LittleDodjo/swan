@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\Api\BaseController\Employee\EmployeeController;
+use App\Http\Controllers\Api\BaseController\Managnents\ManagmentController;
 use App\Http\Controllers\Api\BaseController\OrganizationController;
 use App\Http\Controllers\Api\BaseController\User\AuthController;
 use App\Http\Controllers\Api\BaseController\User\UserRolesController;
@@ -36,10 +37,10 @@ Route::group([
     'prefix' => 'organization',
 ], function($router){
     Route::post('/create', [OrganizationController::class, 'newOrganization']);
-    Route::post('/update', [OrganizationController::class, 'updateOrganization']);
-    Route::post('/delete', [OrganizationController::class, 'deleteOrganization']);
-    Route::post('/view/{id}', [OrganizationController::class, 'viewOrganization']);
-    Route::post('/view', [OrganizationController::class, 'viewAllOrganizations']);
+    Route::patch('/update/{id}', [OrganizationController::class, 'updateOrganization']);
+    Route::delete('/delete/{id}', [OrganizationController::class, 'deleteOrganization']);
+    Route::get('/view/{id}', [OrganizationController::class, 'viewOrganization']);
+    Route::get('/view', [OrganizationController::class, 'viewAllOrganizations']);
 
 });
 
@@ -59,3 +60,18 @@ Route::group([
 ], function($router){
     Route::post('/create', [EmployeeController::class, 'newEmployee']);
 });
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'managment',
+], function($router){
+    Route::post('/create', [ManagmentController::class, 'newManagment']);
+});
+
+
+//Route::group([
+//    'middleware' => 'api',
+//    'prefix' => 'employee',
+//], function($router){
+//    Route::post('/create', [EmployeeController::class, 'newEmployee']);
+//});
