@@ -3,6 +3,7 @@
 namespace App\Models\BaseModels\Employees;
 
 use App\Models\BaseModels\Organization;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,16 +25,20 @@ class Employee extends Model
     ];
 
 
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
     public function organization(){
         return $this->belongsTo(Organization::class);
     }
 
     public function employeeDepency(){
-        return $this->hasOne(EmployeeDepency::class);
+        return $this->belongsTo(EmployeeDepency::class);
     }
 
     public function appointment(){
-        return $this->hasOne(Appointment::class);
+        return $this->belongsTo(Appointment::class);
     }
 
 }

@@ -20,18 +20,18 @@ class EmployeeDepency extends Model
     ];
 
     public function employeeDepency(){
-        return $this->hasOne(Employee::class);
+        return $this->belongsTo(Employee::class);
     }
 
     public function managmentDepency(){
-        return $this->hasOne(Managment::class);
+        return $this->belongsTo(Managment::class);
     }
 
     public function departamentDepency(){
-        return $this->hasOne(Departament::class);
+        return $this->belongsTo(Departament::class);
     }
 
     public function employeeDepartamentDepency(){
-        return $this->hasOne(EmployeeDepartament::class);
+        return $this->belongsTo(EmployeeDepartament::class);
     }
 }

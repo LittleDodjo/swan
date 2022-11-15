@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Api\BaseController\Employee;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\BaseResource\Employee\EmployeeResource;
+use App\Http\Resources\Api\BaseResource\Employee\EmployeeResourceCollection;
+use App\Http\Resources\Api\BaseResource\Employee\ShortEmployeeResource;
+use App\Http\Resources\Api\BaseResource\Employee\ShortEmployeeResourceCollecntion;
 use App\Models\BaseModels\Employees\Employee;
+use App\Models\BaseModels\Employees\EmployeeDepency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -12,8 +17,10 @@ class EmployeeController extends Controller
 
     public function __construct()
     {
-//        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+//        $this->middleware('auth:api', ['except' => ['newEmployee']]);
     }
+
+    private $perPage = 50;
 
     private $errorMessages = [
         'first_name.required' => 'Имя указать обязательно',
@@ -35,9 +42,11 @@ class EmployeeController extends Controller
         'email.required' => 'Необходимо указать почту',
         'email.email' => 'Неверный формат почты',
         'email.unique' => 'Такая почта уже существует в системе',
+        'organization_id.required' => 'Необходимо указать организацию'
     ];
 
-    public function newEmployee(Request $request){
+    public function newEmployee(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|min:3|max:25|string',
             'last_name' => 'required|min:3|max:25|string',
@@ -53,12 +62,38 @@ class EmployeeController extends Controller
                 'message' => $validator->errors(),
             ], 400);
         }
-        $employee = Employee::create($validator->validated());
+        $depency = new EmployeeDepency();
+        $depency->save();
+        $employee = Employee::create(
+            array_merge($validator->validated(), ['employee_depency_id' => $depency->id])
+        );
         return response()->json([
             'message' => 'Сотрудник успешно создан',
             'employee' => $employee,
         ], 201);
     }
 
+
+    public function viewEmployee(Request $request, $id)
+    {
+        $data = Employee::find($id);
+        $employee = new EmployeeResource($data);
+        if ($employee == null) {
+            return response()->json(['message' => 'Такой сотрудник не найден'], 404);
+        }
+        return response()->json([
+            'data' => $employee,
+        ], 200);
+    }
+
+
+    public function viewAllEmployees(Request $request){
+        $data = new EmployeeResourceCollection(
+                new ShortEmployeeResource(
+                    Employee::all()
+                )
+        );
+        return response()->json( $data,200);
+    }
 
 }

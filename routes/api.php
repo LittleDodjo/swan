@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\Api\BaseController\Employee\AppointmentController;
 use App\Http\Controllers\Api\BaseController\Employee\EmployeeController;
 use App\Http\Controllers\Api\BaseController\Managnents\ManagmentController;
 use App\Http\Controllers\Api\BaseController\OrganizationController;
@@ -56,9 +57,25 @@ Route::group([
 
 Route::group([
     'middleware' => 'api',
+    'prefix' => 'appointment',
+], function($router){
+    Route::post('/create', [AppointmentController::class, 'newAppointment']);
+    Route::delete('/delete/{id}', [AppointmentController::class, 'deleteAppointment']);
+    Route::get('/view/{id}', [AppointmentController::class, 'viewAppointment']);
+    Route::get('/view', [AppointmentController::class, 'viewAllAppointment']);
+    Route::patch('/update/caption', [AppointmentController::class, 'updateCaption']);
+    Route::patch('/update/short', [AppointmentController::class, 'updateShortName']);
+    Route::patch('/update/manager', [AppointmentController::class, 'updateManager']);
+    Route::patch('/update/primary', [AppointmentController::class, 'updatePrimaryManager']);
+});
+
+Route::group([
+    'middleware' => 'api',
     'prefix' => 'employee',
 ], function($router){
     Route::post('/create', [EmployeeController::class, 'newEmployee']);
+    Route::get('/view/{id}', [EmployeeController::class, 'viewEmployee']);
+    Route::get('/view', [EmployeeController::class, 'viewAllEmployees']);
 });
 
 Route::group([
@@ -66,6 +83,7 @@ Route::group([
     'prefix' => 'managment',
 ], function($router){
     Route::post('/create', [ManagmentController::class, 'newManagment']);
+
 });
 
 

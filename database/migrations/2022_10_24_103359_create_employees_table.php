@@ -19,7 +19,6 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Organization::class);
             $table->string("first_name");
             $table->string("last_name");
             $table->string("patronymic")->nullable();
@@ -27,6 +26,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->nullable();
             $table->foreignIdFor(Appointment::class)->nullable();
             $table->foreignIdFor(EmployeeDepency::class)->nullable()->default(null);
+            $table->foreignIdFor(Organization::class);
             $table->string("email")->unique();
             $table->boolean("personal_data_access")->default(false);
             $table->timestamps();

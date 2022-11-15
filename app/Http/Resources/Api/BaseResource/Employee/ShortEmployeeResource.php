@@ -3,11 +3,10 @@
 namespace App\Http\Resources\Api\BaseResource\Employee;
 
 use App\Http\Resources\Api\BaseResource\OrganizationResource;
-use App\Models\BaseModels\Employees\EmployeeDepency;
-use App\Models\BaseModels\Organization;
+use App\Models\BaseModels\Employees\Employee;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class EmployeeResource extends JsonResource
+class ShortEmployeeResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,6 +14,8 @@ class EmployeeResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
+
+
     public function toArray($request)
     {
         return [
@@ -24,9 +25,7 @@ class EmployeeResource extends JsonResource
             "patronymic" => $this->patronymic,
             "phone" => $this->phone_number,
             "email" => $this->email,
-            "depency" => new EmployeeDepencyResource($this->employeeDepency),
-            "appointment" => new AppointmentResource($this->appointment),
-            "organization" => new OrganizationResource($this->organization)
+            "appointment" => new AppointmentResource($this->appointment)
         ];
     }
 }
