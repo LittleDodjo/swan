@@ -10,7 +10,7 @@ class ManagmentToDepartaments extends Pivot
 {
     protected $fillable = [
         'departament_id',
-        'employee_id',
+        'managment_id',
     ];
 
 

@@ -15,7 +15,7 @@ class OrganizationController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['viewOrganization', 'viewAllOrganizations']]);
+//        $this->middleware('auth:api', ['except' => ['viewOrganization', 'viewAllOrganizations']]);
     }
 
 

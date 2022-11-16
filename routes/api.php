@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\Api\BaseController\Departaments\DepartamentController;
 use App\Http\Controllers\Api\BaseController\Employee\AppointmentController;
 use App\Http\Controllers\Api\BaseController\Employee\EmployeeController;
 use App\Http\Controllers\Api\BaseController\Managnents\ManagmentController;
@@ -23,6 +24,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'user'
+], function ($router) {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/refresh', [AuthController::class, 'refresh']);
+});
 
 Route::group([
     'middleware' => 'api',
@@ -43,16 +53,6 @@ Route::group([
     Route::get('/view/{id}', [OrganizationController::class, 'viewOrganization']);
     Route::get('/view', [OrganizationController::class, 'viewAllOrganizations']);
 
-});
-
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'user'
-], function ($router) {
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::post('/refresh', [AuthController::class, 'refresh']);
 });
 
 Route::group([
@@ -83,13 +83,21 @@ Route::group([
     'prefix' => 'managment',
 ], function($router){
     Route::post('/create', [ManagmentController::class, 'newManagment']);
+    Route::delete('/delete/{id}', [ManagmentController::class, 'deleteManagment']);
+    Route::get('/view/{id}', [ManagmentController::class, 'viewManagment']);
+    Route::get('/view', [ManagmentController::class, 'viewAllManagments']);
+    Route::get('/deprataments/{id}', [ManagmentController::class, 'viewManagmentDepartaments']);
+    Route::patch('/change/{id}/employee/depends', [ManagmentController::class, 'changeEmloyeeDepends']);
+    Route::patch('/change/{id}/employee/manager', [ManagmentController::class, 'changeEmployeeManager']);
+    Route::post('/assign/{id}', [ManagmentController::class, 'assignDepartament']);
+    Route::post('/assign/{id}/remove', [ManagmentController::class, 'remvoeAssignDepartament']);
 
 });
 
 
-//Route::group([
-//    'middleware' => 'api',
-//    'prefix' => 'employee',
-//], function($router){
-//    Route::post('/create', [EmployeeController::class, 'newEmployee']);
-//});
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'departament',
+], function($router){
+    Route::post('/create', [DepartamentController::class, 'newDepartament']);
+});

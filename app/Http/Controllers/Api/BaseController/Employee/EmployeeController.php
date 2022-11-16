@@ -96,4 +96,12 @@ class EmployeeController extends Controller
         return response()->json( $data,200);
     }
 
+    public function assignDepartament(Request $request){
+
+    }
+
+    public function assignEmployeeDepartament(Request $request){
+
+    }
+
 }

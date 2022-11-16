@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class EmployeeToEmployeeDepency extends Pivot
 {
     protected $fillable = [
-        'departament_id',
+        'employee_departament_id',
         'employee_id',
     ];
 

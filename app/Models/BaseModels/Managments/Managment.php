@@ -19,11 +19,11 @@ class Managment extends Model
 
 
     public function employeeDepends(){
-        return $this->hasOne(Employee::class);
+        return $this->belongsTo(Employee::class);
     }
 
     public function employeeManager(){
-        return $this->hasOne(Employee::class);
+        return $this->belongsTo(Employee::class);
     }
 
 }

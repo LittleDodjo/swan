@@ -18,7 +18,7 @@ return new class extends Migration
         Schema::create('employee_departaments_to_employee', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Employee::class);
-            $table->foreignIdFor(EmployeeDepartament::class);
+            $table->foreignIdFor(EmployeeDepartament::class)->unique();
             $table->timestamps();
         });
     }
