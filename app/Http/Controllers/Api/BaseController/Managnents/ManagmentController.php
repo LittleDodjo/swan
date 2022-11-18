@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Api\BaseController\Managnents;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\BaseResource\Departament\DepartamentResource;
 use App\Http\Resources\Api\BaseResource\Managment\ManagmentResource;
 use App\Http\Resources\Api\BaseResource\Managment\ManagmentResourceCollection;
+use App\Http\Resources\Api\BaseResource\Pivots\DepartamentsToManagmentResource;
+use App\Http\Resources\Api\BaseResource\Pivots\DepartamentsToManagmentResourceCollection;
+use App\Models\BaseModels\Departaments\Departament;
 use App\Models\BaseModels\Employees\Employee;
 use App\Models\BaseModels\Managments\Managment;
-use App\Models\BaseModels\Pivots\ManagmentToDepartaments;
+use App\Models\BaseModels\Pivots\DepartamentsToManagment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -59,17 +63,6 @@ class ManagmentController extends Controller
         return response()->json(new ManagmentResource($managment), 200);
     }
 
-    public function viewManagmentDepartaments(Request $request, $id)
-    {
-        $managment = Managment::find($id);
-        if ($managment == null) {
-            return response()->json(['message' => 'Такое управление не найдено'], 404);
-        }
-        return response()->json(
-            [ManagmentToDepartaments::all()], 200
-        );
-    }
-
     public function viewAllManagments(Request $request)
     {
         $managment = new ManagmentResourceCollection(Managment::all());
@@ -83,14 +76,14 @@ class ManagmentController extends Controller
         ], [
             'employee_id.required' => 'Необходим идентификатор сотрудника'
         ]);
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
         $employee = Employee::find($validator->all()['employee_id']);
         $managment = Managment::find($id);
         $managment->save();
-        if($employee == null || $managment == null){
-            return response()->json(['message' => 'такие данные не найдены'],404);
+        if ($employee == null || $managment == null) {
+            return response()->json(['message' => 'такие данные не найдены'], 404);
         }
         $managment->employee_depends_id = $employee->id;
         return response()->json(['message' => 'Зависимость изменена'], 200);
@@ -103,27 +96,17 @@ class ManagmentController extends Controller
         ], [
             'employee_id.required' => 'Необходим идентификатор сотрудника'
         ]);
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
         $employee = Employee::find($validator->all()['employee_id']);
         $managment = Managment::find($id);
-        if($employee == null || $managment == null){
-            return response()->json(['message' => 'такие данные не найдены'],404);
+        if ($employee == null || $managment == null) {
+            return response()->json(['message' => 'такие данные не найдены'], 404);
         }
         $managment->employee_manager_id = $employee->id;
         $managment->save();
         return response()->json(['message' => 'Руководитель изменен'], 200);
-    }
-
-    public function assignDepartament(Request $request, $id)
-    {
-
-    }
-
-    public function removeAssignDepartament(Request $request, $id)
-    {
-
     }
 
 }

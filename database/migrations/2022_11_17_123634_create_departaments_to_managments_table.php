@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('departaments_to_managments', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(\App\Models\BaseModels\Departaments\Departament::class);
+            $table->foreignIdFor(\App\Models\BaseModels\Managments\Managment::class);
             $table->timestamps();
         });
     }

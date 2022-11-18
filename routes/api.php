@@ -86,11 +86,8 @@ Route::group([
     Route::delete('/delete/{id}', [ManagmentController::class, 'deleteManagment']);
     Route::get('/view/{id}', [ManagmentController::class, 'viewManagment']);
     Route::get('/view', [ManagmentController::class, 'viewAllManagments']);
-    Route::get('/deprataments/{id}', [ManagmentController::class, 'viewManagmentDepartaments']);
     Route::patch('/change/{id}/employee/depends', [ManagmentController::class, 'changeEmloyeeDepends']);
     Route::patch('/change/{id}/employee/manager', [ManagmentController::class, 'changeEmployeeManager']);
-    Route::post('/assign/{id}', [ManagmentController::class, 'assignDepartament']);
-    Route::post('/assign/{id}/remove', [ManagmentController::class, 'remvoeAssignDepartament']);
 
 });
 
@@ -100,4 +97,10 @@ Route::group([
     'prefix' => 'departament',
 ], function($router){
     Route::post('/create', [DepartamentController::class, 'newDepartament']);
+    Route::post('/delete/{id}', [DepartamentController::class, 'deleteDepartament']);
+    Route::get('/view/{id}', [DepartamentController::class, 'viewDepartament']);
+    Route::get('/view', [DepartamentController::class, 'viewAllDepartaments']);
+    Route::get('/mdep', [DepartamentController::class, 'viewManagmentDepartaments']);
+    Route::get('/edep', [DepartamentController::class, 'viewEmployeeDepartaments']);
+    Route::get('/employees/{id}', [DepartamentController::class, 'viewEmployees']);
 });

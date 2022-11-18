@@ -4,6 +4,7 @@ namespace App\Models\BaseModels\Departaments;
 
 use App\Models\BaseModels\Employees\Employee;
 use App\Models\BaseModels\Managments\Managment;
+use App\Models\BaseModels\Pivots\EmployeesToDepartament;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,4 +33,7 @@ class Departament extends Model
         return $this->hasOne(Employee::class);
     }
 
+    public function employees(){
+        return $this->hasMany(EmployeesToDepartament::class);
+    }
 }
