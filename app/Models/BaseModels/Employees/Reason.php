@@ -10,6 +10,7 @@ class Reason extends Model
     use HasFactory;
 
     protected $fillable = [
-        'caption'
+        'caption',
+        'is_always',
     ];
 }

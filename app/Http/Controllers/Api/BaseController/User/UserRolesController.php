@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\BaseController\User;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserRoles;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -29,7 +30,7 @@ class UserRolesController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      *
      * Установить флаг администратора пользователю
      */
@@ -59,7 +60,7 @@ class UserRolesController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * Установить флаг суперпользователя
      */
     public function setAsRoot(Request $request)
@@ -88,7 +89,7 @@ class UserRolesController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      * Установить флаг контролирующего сотрудника
      */
     public function setAsControlManager(Request $request)

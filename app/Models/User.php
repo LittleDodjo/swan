@@ -7,6 +7,7 @@ use App\Models\BaseModels\Employees\Employee;
 use App\Models\Subsystem\Outgoing\OutDocument;
 use App\Models\Subsystem\Outgoing\OutUsersRole;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
@@ -48,7 +49,7 @@ class User extends Authenticatable implements JWTSubject
 
     /**
      * Отношение учетной записи к сотруднику (Один к одному)
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function employee(){
         return $this->hasOne(Employee::class);
@@ -57,7 +58,7 @@ class User extends Authenticatable implements JWTSubject
     /**
      *
      * Отношение учетной записи к глобальным ролям (Один к одному)
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function globalRoles()
     {

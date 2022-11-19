@@ -25,20 +25,46 @@ class Employee extends Model
     ];
 
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function organization(){
+    public function organization()
+    {
         return $this->belongsTo(Organization::class);
     }
 
-    public function employeeDepency(){
+    public function employeeDepency()
+    {
         return $this->belongsTo(EmployeeDepency::class);
     }
 
-    public function appointment(){
+    public function appointment()
+    {
         return $this->belongsTo(Appointment::class);
     }
 
+    public function employeeDefault()
+    {
+        return $this->hasOne(EmployeeDefaults::class);
+    }
+
+    public function isManager()
+    {
+        return $this->appointment->is_manager;
+    }
+
+    public function isPrimaryManager()
+    {
+        return $this->appointment->is_primary_manager;
+    }
+
+    public function isOnWork()
+    {
+        if ($this->employeeDefault == null) return true;
+        if ($this->employeeDefault->reason->is_always) return false;
+        if (date("Y-m-d") <= $this->employeeDefault->toDate) return false;
+        return true;
+    }
 }

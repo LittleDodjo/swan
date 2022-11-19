@@ -76,32 +76,81 @@ class EmployeeController extends Controller
 
     public function viewEmployee(Request $request, $id)
     {
-        $data = Employee::find($id);
-        $employee = new EmployeeResource($data);
+        $employee = Employee::find($id);
         if ($employee == null) {
             return response()->json(['message' => 'Такой сотрудник не найден'], 404);
         }
-        return response()->json([
-            'data' => $employee,
-        ], 200);
+        return response()->json(new EmployeeResource($employee));
     }
 
 
-    public function viewAllEmployees(Request $request){
-        $data = new EmployeeResourceCollection(
+    public function viewAllEmployees(Request $request)
+    {
+        $employees = Employee::all()->reject(function ($employee) {
+            return !$employee->isOnWork();
+        });
+        return response()->json(
+            new EmployeeResourceCollection(
                 new ShortEmployeeResource(
-                    Employee::all()
+                    $employees
                 )
+            )
         );
-        return response()->json( $data,200);
     }
 
-    public function assignDepartament(Request $request){
-
+    public function viewDefaultsOnly(Request $request)
+    {
+        $employees = Employee::all()->reject(function ($employee) {
+            return $employee->isOnWork();
+        });
+        return response()->json(
+            new EmployeeResourceCollection(
+                new ShortEmployeeResource(
+                    $employees
+                )
+            )
+        );
     }
 
-    public function assignEmployeeDepartament(Request $request){
-
+    public function viewManagersOnly(Request $request)
+    {
+        $employees = Employee::all()->reject(function ($employee) {
+            return !$employee->isManager();
+        });
+        return response()->json(
+            new EmployeeResourceCollection(
+                new ShortEmployeeResource(
+                    $employees
+                )
+            )
+        );
     }
 
+    public function viewPrimaryOnly(Request $request)
+    {
+        $employees = Employee::all()->reject(function ($employee) {
+            return !$employee->isPrimaryManager();
+        });
+        return response()->json(
+            new EmployeeResourceCollection(
+                new ShortEmployeeResource(
+                    $employees
+                )
+            )
+        );
+    }
+
+    public function viewAllSpecial(Request $request)
+    {
+        $employees = Employee::all()->reject(function ($employee) {
+            return !$employee->isManager() || !$employee->isPrimaryManager();
+        });
+        return response()->json(
+            new EmployeeResourceCollection(
+                new ShortEmployeeResource(
+                    $employees
+                )
+            )
+        );
+    }
 }

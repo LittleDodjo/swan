@@ -2,6 +2,7 @@
 
 namespace App\Models\BaseModels\Pivots;
 
+use App\Models\BaseModels\Employees\Employee;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,4 +19,8 @@ class EmployeesToDepartament extends Model
         'employee_id',
         'departament_id',
     ];
+
+    public function employee(){
+        return $this->belongsTo(Employee::class);
+    }
 }

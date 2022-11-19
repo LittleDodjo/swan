@@ -16,4 +16,7 @@ class DepartamentsToManagment extends Model
         'managment_id',
     ];
 
+    public function departament(){
+        return $this->belongsTo(Departament::class);
+    }
 }

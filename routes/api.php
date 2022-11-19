@@ -4,6 +4,8 @@
 use App\Http\Controllers\Api\BaseController\Departaments\DepartamentController;
 use App\Http\Controllers\Api\BaseController\Employee\AppointmentController;
 use App\Http\Controllers\Api\BaseController\Employee\EmployeeController;
+use App\Http\Controllers\Api\BaseController\Employee\EmployeeDefaultsController;
+use App\Http\Controllers\Api\BaseController\Employee\ReasonController;
 use App\Http\Controllers\Api\BaseController\Managnents\ManagmentController;
 use App\Http\Controllers\Api\BaseController\OrganizationController;
 use App\Http\Controllers\Api\BaseController\User\AuthController;
@@ -57,6 +59,25 @@ Route::group([
 
 Route::group([
     'middleware' => 'api',
+    'prefix' => 'reason',
+], function($router){
+    Route::post('/create', [ReasonController::class, 'newReason']);
+    Route::delete('/delete/{id}', [ReasonController::class, 'deleteReason']);
+    Route::get('/view/{id}', [ReasonController::class, 'viewReason']);
+    Route::get('/view', [ReasonController::class, 'viewAllReasons']);
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'defaults',
+], function($router){
+    Route::post('/assign', [EmployeeDefaultsController::class, 'assignDefault']);
+    Route::post('/cancel', [EmployeeDefaultsController::class, 'cancelDefault']);
+    Route::get('/view/{id}', [EmployeeDefaultsController::class, 'viewDefault']);
+});
+
+Route::group([
+    'middleware' => 'api',
     'prefix' => 'appointment',
 ], function($router){
     Route::post('/create', [AppointmentController::class, 'newAppointment']);
@@ -75,7 +96,11 @@ Route::group([
 ], function($router){
     Route::post('/create', [EmployeeController::class, 'newEmployee']);
     Route::get('/view/{id}', [EmployeeController::class, 'viewEmployee']);
-    Route::get('/view', [EmployeeController::class, 'viewAllEmployees']);
+    Route::get('/defaults', [EmployeeController::class, 'viewDefaultsOnly']);
+    Route::get('/managers', [EmployeeController::class, 'viewManagersOnly']);
+    Route::get('/primary', [EmployeeController::class, 'viewPrimaryOnly']);
+    Route::get('/all/special', [EmployeeController::class, 'viewAllSpecial']);
+
 });
 
 Route::group([
@@ -98,9 +123,15 @@ Route::group([
 ], function($router){
     Route::post('/create', [DepartamentController::class, 'newDepartament']);
     Route::post('/delete/{id}', [DepartamentController::class, 'deleteDepartament']);
-    Route::get('/view/{id}', [DepartamentController::class, 'viewDepartament']);
     Route::get('/view', [DepartamentController::class, 'viewAllDepartaments']);
-    Route::get('/mdep', [DepartamentController::class, 'viewManagmentDepartaments']);
-    Route::get('/edep', [DepartamentController::class, 'viewEmployeeDepartaments']);
+    Route::get('/view/{id}', [DepartamentController::class, 'viewDepartament']);
     Route::get('/employees/{id}', [DepartamentController::class, 'viewEmployees']);
+    Route::post('/assign/{id}', [DepartamentController::class, 'assignNewEmployee']);
+    Route::post('/assign/{id}/remove', [DepartamentController::class, 'removeAssign']);
+    Route::patch('/update/{id}/manager', [DepartamentController::class, 'updateManager']);
+    Route::patch('/update/{id}/primary', [DepartamentController::class, 'updatePrimaryManager']);
+    Route::patch('/update/{id}/depency', [DepartamentController::class, 'updateDepency']);
+    Route::patch('/update/{id}/caption', [DepartamentController::class, 'updateCaption']);
+    Route::patch('/update/{id}/short', [DepartamentController::class, 'updateShortName']);
+    Route::patch('/update/{id}/code', [DepartamentController::class, 'updateCode']);
 });

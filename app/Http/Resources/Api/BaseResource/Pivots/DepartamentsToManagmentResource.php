@@ -7,15 +7,18 @@ use App\Http\Resources\Api\BaseResource\Departament\ShortDepartamentResource;
 use App\Http\Resources\Api\BaseResource\Managment\ManagmentResource;
 use App\Models\BaseModels\Departaments\Departament;
 use App\Models\BaseModels\Managments\Managment;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use JsonSerializable;
 
 class DepartamentsToManagmentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param Request $request
+     * @return array|Arrayable|JsonSerializable
      */
 
 

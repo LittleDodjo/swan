@@ -5,15 +5,18 @@ namespace App\Http\Resources\Api\BaseResource;
 use App\Http\Resources\Api\BaseResource\Departament\ShortDepartamentResource;
 use App\Models\BaseModels\Departaments\Departament;
 use App\Models\BaseModels\Departaments\EmployeeDepartament;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use JsonSerializable;
 
 class AllDepartamentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param Request $request
+     * @return array|Arrayable|JsonSerializable
      */
     public function toArray($request)
     {

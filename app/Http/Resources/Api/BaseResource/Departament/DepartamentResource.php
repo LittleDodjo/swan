@@ -7,15 +7,18 @@ use App\Http\Resources\Api\BaseResource\Employee\ShortEmployeeResource;
 use App\Http\Resources\Api\BaseResource\Managment\ManagmentResource;
 use App\Models\BaseModels\Employees\Employee;
 use App\Models\BaseModels\Managments\Managment;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use JsonSerializable;
 
 class DepartamentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param Request $request
+     * @return array|Arrayable|JsonSerializable
      */
     public function toArray($request)
     {

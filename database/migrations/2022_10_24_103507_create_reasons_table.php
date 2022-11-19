@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('reasons', function (Blueprint $table) {
             $table->id();
             $table->string("caption");
+            $table->boolean('is_always')->default(false);
             $table->timestamps();
         });
     }

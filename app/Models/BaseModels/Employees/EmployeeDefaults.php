@@ -12,16 +12,20 @@ class EmployeeDefaults extends Model
     protected $fillable = [
         'employee_id',
         'deputy_employee_id',
+        'reason_id',
         'fromDate',
         'toDate',
-        'is_always',
     ];
 
     public function employee(){
-        return $this->hasOne(Employee::class);
+        return $this->belongsTo(Employee::class);
     }
 
     public function deputyEmployee(){
-        return $this->hasOne(Employee::class);
+        return $this->belongsTo(Employee::class, 'deputy_employee_id');
+    }
+
+    public function reason(){
+        return $this->belongsTo(Reason::class);
     }
 }

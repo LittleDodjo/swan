@@ -24,9 +24,8 @@ return new class extends Migration
             $table->foreign("deputy_employee_id")
                 ->references("id")->on("employees")->onDelete("cascade");
             $table->foreignIdFor(Reason::class);
-            $table->date("fromDate")->nullable();
+            $table->date("fromDate");
             $table->date("toDate")->nullable();
-            $table->boolean("is_always")->default(false);
             $table->timestamps();
         });
     }

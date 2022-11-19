@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\BaseModels\Departaments\EmployeeDepartament;
+use App\Models\BaseModels\Employees\Employee;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,8 +17,8 @@ return new class extends Migration
     {
         Schema::create('employees_to_employee_departaments', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\BaseModels\Departaments\EmployeeDepartament::class);
-            $table->foreignIdFor(\App\Models\BaseModels\Employees\Employee::class);
+            $table->foreignIdFor(EmployeeDepartament::class);
+            $table->foreignIdFor(Employee::class);
             $table->timestamps();
         });
     }

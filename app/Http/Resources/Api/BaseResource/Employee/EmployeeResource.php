@@ -5,18 +5,22 @@ namespace App\Http\Resources\Api\BaseResource\Employee;
 use App\Http\Resources\Api\BaseResource\OrganizationResource;
 use App\Models\BaseModels\Employees\EmployeeDepency;
 use App\Models\BaseModels\Organization;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use JsonSerializable;
 
 class EmployeeResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param  Request  $request
+     * @return array|Arrayable|JsonSerializable
      */
     public function toArray($request)
     {
+
         return [
             "id" => $this->id,
             "first_name" => $this->first_name,
@@ -26,7 +30,9 @@ class EmployeeResource extends JsonResource
             "email" => $this->email,
             "depency" => new EmployeeDepencyResource($this->employeeDepency),
             "appointment" => new AppointmentResource($this->appointment),
-            "organization" => new OrganizationResource($this->organization)
+            "organization" => new OrganizationResource($this->organization),
+            "default" => new ShortEmployeeDefaultResource( $this->employeeDefault),
+            "is_work" => $this->isOnWork(),
         ];
     }
 }
