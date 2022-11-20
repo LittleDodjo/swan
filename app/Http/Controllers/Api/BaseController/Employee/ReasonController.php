@@ -12,7 +12,33 @@ use Illuminate\Support\Facades\Validator;
 class ReasonController extends Controller
 {
 
-    public function newReason(Request $request)
+    public function __construct(){
+        $this->middleware('auth:api');
+        $this->authorizeResource(Reason::class, 'reason');
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function index()
+    {
+        return response()->json(
+            new ReasonResourceCollection(
+                new ReasonResource(
+                    Reason::all()
+                )
+            )
+        );
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'caption' => 'required|string',
@@ -26,34 +52,44 @@ class ReasonController extends Controller
         return response()->json(['message' => 'Причина успешно создана'], 201);
     }
 
-    public function deleteReason(Request $request, $id)
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\BaseModels\Employees\Reason  $reason
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function show(Reason $reason)
     {
-        $reason = Reason::find($id);
-        if ($reason == null) {
-            return response()->json(['message' => 'Такая причина не найдена'], 404);
-        }
-        $reason->delete();
-        return response()->json(['message' => 'Причина успешно удалена']);
-    }
-
-    public function viewReason(Request $request, $id)
-    {
-        $reason = Reason::find($id);
         if ($reason == null) {
             return response()->json(['message' => 'Такая причина не найдена'], 404);
         }
         return response()->json(new ReasonResource($reason));
     }
 
-    public function viewAllReasons(Request $request)
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\BaseModels\Employees\Reason  $reason
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Reason $reason)
     {
-        return response()->json(
-            new ReasonResourceCollection(
-                new ReasonResource(
-                    Reason::all()
-                )
-            )
-        );
+        //
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\BaseModels\Employees\Reason  $reason
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(Reason $reason)
+    {
+        if ($reason == null) {
+            return response()->json(['message' => 'Такая причина не найдена'], 404);
+        }
+        $reason->delete();
+        return response()->json(['message' => 'Причина успешно удалена']);
+    }
 }

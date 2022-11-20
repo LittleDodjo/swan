@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -38,33 +37,19 @@ Route::group([
 
 Route::group([
     'middleware' => 'api',
-    'prefix' => 'admin'
+    'prefix' => 'role'
 ], function ($router) {
-    Route::post('/admin', [UserRolesController::class, 'setAsAdmin']);
-    Route::post('/root', [UserRolesController::class, 'setAsRoot']);
-    Route::post('/manager', [UserRolesController::class, 'setAsControlManager']);
+    Route::post('/update', [UserRolesController::class, 'updateRole']);
 });
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'organization',
-], function($router){
-    Route::post('/create', [OrganizationController::class, 'newOrganization']);
-    Route::patch('/update/{id}', [OrganizationController::class, 'updateOrganization']);
-    Route::delete('/delete/{id}', [OrganizationController::class, 'deleteOrganization']);
-    Route::get('/view/{id}', [OrganizationController::class, 'viewOrganization']);
-    Route::get('/view', [OrganizationController::class, 'viewAllOrganizations']);
-
+Route::apiResource('organization', OrganizationController::class)
+->missing(function (Request $request, $id){
+    return response()->json(['message' => "Такая организация не найдена"],404);
 });
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'reason',
-], function($router){
-    Route::post('/create', [ReasonController::class, 'newReason']);
-    Route::delete('/delete/{id}', [ReasonController::class, 'deleteReason']);
-    Route::get('/view/{id}', [ReasonController::class, 'viewReason']);
-    Route::get('/view', [ReasonController::class, 'viewAllReasons']);
+Route::apiResource('reason', ReasonController::class)
+->missing(function (Request $request, $id){
+    return response()->json(['message' => 'Такая причина не найдена'], 404);
 });
 
 Route::group([

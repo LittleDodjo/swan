@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->string("login")->unique();
             $table->string("password");
-            $table->boolean("isConfirmed")->default(false);
+            $table->boolean("is_confirmed")->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Api\BaseResource\User;
 
+use App\Http\Resources\Api\BaseResource\Employee\EmployeeResource;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -17,6 +18,11 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'login' => $this->login,
+            'created_at' => $this->created_at,
+            'employee' => new EmployeeResource($this->employee),
+            'roles' => new UserRolesResource($this->globalRoles),
+        ];
     }
 }

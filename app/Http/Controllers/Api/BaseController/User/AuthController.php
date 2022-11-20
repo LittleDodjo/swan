@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\BaseController\User;
 
+use App\Http\Resources\Api\BaseResource\Employee\EmployeeResource;
+use App\Http\Resources\Api\BaseResource\User\UserResource;
 use App\Models\BaseModels\Employees\Employee;
 use App\Models\BaseModels\Organization;
 use App\Models\Subsystem\Outgoing\OutUsersRole;
@@ -27,7 +29,7 @@ class AuthController extends Controller
         'password.required' => 'Необходимо указать пароль',
         'password.min' => 'Длина пароля должна быть не менее 6 символов',
         'password.max' => 'Длинна пароля превышает максимальную длину 35 символов',
-        'password.confirm' => 'Пароли не совпадают',
+        'password.confirmed' => 'Пароли не совпадают',
         'employee_id.required' => 'Уникальный идентификатор сотрудника обязателен',
         'employee_id.integer' => 'Уникальный идентификатор сотрудника должен быть в числовом выражении',
     ];
@@ -46,35 +48,27 @@ class AuthController extends Controller
             'employee_id' => 'required|integer',
         ], $this->errorMessages);
         if ($validator->fails()) {
-            return response()->json([
-                'message' => $validator->errors(),
-            ], 400);
+            return response()->json($validator->errors(), 400);
         }
-        $employeeId = $request->employee_id;
-        if (!$this->employeeExists($employeeId)) {
-            return response()->json([
-                'message' => 'Сотрудник с таким идентификатором не найден'
-            ], 400);
+        $employee = Employee::find($request->employee_id);
+        if ($employee == null) {
+            return response()->json(['message' => 'Сотрудник с таким идентификатором не найден'], 404);
         }
-        if ($this->employeeBusy($employeeId)) {
-            return response()->json([
-                'message' => 'Такой сотрудник уже привязан к учетной записи'
-            ], 400);
+        if ($employee->isBusy()) {
+            return response()->json(['message' => 'Такой сотрудник уже привязан к учетной записи'], 400);
         }
         $user = new User();
         $user->login = $request->login;
         $user->password = Hash::make($request->password);
         $user->save();
         UserRoles::create(['user_id' => $user->id]);
-        $employee = Employee::find($employeeId);
         $employee->user_id = $user->id;
         $employee->save();
-        $token = Auth::login($user, true);
+        $token = Auth::login($user);
         return response()->json([
-            'message' => 'Пользователь успешно создан',
-            'user' => $user->employee,
-            'roles' => $user->globalRoles,
-            'token' => 'Bearer' . $token,
+            'message' => 'Регистрация прошла успешно',
+            'user' => new UserResource($user),
+            'token' => 'Bearer '.$token,
         ], 201);
     }
 
@@ -85,25 +79,19 @@ class AuthController extends Controller
             'password' => 'required|min:6',
         ], $this->errorMessages);
         if ($validator->fails()) {
-            return response()->json([
-                'message' => $validator->errors(),
-            ], 400);
+            return response()->json($validator->errors(),400);
         }
         $credentials = $request->only('login', 'password');
         $token = Auth::attempt($credentials);
         if (!$token) {
-            return response()->json([
-                'status' => 'Ошибка',
-                'message' => 'Неудачная авторизация'
-            ], 401);
+            return response()->json(['message' => 'Неудачная авторизация'], 401);
         }
         $user = Auth::user();
         return response()->json([
-            'status' => 'Успешная авторизация',
-            'user' => $user->employee,
-            'roles' => $user->globalRoles,
-            'token' => 'Bearer ' . $token
-        ], 200);
+            'message' => 'Авторизация прошла успешно',
+            'user' => new UserResource($user),
+            'token' => 'Bearer '.$token,
+        ]);
     }
 
     public function refresh()
@@ -121,19 +109,4 @@ class AuthController extends Controller
             'message' => 'Вы успешно вышли из системы',
         ]);
     }
-
-    private function employeeExists($employeeId)
-    {
-        $employee = Employee::where('id', $employeeId)->first();
-        return $employee !== null;
-    }
-
-    private function employeeBusy($employeeId)
-    {
-        $employee = Employee::where('id', $employeeId)->first();
-        return $employee->user_id !== null;
-    }
-
-
-
 }

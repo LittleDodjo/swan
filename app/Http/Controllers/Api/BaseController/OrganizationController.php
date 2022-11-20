@@ -7,7 +7,6 @@ use App\Http\Resources\Api\BaseResource\OrganizationResource;
 use App\Http\Resources\Api\BaseResource\OrganizationResourceCollection;
 use App\Models\BaseModels\Organization;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class OrganizationController extends Controller
@@ -15,11 +14,30 @@ class OrganizationController extends Controller
 
     public function __construct()
     {
-//        $this->middleware('auth:api', ['except' => ['viewOrganization', 'viewAllOrganizations']]);
+        $this->middleware('auth:api', ['except' => 'show']);
+        $this->authorizeResource(Organization::class, 'organization');
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $organizations = new OrganizationResourceCollection(
+            Organization::all()
+        );
+        return response()->json($organizations);
+    }
 
-    public function newOrganization(Request $request)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
         $validator = Validator::make($request->all(),
             [
@@ -41,7 +59,25 @@ class OrganizationController extends Controller
         ], 201);
     }
 
-    public function updateOrganization(Request $request, $id)
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     */
+    public function show(Organization $organization)
+    {
+        return response()->json(new OrganizationResource($organization));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     */
+    public function update(Request $request, Organization $organization)
     {
         $validator = Validator::make($request->all(),
             [
@@ -52,49 +88,21 @@ class OrganizationController extends Controller
                 'short_name.required' => 'Необходимо указать короткое имя организации'
             ]);
         if ($validator->fails()) {
-            return response()->json([
-                'message' => $validator->errors()
-            ], 400);
+            return response()->json($validator->errors(), 400);
         }
-        $organization = Organization::find($id);
-        if($organization == null){
-            return response()->json(['message' => 'Такая организация не найдена'], 404);
-        }
-        $organization = Organization::find($id);
-        $organization->name = $request->all()['name'];
-        $organization->short_name = $request->all()['short_name'];
-        $organization->save();
-        return response()->json(['message' => 'Организация успешно изменена'],200);
+//        $organization->update($validator->validated());
+        return response()->json(['message' => 'Организация успешно изменена']);
     }
 
-    public function deleteOrganization($id)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param int $id
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     */
+    public function destroy(Organization $organization)
     {
-        $organization = Organization::find($id);
-        if($organization == null){
-            return response()->json(['message' => 'Такая организация не найдена'], 404);
-        }
         $organization->delete();
-        return response()->json(['message' => 'Организация успешно удалена'], 200);
+        return response()->json(['message' => 'Организация успешно удалена']);
     }
-
-    public function viewOrganization($id)
-    {
-        $organization = Organization::find($id);
-        if($organization == null){
-            return response()->json(['message' => 'Такая организация не найдена'], 404);
-        }
-        $organization = new OrganizationResource(
-            Organization::find($id)
-        );
-        return response()->json(['data' => $organization], 200);
-    }
-
-    public function viewAllOrganizations()
-    {
-        $data = new OrganizationResourceCollection(
-            Organization::all()
-        );
-        return response()->json( ['data'=> $data], 200);
-    }
-
 }

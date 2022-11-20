@@ -67,4 +67,8 @@ class Employee extends Model
         if (date("Y-m-d") <= $this->employeeDefault->toDate) return false;
         return true;
     }
+
+    public function isBusy(){
+        return $this->user != null;
+    }
 }

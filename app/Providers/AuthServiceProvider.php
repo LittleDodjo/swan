@@ -2,13 +2,13 @@
 
 namespace App\Providers;
 
-use App\Models\User;
-use App\Policies\UserPolicy;
-use App\Policies\UserRolePolicy;
-use Illuminate\Support\Facades\Gate;
-use App\Models\Subsystem\Outgoing\OutDocument;
+use App\Models\BaseModels\Employees\Reason;
+use App\Models\BaseModels\Organization;
+use App\Models\UserRoles;
+use App\Policies\Api\BasePolicy\Employee\ReasonPolicy;
+use App\Policies\Api\BasePolicy\OrganizationPolicy;
+use App\Policies\Api\BasePolicy\User\UserRolesPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use App\Policies\OutDocumentPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -19,9 +19,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
-        OutDocument::class => OutDocumentPolicy::class,
-        User::class => UserPolicy::class,
-        User::class => UserRolePolicy::class,
+        UserRoles::class => UserRolesPolicy::class,
+        Organization::class => OrganizationPolicy::class,
+        Reason::class => ReasonPolicy::class,
     ];
 
     /**
