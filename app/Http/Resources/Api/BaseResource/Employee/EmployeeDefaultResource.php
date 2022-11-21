@@ -24,8 +24,8 @@ class EmployeeDefaultResource extends JsonResource
             'deputy_employee' => new SmallEmployeeResource($this->deputyEmployee),
             'reason' => $caption,
             'is_always' => $isAlways,
-            'form_date' => $this->fromDate,
-            'to_date' => $this->toDate,
+            'from' => $this->fromDate,
+            'to' => $this->toDate,
         ];
     }
 }

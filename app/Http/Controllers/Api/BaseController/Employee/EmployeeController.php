@@ -3,154 +3,85 @@
 namespace App\Http\Controllers\Api\BaseController\Employee;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\BaseResource\Employee\EmployeeResource;
+use App\Http\Requests\Api\BaseRequest\Employee\EmployeeRequest;
+use App\Http\Requests\Api\BaseRequest\Employee\EmployeeUpdateRequest;
 use App\Http\Resources\Api\BaseResource\Employee\EmployeeResourceCollection;
 use App\Http\Resources\Api\BaseResource\Employee\ShortEmployeeResource;
-use App\Http\Resources\Api\BaseResource\Employee\ShortEmployeeResourceCollecntion;
+use App\Http\Resources\Api\BaseResource\Employee\SmallEmployeeResource;
 use App\Models\BaseModels\Employees\Employee;
 use App\Models\BaseModels\Employees\EmployeeDepency;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class EmployeeController extends Controller
 {
 
     public function __construct()
     {
-//        $this->middleware('auth:api', ['except' => ['newEmployee']]);
+        $this->middleware('auth:api');
+        $this->authorizeResource(Employee::class, 'employee');
     }
 
-    private $perPage = 50;
-
-    private $errorMessages = [
-        'first_name.required' => 'Имя указать обязательно',
-        'first_name.min' => 'Имя должно быть не менее 3 символов',
-        'first_name.max' => 'Имя должно быть не более 25 символов',
-        'first_name.string' => 'Ошибка указания Имени',
-        'last_name.required' => 'Фамилия обязательное поле',
-        'last_name.min' => 'Минимальная длинна фамилии 3',
-        'last_name.max' => 'Максимальная длинна фамилии 25',
-        'last_name.string' => 'Ошибка указания Фамилии',
-        'patronymic.string' => 'Ошибка указания отчества',
-        'patronymic.max' => 'Максимальная длиа Отчества не более 20 символов',
-        'patronymic.min' => 'Минимальная длина Отчества не менее 3 символов',
-        'phone_number.required' => 'Номер телефона укзаать обязательно',
-        'phone_number.string' => 'Ошибка - неверный формат номера телефона',
-        'appointment_id.required' => 'Должность нужно указать обязательно',
-        'appointment_id.integer' => 'Ошибка указания должности',
-        'depency_id.integer' => 'Ошибка указания зависимости',
-        'email.required' => 'Необходимо указать почту',
-        'email.email' => 'Неверный формат почты',
-        'email.unique' => 'Такая почта уже существует в системе',
-        'organization_id.required' => 'Необходимо указать организацию'
-    ];
-
-    public function newEmployee(Request $request)
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'required|min:3|max:25|string',
-            'last_name' => 'required|min:3|max:25|string',
-            'patronymic' => 'string|min:3|max:20',
-            'phone_number' => 'required|string',
-            'appointment_id' => 'required|integer',
-            'depency_id' => 'integer',
-            'organization_id' => 'required',
-            'email' => 'required|email|unique:employees,email',
-        ], $this->errorMessages);
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => $validator->errors(),
-            ], 400);
-        }
-        $depency = new EmployeeDepency();
-        $depency->save();
-        $employee = Employee::create(
-            array_merge($validator->validated(), ['employee_depency_id' => $depency->id])
+        return response(new EmployeeResourceCollection(
+            new SmallEmployeeResource(Employee::all())
+        ));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(EmployeeRequest $request)
+    {
+        $depency = EmployeeDepency::create();
+        Employee::create(
+            array_merge($request->validated(), ['employee_depency_id' => $depency->id])
         );
-        return response()->json([
-            'message' => 'Сотрудник успешно создан',
-            'employee' => $employee,
-        ], 201);
+        return response(['message' => 'Сотрудник успешно создан',], 201);
     }
 
-
-    public function viewEmployee(Request $request, $id)
+    /**
+     * Display the specified resource.
+     *
+     * @param \App\Models\BaseModels\Employees\Employee $employee
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Employee $employee)
     {
-        $employee = Employee::find($id);
-        if ($employee == null) {
-            return response()->json(['message' => 'Такой сотрудник не найден'], 404);
-        }
-        return response()->json(new EmployeeResource($employee));
+        return response(new ShortEmployeeResource($employee));
     }
 
-
-    public function viewAllEmployees(Request $request)
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\BaseModels\Employees\Employee $employee
+     * @return \Illuminate\Http\Response
+     */
+    public function update(EmployeeUpdateRequest $request, Employee $employee)
     {
-        $employees = Employee::all()->reject(function ($employee) {
-            return !$employee->isOnWork();
-        });
-        return response()->json(
-            new EmployeeResourceCollection(
-                new ShortEmployeeResource(
-                    $employees
-                )
-            )
-        );
+        $employee->update($request->validated());
+        return response(['message' => 'Сотрудник успешно изменен', $employee, $request->validated(), $request->all()]);
     }
 
-    public function viewDefaultsOnly(Request $request)
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param \App\Models\BaseModels\Employees\Employee $employee
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Employee $employee)
     {
-        $employees = Employee::all()->reject(function ($employee) {
-            return $employee->isOnWork();
-        });
-        return response()->json(
-            new EmployeeResourceCollection(
-                new ShortEmployeeResource(
-                    $employees
-                )
-            )
-        );
-    }
-
-    public function viewManagersOnly(Request $request)
-    {
-        $employees = Employee::all()->reject(function ($employee) {
-            return !$employee->isManager();
-        });
-        return response()->json(
-            new EmployeeResourceCollection(
-                new ShortEmployeeResource(
-                    $employees
-                )
-            )
-        );
-    }
-
-    public function viewPrimaryOnly(Request $request)
-    {
-        $employees = Employee::all()->reject(function ($employee) {
-            return !$employee->isPrimaryManager();
-        });
-        return response()->json(
-            new EmployeeResourceCollection(
-                new ShortEmployeeResource(
-                    $employees
-                )
-            )
-        );
-    }
-
-    public function viewAllSpecial(Request $request)
-    {
-        $employees = Employee::all()->reject(function ($employee) {
-            return !$employee->isManager() || !$employee->isPrimaryManager();
-        });
-        return response()->json(
-            new EmployeeResourceCollection(
-                new ShortEmployeeResource(
-                    $employees
-                )
-            )
-        );
+        $employee->delete();
+        return response(["message" => 'Сотрудник удален']);
     }
 }

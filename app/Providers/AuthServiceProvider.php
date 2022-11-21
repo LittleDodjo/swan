@@ -2,9 +2,15 @@
 
 namespace App\Providers;
 
+use App\Models\BaseModels\Employees\Appointment;
+use App\Models\BaseModels\Employees\Employee;
+use App\Models\BaseModels\Employees\EmployeeDefaults;
 use App\Models\BaseModels\Employees\Reason;
 use App\Models\BaseModels\Organization;
 use App\Models\UserRoles;
+use App\Policies\Api\BasePolicy\Employee\AppointmentPolicy;
+use App\Policies\Api\BasePolicy\Employee\EmployeeDefaultsPolicy;
+use App\Policies\Api\BasePolicy\Employee\EmployeePolicy;
 use App\Policies\Api\BasePolicy\Employee\ReasonPolicy;
 use App\Policies\Api\BasePolicy\OrganizationPolicy;
 use App\Policies\Api\BasePolicy\User\UserRolesPolicy;
@@ -22,6 +28,9 @@ class AuthServiceProvider extends ServiceProvider
         UserRoles::class => UserRolesPolicy::class,
         Organization::class => OrganizationPolicy::class,
         Reason::class => ReasonPolicy::class,
+        Appointment::class => AppointmentPolicy::class,
+        EmployeeDefaults::class, EmployeeDefaultsPolicy::class,
+        Employee::class, EmployeePolicy::class,
     ];
 
     /**

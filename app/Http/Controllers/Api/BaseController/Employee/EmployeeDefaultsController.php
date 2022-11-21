@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\BaseController\Employee;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\BaseRequest\Employee\EmployeeDefaultsRequest;
 use App\Http\Resources\Api\BaseResource\Employee\EmployeeDefaultResource;
 use App\Models\BaseModels\Employees\Employee;
 use App\Models\BaseModels\Employees\EmployeeDefaults;
@@ -12,41 +13,39 @@ use Illuminate\Support\Facades\Validator;
 
 class EmployeeDefaultsController extends Controller
 {
-    public function assignDefault(Request $request)
+
+    public function __construct()
     {
-        $validator = Validator::make($request->all(), [
-            'employee_id' => 'required',
-            'reason_id' => 'required',
-            'fromDate' => 'required|date',
-            'toDate' => 'required|date',
-        ]);
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+        $this->middleware('auth:api');
+        $this->authorizeResource(EmployeeDefaults::class, 'defaults');
+    }
+
+    public function assignDefault(EmployeeDefaultsRequest $request, Reason $reason)
+    {
+        $employee = Employee::find($request->employee_id);
+        if ($employee == null) {
+            return response(['message' => 'Такой пользователь не найден'], 404);
         }
-        if (Employee::find($request->all()['employee_id']) == null) {
-            return response()->json(['message' => 'Такой пользователь не найден'], 404);
+        if ($request->fromDate > $request->toDate) {
+            return response(['message' => 'Ошибка указания даты'], 400);
         }
-        $reason = Reason::find($request->all()['reason_id']);
-        if ($reason == null) {
-            return response()->json(['message' => 'Такой причины не найдено'], 404);
+        if (!$employee->isOnWork()) {
+            return response(['message' => 'Сотруднику уже назначено отстутсвие'], 400);
         }
-        $default = new EmployeeDefaults($validator->validated());
-        $default->reason_id = $reason->id;
+        $default = new EmployeeDefaults($request->validated());
         $default->save();
-        return response()->json($default);
+        return response($default, 201);
     }
 
-    public function viewDefault($id)
+    public function viewDefault(Employee $employee)
     {
-        $default = EmployeeDefaults::find($id);
-        if($default == null){
-            return response()->json(['message' => 'Отсутствие сотрудника не найдено'], 404);
-        }
-        return response()->json(new EmployeeDefaultResource($default));
+        if ($employee->isOnWork()) return response(['message' => 'Отсутствий не найдено'], 404);
+        return response(new EmployeeDefaultResource($employee->lastDefault()));
     }
 
-    public function cancelDefault(Request $request)
+    public function cancelDefault(EmployeeDefaults $employeeDefaults)
     {
-
+        $employeeDefaults->delete();
+        return response(['message'=> 'Причина удалена']);
     }
 }

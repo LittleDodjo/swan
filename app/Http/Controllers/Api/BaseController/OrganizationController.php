@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\BaseController;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\BaseRequest\OrganizationRequest;
 use App\Http\Resources\Api\BaseResource\OrganizationResource;
 use App\Http\Resources\Api\BaseResource\OrganizationResourceCollection;
 use App\Models\BaseModels\Organization;
@@ -34,25 +35,12 @@ class OrganizationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param OrganizationRequest $request
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OrganizationRequest $request)
     {
-        $validator = Validator::make($request->all(),
-            [
-                'name' => 'required',
-                'short_name' => 'required',
-            ], [
-                'name.required' => 'Необходимо указать имя организации',
-                'short_name.required' => 'Необходимо указать короткое имя организации'
-            ]);
-        if ($validator->fails()) {
-            return response()->json([
-                'message' => $validator->errors()
-            ], 400);
-        }
-        $organization = Organization::create($validator->validated());
+        $organization = Organization::create($request->validated());
         return response()->json([
             'message' => 'Организация успешно создана',
             'data' => $organization,
@@ -73,24 +61,13 @@ class OrganizationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
+     * @param OrganizationRequest $request
+     * @param Organization $organization
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function update(Request $request, Organization $organization)
+    public function update(OrganizationRequest $request, Organization $organization)
     {
-        $validator = Validator::make($request->all(),
-            [
-                'name' => 'required',
-                'short_name' => 'required',
-            ], [
-                'name.required' => 'Необходимо указать имя организации',
-                'short_name.required' => 'Необходимо указать короткое имя организации'
-            ]);
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-//        $organization->update($validator->validated());
+        $organization->update($request->validated());
         return response()->json(['message' => 'Организация успешно изменена']);
     }
 

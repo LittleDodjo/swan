@@ -1,18 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Api\BaseController\Managnents;
+namespace App\Http\Controllers\Api\BaseController\Managments;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Api\BaseResource\Departament\DepartamentResource;
 use App\Http\Resources\Api\BaseResource\Managment\ManagmentResource;
 use App\Http\Resources\Api\BaseResource\Managment\ManagmentResourceCollection;
-use App\Http\Resources\Api\BaseResource\Pivots\DepartamentsToManagmentResource;
-use App\Http\Resources\Api\BaseResource\Pivots\DepartamentsToManagmentResourceCollection;
-use App\Models\BaseModels\Departaments\Departament;
 use App\Models\BaseModels\Employees\Employee;
 use App\Models\BaseModels\Managments\Managment;
-use App\Models\BaseModels\Pivots\DepartamentsToManagment;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Validator;
 
 class ManagmentController extends Controller
