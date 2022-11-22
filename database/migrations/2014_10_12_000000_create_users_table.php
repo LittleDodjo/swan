@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\BaseModels\Employees\Employee;
-use App\Models\UserRoles;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

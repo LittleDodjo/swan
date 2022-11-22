@@ -5,8 +5,13 @@ namespace App\Http\Resources\Api\BaseResource;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use JetBrains\PhpStorm\ArrayShape;
 use JsonSerializable;
 
+/**
+ * @property mixed short_name
+ * @property mixed name
+ */
 class OrganizationResource extends JsonResource
 {
     /**
@@ -15,7 +20,8 @@ class OrganizationResource extends JsonResource
      * @param  Request  $request
      * @return array|Arrayable|JsonSerializable
      */
-    public function toArray($request)
+    #[ArrayShape(['name' => "mixed", 'short_name' => "mixed"])]
+    public function toArray($request): array|JsonSerializable|Arrayable
     {
         return [
             'name' => $this->name,

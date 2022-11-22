@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\BaseModels\Employees\Employee;
 use App\Models\BaseModels\Employees\Reason;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;

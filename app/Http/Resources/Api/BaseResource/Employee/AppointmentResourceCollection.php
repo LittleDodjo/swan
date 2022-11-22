@@ -15,7 +15,7 @@ class AppointmentResourceCollection extends ResourceCollection
      * @param  Request  $request
      * @return array|Arrayable|JsonSerializable
      */
-    public function toArray($request)
+    public function toArray($request): array|JsonSerializable|Arrayable
     {
         return parent::toArray($request);
     }

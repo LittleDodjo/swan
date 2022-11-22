@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\BaseModels\Employees\Employee;
-use App\Models\BaseModels\Employees\EmployeeDepency;
+use App\Models\BaseModels\Employees\EmployeeDependency;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -16,7 +16,7 @@ class EmployeeSeeder extends Seeder
      */
     public function run()
     {
-        $depency = EmployeeDepency::create([
+        $depency = EmployeeDependency::create([
 
         ]);
         Employee::create([

@@ -6,9 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\BaseRequest\User\UserRolesRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class UserRolesController extends Controller
 {
@@ -18,7 +15,7 @@ class UserRolesController extends Controller
      * @var string
      * Пароль суперпользователя
      */
-    private $rootPassword = "123456";
+    private string $rootPassword = "123456";
 
     /**
      * UserRolesController constructor.
@@ -35,7 +32,7 @@ class UserRolesController extends Controller
      * @return JsonResponse
      * JSON
      */
-    public function updateRole(UserRolesRequest $request)
+    public function updateRole(UserRolesRequest $request): JsonResponse
     {
         $userRole = User::find($request->user_id);
         if ($userRole == null) return response()->json(false, 404);

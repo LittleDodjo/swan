@@ -2,24 +2,35 @@
 
 namespace App\Http\Resources\Api\BaseResource\Employee;
 
-use App\Http\Resources\Api\BaseResource\OrganizationResource;
-use App\Models\BaseModels\Employees\Employee;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use JetBrains\PhpStorm\ArrayShape;
 use JsonSerializable;
 
+/**
+ * @property mixed appointment
+ * @property mixed sex
+ * @property mixed email
+ * @property mixed phone_number
+ * @property mixed patronymic
+ * @property mixed last_name
+ * @property mixed first_name
+ * @property mixed id
+ * @method isOnWork()
+ */
 class ShortEmployeeResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  Request  $request
+     * @param Request $request
      * @return array|Arrayable|JsonSerializable
      */
 
 
-    public function toArray($request)
+    #[ArrayShape(["id" => "mixed", "first_name" => "mixed", "last_name" => "mixed", "patronymic" => "mixed", "phone" => "mixed", "email" => "mixed", 'sex' => "mixed", 'is_work' => "", "appointment" => "\App\Http\Resources\Api\BaseResource\Employee\AppointmentResource"])]
+    public function toArray($request): array|JsonSerializable|Arrayable
     {
         return [
             "id" => $this->id,

@@ -14,10 +14,10 @@ class OrganizationPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): Response|bool
     {
         return true;
     }
@@ -25,11 +25,11 @@ class OrganizationPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param \App\Models\User $user
+     * @param User|null $user
      * @param Organization $organization
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return bool
      */
-    public function view(?User $user, Organization $organization)
+    public function view(?User $user, Organization $organization): bool
     {
         return true;
     }
@@ -37,10 +37,10 @@ class OrganizationPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return Response|bool
      */
-    public function create(User $user)
+    public function create(User $user): Response|bool
     {
         return $user->globalRoles->is_root;
     }
@@ -50,7 +50,7 @@ class OrganizationPolicy
      * @param User $user
      * @return mixed
      */
-    public function update(User $user)
+    public function update(User $user): mixed
     {
         return $user->globalRoles->is_root;
     }
@@ -58,11 +58,11 @@ class OrganizationPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param \App\Models\User $user
+     * @param User $user
      * @param Organization $organization
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return Response|bool
      */
-    public function delete(User $user, Organization $organization)
+    public function delete(User $user, Organization $organization): Response|bool
     {
         return $user->globalRoles->is_root;
     }

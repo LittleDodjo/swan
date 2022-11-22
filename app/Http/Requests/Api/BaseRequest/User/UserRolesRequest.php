@@ -4,7 +4,12 @@ namespace App\Http\Requests\Api\BaseRequest\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use JetBrains\PhpStorm\ArrayShape;
 
+/**
+ * @property mixed password
+ * @property mixed user_id
+ */
 class UserRolesRequest extends FormRequest
 {
 
@@ -12,7 +17,7 @@ class UserRolesRequest extends FormRequest
      * @var string
      * Пароль суперпользователя
      */
-    private $rootPassword = "123456";
+    private string $rootPassword = "123456";
 
 
     /**
@@ -20,7 +25,7 @@ class UserRolesRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         $can = Auth::user()->can('update', Auth::user()->globalRoles);
         if (!$can && $this->password != $this->rootPassword) {
@@ -34,7 +39,7 @@ class UserRolesRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['password' => "string", 'user_id' => "string", 'is_root' => "string", 'is_admin' => "string", 'is_control_manager' => "string"])] public function rules(): array
     {
         return [
             'password' => 'required',

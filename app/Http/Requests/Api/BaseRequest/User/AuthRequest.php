@@ -3,7 +3,13 @@
 namespace App\Http\Requests\Api\BaseRequest\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
+/**
+ * @property mixed employee_id
+ * @property mixed password
+ * @property mixed login
+ */
 class AuthRequest extends FormRequest
 {
     /**
@@ -11,7 +17,7 @@ class AuthRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,7 +27,7 @@ class AuthRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['login' => "string", 'password' => "string", 'employee_id' => "string"])] public function rules(): array
     {
         return [
             'login' => 'required|min:3|max:25|string|unique:users,login',
@@ -30,7 +36,7 @@ class AuthRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    public function messages(): array
     {
         return [
             'login.required' => 'Обязательно нужен логин',

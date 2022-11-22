@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api\BaseRequest\Employee;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 class ReasonRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class ReasonRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,7 +22,7 @@ class ReasonRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['caption' => "string", 'is_always' => "string"])] public function rules(): array
     {
         return [
             'caption' => 'required|string',
@@ -29,7 +30,7 @@ class ReasonRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    #[ArrayShape(['caption.required' => "string", 'caption.string' => "string", 'is_always.boolean' => "string"])] public function messages(): array
     {
         return [
             'caption.required' => 'Наименование необходимо указать',

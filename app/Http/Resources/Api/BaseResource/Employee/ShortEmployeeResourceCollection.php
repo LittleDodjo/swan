@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources\Api\BaseResource\Employee;
 
-use App\Models\BaseModels\Employees\Employee;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Collection;
 use JsonSerializable;
 
 class ShortEmployeeResourceCollection extends ResourceCollection
@@ -19,7 +19,7 @@ class ShortEmployeeResourceCollection extends ResourceCollection
 
     public $collects = ShortEmployeeResource::class;
 
-    public function toArray($request)
+    public function toArray($request): array|Collection|JsonSerializable|Arrayable
     {
         return $this->collection;
     }

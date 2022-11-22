@@ -2,17 +2,27 @@
 
 namespace App\Http\Resources\Api\BaseResource\Employee;
 
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use JetBrains\PhpStorm\ArrayShape;
+use JsonSerializable;
 
+/**
+ * @property mixed is_always
+ * @property mixed caption
+ * @property mixed id
+ */
 class ReasonResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param  Request  $request
+     * @return array|Arrayable|JsonSerializable
      */
-    public function toArray($request)
+    #[ArrayShape(['id' => "mixed", 'caption' => "mixed", 'is_always' => "mixed"])]
+    public function toArray($request): array|JsonSerializable|Arrayable
     {
         return [
             'id' => $this->id,

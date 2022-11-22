@@ -8,8 +8,9 @@ use App\Http\Resources\Api\BaseResource\Employee\EmployeeDefaultResource;
 use App\Models\BaseModels\Employees\Employee;
 use App\Models\BaseModels\Employees\EmployeeDefaults;
 use App\Models\BaseModels\Employees\Reason;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Response;
 
 class EmployeeDefaultsController extends Controller
 {
@@ -20,13 +21,13 @@ class EmployeeDefaultsController extends Controller
         $this->authorizeResource(EmployeeDefaults::class, 'defaults');
     }
 
-    public function assignDefault(EmployeeDefaultsRequest $request, Reason $reason)
+    public function assignDefault(EmployeeDefaultsRequest $request, Reason $reason): Response|Application|ResponseFactory
     {
         $employee = Employee::find($request->employee_id);
         if ($employee == null) {
             return response(['message' => 'Такой пользователь не найден'], 404);
         }
-        if ($request->fromDate > $request->toDate) {
+        if ($request->from_date > $request->to_date) {
             return response(['message' => 'Ошибка указания даты'], 400);
         }
         if (!$employee->isOnWork()) {
@@ -37,13 +38,13 @@ class EmployeeDefaultsController extends Controller
         return response($default, 201);
     }
 
-    public function viewDefault(Employee $employee)
+    public function viewDefault(Employee $employee): Response|Application|ResponseFactory
     {
         if ($employee->isOnWork()) return response(['message' => 'Отсутствий не найдено'], 404);
         return response(new EmployeeDefaultResource($employee->lastDefault()));
     }
 
-    public function cancelDefault(EmployeeDefaults $employeeDefaults)
+    public function cancelDefault(EmployeeDefaults $employeeDefaults): Response|Application|ResponseFactory
     {
         $employeeDefaults->delete();
         return response(['message'=> 'Причина удалена']);

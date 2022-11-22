@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api\BaseRequest\Employee;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 class AppointmentRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class AppointmentRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,7 +22,7 @@ class AppointmentRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['caption' => "string", 'short_name' => "string", 'is_manager' => "string", 'is_primary_manager' => "string"])] public function rules(): array
     {
         return [
             'caption' => 'required|string',
@@ -31,7 +32,7 @@ class AppointmentRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    #[ArrayShape(['caption.required' => "string"])] public function messages(): array
     {
         return [
             'caption.required' => 'Необходимо указать наименование должности',

@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Api\BaseResource;
 
-use App\Models\BaseModels\Pivots\DepartamentsToManagment;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -19,7 +18,7 @@ class OrganizationResourceCollection extends ResourceCollection
 
 
 
-    public function toArray($request)
+    public function toArray($request): array|JsonSerializable|Arrayable
     {
         return $this->collection;
     }

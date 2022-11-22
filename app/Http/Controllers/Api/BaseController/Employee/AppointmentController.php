@@ -7,8 +7,9 @@ use App\Http\Requests\Api\BaseRequest\Employee\AppointmentRequest;
 use App\Http\Resources\Api\BaseResource\Employee\AppointmentResource;
 use App\Http\Resources\Api\BaseResource\Employee\AppointmentResourceCollection;
 use App\Models\BaseModels\Employees\Appointment;
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Response;
 
 class AppointmentController extends Controller
 {
@@ -22,9 +23,9 @@ class AppointmentController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @return Application|ResponseFactory|Response
      */
-    public function index()
+    public function index(): Response|Application|ResponseFactory
     {
         return response(new AppointmentResourceCollection(Appointment::all()));
     }
@@ -32,10 +33,10 @@ class AppointmentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param AppointmentRequest $request
+     * @return Response
      */
-    public function store(AppointmentRequest $request)
+    public function store(AppointmentRequest $request): Response
     {
         Appointment::create($request->validated());
         return response(['message' => 'Должность успешно создана']);
@@ -44,10 +45,10 @@ class AppointmentController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\BaseModels\Employees\Appointment $appointment
-     * @return \Illuminate\Http\Response
+     * @param Appointment $appointment
+     * @return Response
      */
-    public function show(Appointment $appointment)
+    public function show(Appointment $appointment): Response
     {
         return response(new AppointmentResource($appointment));
     }
@@ -55,11 +56,11 @@ class AppointmentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\BaseModels\Employees\Appointment $appointment
-     * @return \Illuminate\Http\Response
+     * @param AppointmentRequest $request
+     * @param Appointment $appointment
+     * @return Response
      */
-    public function update(AppointmentRequest $request, Appointment $appointment)
+    public function update(AppointmentRequest $request, Appointment $appointment): Response
     {
         $appointment->update($request->validated());
         return response(['message' => 'Должность успешно обновлена']);
@@ -68,10 +69,10 @@ class AppointmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\BaseModels\Employees\Appointment $appointment
-     * @return \Illuminate\Http\Response
+     * @param Appointment $appointment
+     * @return Response
      */
-    public function destroy(Appointment $appointment)
+    public function destroy(Appointment $appointment): Response
     {
         $appointment->delete();
         return response(['message' => 'Должность удалена']);

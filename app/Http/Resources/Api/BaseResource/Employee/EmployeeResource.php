@@ -3,13 +3,27 @@
 namespace App\Http\Resources\Api\BaseResource\Employee;
 
 use App\Http\Resources\Api\BaseResource\OrganizationResource;
-use App\Models\BaseModels\Employees\EmployeeDepency;
-use App\Models\BaseModels\Organization;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use JsonSerializable;
 
+/**
+ * @property mixed id
+ * @property mixed first_name
+ * @property mixed patronymic
+ * @property mixed last_name
+ * @property mixed phone_number
+ * @property mixed email
+ * @property mixed sex
+ * @property mixed rank
+ * @property mixed cabinet
+ * @property mixed employeeDependency
+ * @property mixed appointment
+ * @property mixed organization
+ * @method isOnWork()
+ * @method lastDefault()
+ */
 class EmployeeResource extends JsonResource
 {
     /**
@@ -18,7 +32,7 @@ class EmployeeResource extends JsonResource
      * @param  Request  $request
      * @return array|Arrayable|JsonSerializable
      */
-    public function toArray($request)
+    public function toArray($request): array|JsonSerializable|Arrayable
     {
 
         return [
@@ -31,7 +45,8 @@ class EmployeeResource extends JsonResource
             "is_work" => $this->isOnWork(),
             "rank" => $this->rank,
             "sex" => $this->sex,
-            "depency" => new EmployeeDepencyResource($this->employeeDepency),
+            "cabinet" => $this->cabinet,
+            "dependency" => new EmployeeDependencyResource($this->employeeDependency),
             "appointment" => new AppointmentResource($this->appointment),
             "organization" => new OrganizationResource($this->organization),
             "default" => new ShortEmployeeDefaultResource( $this->lastDefault()),

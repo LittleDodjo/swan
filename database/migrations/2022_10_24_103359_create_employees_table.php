@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\BaseModels\Employees\Appointment;
-use App\Models\BaseModels\Employees\EmployeeDepency;
+use App\Models\BaseModels\Employees\EmployeeDependency;
 use App\Models\BaseModels\Organization;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -25,11 +25,11 @@ return new class extends Migration
             $table->string("phone_number");
             $table->foreignIdFor(User::class)->nullable();
             $table->foreignIdFor(Appointment::class)->nullable();
-            $table->foreignIdFor(EmployeeDepency::class)->nullable()->default(null);
+            $table->foreignIdFor(EmployeeDependency::class)->nullable()->default(null);
             $table->foreignIdFor(Organization::class);
             $table->string("email")->unique();
             $table->boolean("personal_data_access")->default(false);
-            $table->integer('rank')->default(0);
+            $table->integer('rank')->default(1);
             $table->boolean('sex')->default(false);
             $table->string('cabinet');
             $table->timestamps();

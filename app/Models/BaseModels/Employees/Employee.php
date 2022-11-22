@@ -7,6 +7,11 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @method static find(mixed $employee_id)
+ * @method static create(array $array_merge)
+ * @property mixed user_id
+ */
 class Employee extends Model
 {
     use HasFactory;
@@ -55,7 +60,7 @@ class Employee extends Model
      */
     public function employeeDepency()
     {
-        return $this->belongsTo(EmployeeDepency::class);
+        return $this->belongsTo(EmployeeDependency::class);
     }
 
     /**

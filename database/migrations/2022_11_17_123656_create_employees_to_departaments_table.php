@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\BaseModels\Departaments\Departament;
+use App\Models\BaseModels\Departments\Department;
 use App\Models\BaseModels\Employees\Employee;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,10 +15,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('employees_to_departaments', function (Blueprint $table) {
+        Schema::create('employees_to_departments', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Employee::class);
-            $table->foreignIdFor(Departament::class);
+            $table->foreignIdFor(Department::class);
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employees_to_departaments');
+        Schema::dropIfExists('employees_to_departments');
     }
 };

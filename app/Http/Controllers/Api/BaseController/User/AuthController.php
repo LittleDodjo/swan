@@ -6,6 +6,7 @@ use App\Http\Requests\Api\BaseRequest\User\AuthRequest;
 use App\Http\Resources\Api\BaseResource\User\UserResource;
 use App\Models\BaseModels\Employees\Employee;
 use App\Models\UserRoles;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -23,7 +24,11 @@ class AuthController extends Controller
     }
 
 
-    public function register(AuthRequest $request)
+    /**
+     * @param AuthRequest $request
+     * @return JsonResponse
+     */
+    public function register(AuthRequest $request): JsonResponse
     {
         $employee = Employee::find($request->employee_id);
         if ($employee == null) {
@@ -46,7 +51,11 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function login(Request $request)
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function login(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
             'login' => 'required',
@@ -60,7 +69,7 @@ class AuthController extends Controller
         }
         $credentials = $request->only('login', 'password');
         $token = Auth::attempt($credentials);
-        if (!$token) {
+        if ($token == null) {
             return response()->json(['message' => 'Неудачная авторизация'], 401);
         }
         $user = Auth::user();
@@ -68,17 +77,23 @@ class AuthController extends Controller
             'message' => 'Авторизация прошла успешно',
             'user' => new UserResource($user),
             'token' => 'Bearer ' . $token,
+        ])->withHeaders(['Authorization' => 'Bearer ' . $token]);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function refresh(): JsonResponse
+    {
+        return response()->json(data: [
+            'token' => 'Bearer ' . Auth::refresh(),
         ]);
     }
 
-    public function refresh()
-    {
-        return response()->json([
-            'token' => 'Bearer ' . Auth::refresh(),
-        ], 200);
-    }
-
-    public function logout()
+    /**
+     * @return JsonResponse
+     */
+    public function logout(): JsonResponse
     {
         Auth::logout();
         return response()->json([

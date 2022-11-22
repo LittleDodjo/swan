@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Api\BaseRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 class OrganizationRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class OrganizationRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,7 +22,7 @@ class OrganizationRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['name' => "string", 'short_name' => "string"])] public function rules(): array
     {
         return [
             'name' => 'required',
@@ -29,7 +30,7 @@ class OrganizationRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    #[ArrayShape(['name.required' => "string", 'short_name.required' => "string"])] public function messages(): array
     {
         return [
             'name.required' => 'Необходимо указать имя организации',

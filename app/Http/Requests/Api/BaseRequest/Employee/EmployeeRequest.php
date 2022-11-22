@@ -32,6 +32,8 @@ class EmployeeRequest extends FormRequest
             'depency_id' => 'integer',
             'organization_id' => 'required',
             'email' => 'required|email|unique:employees,email',
+            'cabinet' => 'required|string',
+            'sex' => 'boolean'
         ];
     }
 
@@ -57,7 +59,10 @@ class EmployeeRequest extends FormRequest
             'email.required' => 'Необходимо указать почту',
             'email.email' => 'Неверный формат почты',
             'email.unique' => 'Такая почта уже существует в системе',
-            'organization_id.required' => 'Необходимо указать организацию'
+            'organization_id.required' => 'Необходимо указать организацию',
+            'cabinet.required' => 'Нужно указать кабинет',
+            'cabinet.string' => 'Неверный формат данных кабинета',
+            'sex.boolean'=> 'Неверный формат данных пола',
         ];
     }
 }

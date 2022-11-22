@@ -1,15 +1,15 @@
 <?php
 
 
-use App\Http\Controllers\Api\BaseController\Departaments\DepartamentController;
-use App\Http\Controllers\Api\BaseController\Departaments\DepartamentDepencyController;
+use App\Http\Controllers\Api\BaseController\Departments\DepartmentController;
+use App\Http\Controllers\Api\BaseController\Departments\DepartmentDecencyController;
 use App\Http\Controllers\Api\BaseController\Employee\AppointmentController;
 use App\Http\Controllers\Api\BaseController\Employee\EmployeeController;
 use App\Http\Controllers\Api\BaseController\Employee\EmployeeDefaultsController;
-use App\Http\Controllers\Api\BaseController\Employee\EmployeeDepencyController;
+use App\Http\Controllers\Api\BaseController\Employee\EmployeeDependencyController;
 use App\Http\Controllers\Api\BaseController\Employee\ReasonController;
-use App\Http\Controllers\Api\BaseController\Managments\ManagmentController;
-use App\Http\Controllers\Api\BaseController\Managments\ManagmentDepencyController;
+use App\Http\Controllers\Api\BaseController\Managements\ManagmentController;
+use App\Http\Controllers\Api\BaseController\Managements\ManagementDecencyController;
 use App\Http\Controllers\Api\BaseController\OrganizationController;
 use App\Http\Controllers\Api\BaseController\User\AuthController;
 use App\Http\Controllers\Api\BaseController\User\UserRolesController;
@@ -66,13 +66,13 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'depency'
 ], function($route){
-    Route::apiResource('employees', EmployeeDepencyController::class)
+    Route::apiResource('employees', EmployeeDependencyController::class)
         ->missing(fn() => response(['message' => 'Не найдена зависимость'], 404));
 
-    Route::apiResource('departament', DepartamentDepencyController::class)
+    Route::apiResource('departament', DepartmentDecencyController::class)
         ->missing(fn() => response(['message' => 'Не найдена зависимость'], 404));
 
-    Route::apiResource('managment', ManagmentDepencyController::class)
+    Route::apiResource('managment', ManagementDecencyController::class)
         ->missing(fn() => response(['message' => 'Не найдена зависимость'], 404));
 });
 
@@ -129,17 +129,17 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'departament',
 ], function ($router) {
-    Route::post('/create', [DepartamentController::class, 'newDepartament']);
-    Route::post('/delete/{id}', [DepartamentController::class, 'deleteDepartament']);
-    Route::get('/view', [DepartamentController::class, 'viewAllDepartaments']);
-    Route::get('/view/{id}', [DepartamentController::class, 'viewDepartament']);
-    Route::get('/employees/{id}', [DepartamentController::class, 'viewEmployees']);
-    Route::post('/assign/{id}', [DepartamentController::class, 'assignNewEmployee']);
-    Route::post('/assign/{id}/remove', [DepartamentController::class, 'removeAssign']);
-    Route::patch('/update/{id}/manager', [DepartamentController::class, 'updateManager']);
-    Route::patch('/update/{id}/primary', [DepartamentController::class, 'updatePrimaryManager']);
-    Route::patch('/update/{id}/depency', [DepartamentController::class, 'updateDepency']);
-    Route::patch('/update/{id}/caption', [DepartamentController::class, 'updateCaption']);
-    Route::patch('/update/{id}/short', [DepartamentController::class, 'updateShortName']);
-    Route::patch('/update/{id}/code', [DepartamentController::class, 'updateCode']);
+    Route::post('/create', [DepartmentController::class, 'newDepartament']);
+    Route::post('/delete/{id}', [DepartmentController::class, 'deleteDepartament']);
+    Route::get('/view', [DepartmentController::class, 'viewAllDepartaments']);
+    Route::get('/view/{id}', [DepartmentController::class, 'viewDepartament']);
+    Route::get('/employees/{id}', [DepartmentController::class, 'viewEmployees']);
+    Route::post('/assign/{id}', [DepartmentController::class, 'assignNewEmployee']);
+    Route::post('/assign/{id}/remove', [DepartmentController::class, 'removeAssign']);
+    Route::patch('/update/{id}/manager', [DepartmentController::class, 'updateManager']);
+    Route::patch('/update/{id}/primary', [DepartmentController::class, 'updatePrimaryManager']);
+    Route::patch('/update/{id}/depency', [DepartmentController::class, 'updateDepency']);
+    Route::patch('/update/{id}/caption', [DepartmentController::class, 'updateCaption']);
+    Route::patch('/update/{id}/short', [DepartmentController::class, 'updateShortName']);
+    Route::patch('/update/{id}/code', [DepartmentController::class, 'updateCode']);
 });

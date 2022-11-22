@@ -7,8 +7,8 @@ use App\Http\Requests\Api\BaseRequest\Employee\ReasonRequest;
 use App\Http\Resources\Api\BaseResource\Employee\ReasonResource;
 use App\Http\Resources\Api\BaseResource\Employee\ReasonResourceCollection;
 use App\Models\BaseModels\Employees\Reason;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class ReasonController extends Controller
 {
@@ -22,9 +22,9 @@ class ReasonController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function index()
+    public function index(): JsonResponse
     {
         return response()->json(new ReasonResourceCollection(new ReasonResource(Reason::all())));
     }
@@ -33,9 +33,9 @@ class ReasonController extends Controller
      * Store a newly created resource in storage.
      *
      * @param ReasonRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
-    public function store(ReasonRequest $request)
+    public function store(ReasonRequest $request): JsonResponse
     {
         Reason::create($request->validated());
         return response()->json(['message' => 'Причина успешно создана'], 201);
@@ -44,10 +44,10 @@ class ReasonController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\BaseModels\Employees\Reason $reason
-     * @return \Illuminate\Http\JsonResponse
+     * @param Reason $reason
+     * @return JsonResponse
      */
-    public function show(Reason $reason)
+    public function show(Reason $reason): JsonResponse
     {
         return response()->json(new ReasonResource($reason));
     }
@@ -55,11 +55,11 @@ class ReasonController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\BaseModels\Employees\Reason $reason
-     * @return \Illuminate\Http\JsonResponse
+     * @param Request $request
+     * @param Reason $reason
+     * @return JsonResponse
      */
-    public function update(ReasonRequest $request, Reason $reason)
+    public function update(ReasonRequest $request, Reason $reason): JsonResponse
     {
         $reason->update($request->validated());
         return response()->json(['message' => 'Причина успешно изменена']);
@@ -68,10 +68,10 @@ class ReasonController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\BaseModels\Employees\Reason $reason
-     * @return \Illuminate\Http\JsonResponse
+     * @param Reason $reason
+     * @return JsonResponse
      */
-    public function destroy(Reason $reason)
+    public function destroy(Reason $reason): JsonResponse
     {
         $reason->delete();
         return response()->json(['message' => 'Причина успешно удалена']);

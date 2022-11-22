@@ -7,8 +7,8 @@ use App\Http\Requests\Api\BaseRequest\OrganizationRequest;
 use App\Http\Resources\Api\BaseResource\OrganizationResource;
 use App\Http\Resources\Api\BaseResource\OrganizationResourceCollection;
 use App\Models\BaseModels\Organization;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 
 class OrganizationController extends Controller
 {
@@ -22,9 +22,9 @@ class OrganizationController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     * @return JsonResponse|Response
      */
-    public function index()
+    public function index(): Response|JsonResponse
     {
         $organizations = new OrganizationResourceCollection(
             Organization::all()
@@ -36,9 +36,9 @@ class OrganizationController extends Controller
      * Store a newly created resource in storage.
      *
      * @param OrganizationRequest $request
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     * @return JsonResponse|Response
      */
-    public function store(OrganizationRequest $request)
+    public function store(OrganizationRequest $request): Response|JsonResponse
     {
         $organization = Organization::create($request->validated());
         return response()->json([
@@ -50,10 +50,10 @@ class OrganizationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     * @param Organization $organization
+     * @return JsonResponse|Response
      */
-    public function show(Organization $organization)
+    public function show(Organization $organization): Response|JsonResponse
     {
         return response()->json(new OrganizationResource($organization));
     }
@@ -63,9 +63,9 @@ class OrganizationController extends Controller
      *
      * @param OrganizationRequest $request
      * @param Organization $organization
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     * @return JsonResponse|Response
      */
-    public function update(OrganizationRequest $request, Organization $organization)
+    public function update(OrganizationRequest $request, Organization $organization): Response|JsonResponse
     {
         $organization->update($request->validated());
         return response()->json(['message' => 'Организация успешно изменена']);
@@ -74,10 +74,10 @@ class OrganizationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     * @param Organization $organization
+     * @return JsonResponse|Response
      */
-    public function destroy(Organization $organization)
+    public function destroy(Organization $organization): Response|JsonResponse
     {
         $organization->delete();
         return response()->json(['message' => 'Организация успешно удалена']);

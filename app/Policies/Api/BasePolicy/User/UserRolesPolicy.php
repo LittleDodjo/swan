@@ -5,6 +5,7 @@ namespace App\Policies\Api\BasePolicy\User;
 use App\Models\User;
 use App\Models\UserRoles;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class UserRolesPolicy
 {
@@ -14,10 +15,10 @@ class UserRolesPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param \App\Models\User $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): Response|bool
     {
         return true;
     }
@@ -25,11 +26,11 @@ class UserRolesPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param \App\Models\User $user
-     * @param \App\Models\UserRoles $userRoles
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param UserRoles $userRoles
+     * @return bool
      */
-    public function view(User $user, UserRoles $userRoles)
+    public function view(User $user, UserRoles $userRoles): bool
     {
         return true;
     }
@@ -40,7 +41,7 @@ class UserRolesPolicy
      * @param UserRoles $userRoles
      * @return bool
      */
-    public function update(User $user, UserRoles $userRoles)
+    public function update(User $user, UserRoles $userRoles): bool
     {
         return $userRoles->is_root;
     }

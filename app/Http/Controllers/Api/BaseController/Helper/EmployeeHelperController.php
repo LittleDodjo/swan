@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api\BaseController\Helper;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Api\BaseResource\Employee\ShortEmployeeResource;
 use App\Models\BaseModels\Employees\Employee;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class EmployeeHelperController extends Controller
 {
-    public function viewAllEmployees(Request $request)
+    public function viewAllEmployees(Request $request): JsonResponse
     {
         $employees = Employee::all()->reject(function ($employee) {
             return !$employee->isOnWork();
