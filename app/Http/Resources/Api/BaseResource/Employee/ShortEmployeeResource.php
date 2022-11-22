@@ -28,9 +28,9 @@ class ShortEmployeeResource extends JsonResource
             "patronymic" => $this->patronymic,
             "phone" => $this->phone_number,
             "email" => $this->email,
-            "appointment" => new AppointmentResource($this->appointment),
+            'sex' => $this->sex,
             'is_work' => $this->isOnWork(),
-            'is_manager' => $this->isManager(),
+            "appointment" => new AppointmentResource($this->appointment),
         ];
     }
 }

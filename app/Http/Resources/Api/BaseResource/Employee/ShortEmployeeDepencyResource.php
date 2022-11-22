@@ -2,9 +2,10 @@
 
 namespace App\Http\Resources\Api\BaseResource\Employee;
 
+use App\Models\BaseModels\Employees\Employee;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SmallEmployeeResource extends JsonResource
+class ShortEmployeeDepencyResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,10 +16,7 @@ class SmallEmployeeResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'sex' => $this->sex,
-            'full_name' => "$this->last_name $this->first_name $this->patronymic",
-            'appointment' => $this->appointment->caption
+            'employee_depends' => new SmallEmployeeResource(Employee::find($this->employee_id)),
         ];
     }
 }

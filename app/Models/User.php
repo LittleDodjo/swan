@@ -51,7 +51,8 @@ class User extends Authenticatable implements JWTSubject
      * Отношение учетной записи к сотруднику (Один к одному)
      * @return HasOne
      */
-    public function employee(){
+    public function employee()
+    {
         return $this->hasOne(Employee::class);
     }
 
@@ -65,6 +66,33 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(UserRoles::class);
     }
 
+
+    /**
+     * Проверка, является ли учетная запись суперпользователем
+     * @return bool
+     */
+    public function isRoot()
+    {
+        return (bool)$this->globalRoles->is_root;
+    }
+
+    /**
+     * Проверка, является ли учетная запись контролирующего пользователя
+     * @return bool
+     */
+    public function isControlManager()
+    {
+        return (bool)$this->globalRoles->is_control_manager;
+    }
+
+    /**
+     * Проверка является ли учетная запись администратором
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return (bool)$this->globalRoles->is_admin;
+    }
 
     /**
      * @return mixed

@@ -28,11 +28,13 @@ class EmployeeResource extends JsonResource
             "patronymic" => $this->patronymic,
             "phone" => $this->phone_number,
             "email" => $this->email,
+            "is_work" => $this->isOnWork(),
+            "rank" => $this->rank,
+            "sex" => $this->sex,
             "depency" => new EmployeeDepencyResource($this->employeeDepency),
             "appointment" => new AppointmentResource($this->appointment),
             "organization" => new OrganizationResource($this->organization),
             "default" => new ShortEmployeeDefaultResource( $this->lastDefault()),
-            "is_work" => $this->isOnWork(),
         ];
     }
 }

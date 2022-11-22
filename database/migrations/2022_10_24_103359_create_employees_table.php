@@ -30,6 +30,8 @@ return new class extends Migration
             $table->string("email")->unique();
             $table->boolean("personal_data_access")->default(false);
             $table->integer('rank')->default(0);
+            $table->boolean('sex')->default(false);
+            $table->string('cabinet');
             $table->timestamps();
         });
     }

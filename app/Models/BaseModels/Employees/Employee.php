@@ -26,17 +26,10 @@ class Employee extends Model
         'user_id',
         'email',
         'personal_data_access',
-    ];
-
-
-    /**
-     * Скрытые параметры
-     * @var string[]
-     */
-    protected $hidden = [
         'rank',
+        'sex',
+        'cabinet'
     ];
-
 
     /**
      * Связь (один к одному) к учетной записи
@@ -112,7 +105,7 @@ class Employee extends Model
 
     /**
      * Возвращает последнюю Акутальную причину отсутствия сотрудника
-     * @return mixed
+     * @return EmployeeDefaults
      */
     public function lastDefault()
     {
@@ -131,6 +124,18 @@ class Employee extends Model
         if ($employeeDefault == null) return true;
         if ($employeeDefault['toDate'] >= date("Y-m-d")) return false;
         return true;
+    }
+
+    /**
+     *
+     * @return bool
+     */
+    public function isAlwaysDefault()
+    {
+        if (!$this->isOnWork()) {
+            return $this->lastDefault()->isAlways();
+        }
+        return false;
     }
 
     /**

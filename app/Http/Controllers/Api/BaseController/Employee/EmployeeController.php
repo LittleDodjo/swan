@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api\BaseController\Employee;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\BaseRequest\Employee\EmployeeRequest;
 use App\Http\Requests\Api\BaseRequest\Employee\EmployeeUpdateRequest;
-use App\Http\Resources\Api\BaseResource\Employee\EmployeeResourceCollection;
+use App\Http\Resources\Api\BaseResource\Employee\EmployeeResource;
+use App\Http\Resources\Api\BaseResource\Employee\ShortEmployeeResourceCollection;
 use App\Http\Resources\Api\BaseResource\Employee\ShortEmployeeResource;
 use App\Http\Resources\Api\BaseResource\Employee\SmallEmployeeResource;
+use App\Http\Resources\Api\BaseResource\Employee\SmallEmployeeResourceCollection;
 use App\Models\BaseModels\Employees\Employee;
 use App\Models\BaseModels\Employees\EmployeeDepency;
 use Illuminate\Http\Request;
@@ -29,9 +31,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return response(new EmployeeResourceCollection(
-            new SmallEmployeeResource(Employee::all())
-        ));
+        return response(new SmallEmployeeResourceCollection(Employee::all()));
     }
 
     /**
@@ -57,7 +57,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        return response(new ShortEmployeeResource($employee));
+        return response(new EmployeeResource($employee));
     }
 
     /**
@@ -70,7 +70,7 @@ class EmployeeController extends Controller
     public function update(EmployeeUpdateRequest $request, Employee $employee)
     {
         $employee->update($request->validated());
-        return response(['message' => 'Сотрудник успешно изменен', $employee, $request->validated(), $request->all()]);
+        return response(['message' => 'Сотрудник успешно изменен', $employee]);
     }
 
     /**

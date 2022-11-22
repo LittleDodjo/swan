@@ -18,7 +18,7 @@ class EmployeeDepencyPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -30,7 +30,7 @@ class EmployeeDepencyPolicy
      */
     public function view(User $user, EmployeeDepency $employeeDepency)
     {
-        //
+        return true;
     }
 
     /**
@@ -41,7 +41,7 @@ class EmployeeDepencyPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class EmployeeDepencyPolicy
      */
     public function update(User $user, EmployeeDepency $employeeDepency)
     {
-        //
+        return true;
     }
 
     /**
@@ -65,7 +65,7 @@ class EmployeeDepencyPolicy
      */
     public function delete(User $user, EmployeeDepency $employeeDepency)
     {
-        //
+        return true;
     }
 
     /**
@@ -77,7 +77,7 @@ class EmployeeDepencyPolicy
      */
     public function restore(User $user, EmployeeDepency $employeeDepency)
     {
-        //
+        return true;
     }
 
     /**
@@ -89,6 +89,6 @@ class EmployeeDepencyPolicy
      */
     public function forceDelete(User $user, EmployeeDepency $employeeDepency)
     {
-        //
+        return true;
     }
 }

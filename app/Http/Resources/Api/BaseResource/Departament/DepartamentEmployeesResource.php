@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Api\BaseResource\Departament;
 
-use App\Http\Resources\Api\BaseResource\Employee\EmployeeResourceCollection;
+use App\Http\Resources\Api\BaseResource\Employee\ShortEmployeeResourceCollection;
 use App\Http\Resources\Api\BaseResource\Employee\ShortEmployeeResource;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
