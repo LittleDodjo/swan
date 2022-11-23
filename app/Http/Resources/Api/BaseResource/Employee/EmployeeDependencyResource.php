@@ -20,6 +20,7 @@ use JetBrains\PhpStorm\ArrayShape;
  * @property mixed management_id
  * @property mixed employee_id
  * @property mixed id
+ * @property mixed managementsDependency
  */
 class EmployeeDependencyResource extends JsonResource
 {
@@ -35,7 +36,7 @@ class EmployeeDependencyResource extends JsonResource
         return [
             'id' => $this->id,
             'employee_depends' => new ShortEmployeeResource(Employee::find($this->employee_id)),
-            'management_depends' => new ManagementResource(Management::find($this->management_id)),
+            'management_depends' => new ManagementResource($this->managementsDependency),
             'department_depends' => new DepartmentResource(Department::find($this->department_id)),
             'employee_department_depends' => new DepartmentEmployeesResource(EmployeeDepartment::find($this->employeeDepartmentDependency)),
         ];

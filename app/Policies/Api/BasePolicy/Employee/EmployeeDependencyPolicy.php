@@ -15,9 +15,9 @@ class EmployeeDependencyPolicy
      * Determine whether the user can view any models.
      *
      * @param User $user
-     * @return Response|bool
+     * @return bool
      */
-    public function viewAny(User $user): Response|bool
+    public function viewAny(User $user): bool
     {
         return true;
     }
@@ -26,10 +26,10 @@ class EmployeeDependencyPolicy
      * Determine whether the user can view the model.
      *
      * @param User $user
-     * @param EmployeeDependency $employeeDepency
-     * @return bool
+     * @param EmployeeDependency $employee
+     * @return Response|bool
      */
-    public function view(User $user, EmployeeDependency $employeeDepency): bool
+    public function view(User $user, EmployeeDependency $employee): Response|bool
     {
         return true;
     }
@@ -42,54 +42,31 @@ class EmployeeDependencyPolicy
      */
     public function create(User $user): Response|bool
     {
-        return true;
+        return (bool) $user->isRoot() || $user->isAdmin();
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param User $user
-     * @param EmployeeDependency $employeeDepency
+     * @param EmployeeDependency $employee
      * @return Response|bool
      */
-    public function update(User $user, EmployeeDependency $employeeDepency): Response|bool
+    public function update(User $user, EmployeeDependency $employee): Response|bool
     {
-        return true;
+        return (bool) $user->isRoot() || $user->isAdmin();
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param User $user
-     * @param EmployeeDependency $employeeDepency
-     * @return bool
-     */
-    public function delete(User $user, EmployeeDependency $employeeDepency): bool
-    {
-        return true;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param User $user
-     * @param EmployeeDependency $employeeDepency
+     * @param EmployeeDependency $employee
      * @return Response|bool
      */
-    public function restore(User $user, EmployeeDependency $employeeDepency): Response|bool
+    public function delete(User $user, EmployeeDependency $employee): Response|bool
     {
-        return true;
+        return (bool) $user->isRoot() || $user->isAdmin();
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param User $user
-     * @param EmployeeDependency $employeeDepency
-     * @return Response|bool
-     */
-    public function forceDelete(User $user, EmployeeDependency $employeeDepency): Response|bool
-    {
-        return true;
-    }
 }

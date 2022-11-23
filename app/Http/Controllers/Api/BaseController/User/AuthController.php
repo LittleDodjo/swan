@@ -3,21 +3,25 @@
 namespace App\Http\Controllers\Api\BaseController\User;
 
 use App\Http\Requests\Api\BaseRequest\User\AuthRequest;
+use App\Http\Requests\Api\BaseRequest\User\LoginRequest;
 use App\Http\Resources\Api\BaseResource\User\UserResource;
 use App\Models\BaseModels\Employees\Employee;
 use App\Models\UserRoles;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\User;
 
 
 class AuthController extends Controller
 {
 
+    /**
+     * Конструктор класса
+     */
     public function __construct()
     {
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
@@ -25,80 +29,60 @@ class AuthController extends Controller
 
 
     /**
+     * Создать учетную запись
      * @param AuthRequest $request
-     * @return JsonResponse
+     * @return Application|Response|ResponseFactory
      */
-    public function register(AuthRequest $request): JsonResponse
+    public function register(AuthRequest $request): Application|ResponseFactory|Response
     {
         $employee = Employee::find($request->employee_id);
         if ($employee == null) {
-            return response()->json(['message' => 'Сотрудник с таким идентификатором не найден'], 404);
+            return response(['message' => 'Сотрудник с таким идентификатором не найден'], 404);
         }
         if ($employee->isBusy()) {
-            return response()->json(['message' => 'Такой сотрудник уже привязан к учетной записи'], 400);
+            return response(['message' => 'Такой сотрудник уже привязан к учетной записи'], 400);
         }
         $user = new User(['login' => $request->login]);
         $user->password = Hash::make($request->password);
         $user->save();
         UserRoles::create(['user_id' => $user->id]);
-        $employee->user_id = $user->id;
-        $employee->save();
+        $employee->update(['user_id' => $user->id]);
         $token = Auth::login($user);
-        return response()->json([
-            'message' => 'Регистрация прошла успешно',
-            'user' => new UserResource($user),
-            'token' => 'Bearer ' . $token,
-        ], 201);
+        return response(new UserResource($user), 201)->header('token', "Bearer ".$token);
     }
 
     /**
-     * @param Request $request
-     * @return JsonResponse
+     * Авторизация в системе при помощи login и password.
+     * @param LoginRequest $request
+     * @return Application|Response|ResponseFactory
      */
-    public function login(Request $request): JsonResponse
+    public function login(LoginRequest $request): Application|ResponseFactory|Response
     {
-        $validator = Validator::make($request->all(), [
-            'login' => 'required',
-            'password' => 'required',
-        ], [
-            'login.required' => 'Необходимо оказать логин',
-            'password.required' => 'Необходимо указать пароль'
-        ]);
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
         $credentials = $request->only('login', 'password');
         $token = Auth::attempt($credentials);
         if ($token == null) {
-            return response()->json(['message' => 'Неудачная авторизация'], 401);
+            return response(['message' => 'Неудачная авторизация'], 401);
         }
         $user = Auth::user();
-        return response()->json([
-            'message' => 'Авторизация прошла успешно',
-            'user' => new UserResource($user),
-            'token' => 'Bearer ' . $token,
-        ])->withHeaders(['Authorization' => 'Bearer ' . $token]);
+        return response(new UserResource($user))->header('token', "Bearer ".$token);
     }
 
     /**
-     * @return JsonResponse
+     * Обнвоить access токен
+     * @return Application|Response|ResponseFactory
      */
-    public function refresh(): JsonResponse
+    public function refresh(): Application|ResponseFactory|Response
     {
-        return response()->json(data: [
-            'token' => 'Bearer ' . Auth::refresh(),
-        ]);
+        return response([])->header('token', 'Bearer '.Auth::refresh());
     }
 
     /**
-     * @return JsonResponse
+     * Выйти из системы
+     * @return Application|ResponseFactory|Response
      */
-    public function logout(): JsonResponse
+    public function logout(): Application|ResponseFactory|Response
     {
         Auth::logout();
-        return response()->json([
-            'status' => 'Успешно',
-            'message' => 'Вы успешно вышли из системы',
-        ]);
+        return response(['message' => 'Успешно']);
     }
 }

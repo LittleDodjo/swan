@@ -4,6 +4,7 @@ namespace App\Http\Requests\Api\BaseRequest\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use JetBrains\PhpStorm\ArrayShape;
 
 /**
@@ -27,10 +28,6 @@ class UserRolesRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        $can = Auth::user()->can('update', Auth::user()->globalRoles);
-        if (!$can && $this->password != $this->rootPassword) {
-            return false;
-        }
         return true;
     }
 

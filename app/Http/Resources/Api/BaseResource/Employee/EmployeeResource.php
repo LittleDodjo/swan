@@ -23,6 +23,7 @@ use JsonSerializable;
  * @property mixed organization
  * @method isOnWork()
  * @method lastDefault()
+ * @method fullName()
  */
 class EmployeeResource extends JsonResource
 {
@@ -40,6 +41,7 @@ class EmployeeResource extends JsonResource
             "first_name" => $this->first_name,
             "last_name" => $this->last_name,
             "patronymic" => $this->patronymic,
+            "fullname" => $this->fullName(),
             "phone" => $this->phone_number,
             "email" => $this->email,
             "is_work" => $this->isOnWork(),

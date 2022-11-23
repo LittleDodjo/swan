@@ -23,8 +23,8 @@ return new class extends Migration
             $table->foreign("deputy_employee_id")
                 ->references("id")->on("employees")->onDelete("cascade");
             $table->foreignIdFor(Reason::class);
-            $table->date("fromDate");
-            $table->date("toDate")->nullable();
+            $table->date("from_date");
+            $table->date("to_date")->nullable();
             $table->timestamps();
         });
     }

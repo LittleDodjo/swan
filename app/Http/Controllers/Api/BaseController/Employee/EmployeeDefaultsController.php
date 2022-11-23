@@ -21,6 +21,12 @@ class EmployeeDefaultsController extends Controller
         $this->authorizeResource(EmployeeDefaults::class, 'defaults');
     }
 
+    /**
+     * Создать причину отсутсвия
+     * @param EmployeeDefaultsRequest $request
+     * @param Reason $reason
+     * @return Response|Application|ResponseFactory
+     */
     public function assignDefault(EmployeeDefaultsRequest $request, Reason $reason): Response|Application|ResponseFactory
     {
         $employee = Employee::find($request->employee_id);
@@ -33,20 +39,37 @@ class EmployeeDefaultsController extends Controller
         if (!$employee->isOnWork()) {
             return response(['message' => 'Сотруднику уже назначено отстутсвие'], 400);
         }
-        $default = new EmployeeDefaults($request->validated());
-        $default->save();
-        return response($default, 201);
+        $default = EmployeeDefaults::create(
+            array_merge($request->validated(), ['reason_id' => $reason->id]));
+        return response([$default], 201);
     }
 
+    /**
+     * Посмотреть причину отсуствия (отправляет ответ последней актуальной причины)?
+     * Если причины не найдено, отправляет 400
+     * @param Employee $employee
+     * @return Response|Application|ResponseFactory
+     */
     public function viewDefault(Employee $employee): Response|Application|ResponseFactory
     {
-        if ($employee->isOnWork()) return response(['message' => 'Отсутствий не найдено'], 404);
+        if ($employee->isOnWork()) return response(['message' => 'Отсутствий не найдено'], 400);
         return response(new EmployeeDefaultResource($employee->lastDefault()));
     }
 
-    public function cancelDefault(EmployeeDefaults $employeeDefaults): Response|Application|ResponseFactory
+
+    public function viewAllDefaults(Employee $employee)
     {
-        $employeeDefaults->delete();
-        return response(['message'=> 'Причина удалена']);
+        return response(new EmployeeDefaultResource($employee->employeeDefault()));
+    }
+
+    /**
+     * Удалить причину отсуствия
+     * @param EmployeeDefaults $default
+     * @return Response|Application|ResponseFactory
+     */
+    public function cancelDefault(EmployeeDefaults $default): Response|Application|ResponseFactory
+    {
+        $default->delete();
+        return response(['message' => 'Причина удалена']);
     }
 }

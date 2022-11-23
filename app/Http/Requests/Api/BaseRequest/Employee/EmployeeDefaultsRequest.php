@@ -28,13 +28,12 @@ class EmployeeDefaultsRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    #[ArrayShape(['employee_id' => "string", 'reason_id' => "string", 'fromDate' => "string", 'toDate' => "string"])] public function rules(): array
+    #[ArrayShape(['employee_id' => "string", 'reason_id' => "string", 'from_date' => "string", 'to_date' => "string"])] public function rules(): array
     {
         return [
             'employee_id' => 'required',
-            'reason_id' => 'required',
-            'fromDate' => 'required|date',
-            'toDate' => 'date',
+            'from_date' => 'required|date',
+            'to_date' => 'date',
         ];
     }
 

@@ -4,7 +4,11 @@ namespace App\Models\BaseModels\Employees;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property mixed reason
+ */
 class EmployeeDefaults extends Model
 {
     use HasFactory;
@@ -17,33 +21,33 @@ class EmployeeDefaults extends Model
         'employee_id',
         'deputy_employee_id',
         'reason_id',
-        'fromDate',
-        'toDate',
+        'from_date',
+        'to_date',
     ];
 
     /**
      * Сотрудник, который отсутствует (связь один к одному)
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function employee()
+    public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
     }
 
     /**
      * Связь один к одному, замещающий сотрудник
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function deputyEmployee()
+    public function deputyEmployee(): BelongsTo
     {
         return $this->belongsTo(Employee::class, 'deputy_employee_id');
     }
 
     /**
      * Получить причину отсутствия (связь один к одному)
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function reason()
+    public function reason(): BelongsTo
     {
         return $this->belongsTo(Reason::class);
     }
@@ -53,7 +57,7 @@ class EmployeeDefaults extends Model
      * Получить статус навсегда-ли отсутствие сотрудника
      * @return boolean
      */
-    public function isAlways()
+    public function isAlways(): bool
     {
         if($this->reason == null) return false;
         return $this->reason->is_always;

@@ -24,17 +24,29 @@ class Management extends Model
     ];
 
 
+    /**
+     * Возвращает сотрудника от которого зависит управление
+     * @return BelongsTo
+     */
     public function employeeDepends(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
     }
 
+    /**
+     * Возвращает руководителя управления
+     * @return BelongsTo
+     */
     public function employeeManager(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
     }
 
-    public function departaments(): HasMany
+    /**
+     * Возвращает отделения которые подчиняются этому управлению
+     * @return HasMany
+     */
+    public function departments(): HasMany
     {
         return $this->hasMany(DepartmentsToManagement::class);
     }

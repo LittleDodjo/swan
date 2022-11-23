@@ -5,6 +5,10 @@ namespace App\Http\Requests\Api\BaseRequest\Employee;
 use Illuminate\Foundation\Http\FormRequest;
 use JetBrains\PhpStorm\ArrayShape;
 
+/**
+ * @property mixed employee_id
+ * @property mixed employee_depends_id
+ */
 class EmployeeDecencyRequest extends FormRequest
 {
     /**

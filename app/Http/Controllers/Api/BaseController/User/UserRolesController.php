@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Api\BaseController\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\BaseRequest\User\UserRolesRequest;
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Response;
 
 class UserRolesController extends Controller
 {
@@ -29,14 +32,30 @@ class UserRolesController extends Controller
     /**
      * Установить флаг администратора пользователю
      * @param UserRolesRequest $request
-     * @return JsonResponse
+     * @param User $user
+     * @return Application|Response|ResponseFactory
      * JSON
      */
-    public function updateRole(UserRolesRequest $request): JsonResponse
+    public function updateRole(UserRolesRequest $request, User $user): Application|ResponseFactory|Response
     {
-        $userRole = User::find($request->user_id);
-        if ($userRole == null) return response()->json(false, 404);
-        $userRole->globalRoles->update($request->except('password', 'user_id'));
-        return response()->json(true);
+        if(Gate::allows('confirm-user') || $request->password == $this->rootPassword) {
+            $user->globalRoles->update($request->except('password', 'user_id'));
+            return response([true]);
+        }
+        return response([false]);
+    }
+
+    /**
+     * Подтвердить учетную запись пользователя
+     * @param User $user
+     * @return Response|Application|ResponseFactory
+     */
+    public function confirmUser(User $user): Response|Application|ResponseFactory
+    {
+        if (Gate::allows('confirm-user')) {
+            $user->update(['is_confirmed' => true]);
+            return response([true]);
+        }
+        return response([false]);
     }
 }

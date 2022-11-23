@@ -10,9 +10,9 @@ use JetBrains\PhpStorm\Pure;
 /**
  * @property mixed deputyEmployee
  * @property mixed reason
- * @property mixed fromDate
- * @property mixed toDate
  * @property mixed id
+ * @property mixed from_date
+ * @property mixed to_date
  */
 class ShortEmployeeDefaultResource extends JsonResource
 {
@@ -33,8 +33,8 @@ class ShortEmployeeDefaultResource extends JsonResource
             'deputy_employee' => new SmallEmployeeResource($this->deputyEmployee),
             'reason' => $caption,
             'is_always' => $isAlways,
-            'form_date' => $this->fromDate,
-            'to_date' => $this->toDate,
+            'form_date' => $this->from_date,
+            'to_date' => $this->to_date,
         ];
     }
 }

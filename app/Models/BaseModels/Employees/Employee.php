@@ -6,11 +6,19 @@ use App\Models\BaseModels\Organization;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @method static find(mixed $employee_id)
  * @method static create(array $array_merge)
  * @property mixed user_id
+ * @property mixed user
+ * @property mixed appointment
+ * @property mixed id
+ * @property mixed patronymic
+ * @property mixed first_name
+ * @property mixed last_name
  */
 class Employee extends Model
 {
@@ -27,7 +35,7 @@ class Employee extends Model
         'patronymic',
         'phone_number',
         'appointment_id',
-        'employee_depency_id',
+        'employee_dependency_id',
         'user_id',
         'email',
         'personal_data_access',
@@ -38,54 +46,63 @@ class Employee extends Model
 
     /**
      * Связь (один к одному) к учетной записи
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo | null
      */
-    public function user()
+    public function user(): BelongsTo | null
     {
         return $this->belongsTo(User::class);
     }
 
     /**
      * Связь (Один к одному) к организации сотрудника
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo | null
      */
-    public function organization()
+    public function organization(): BelongsTo | null
     {
         return $this->belongsTo(Organization::class);
     }
 
     /**
      * Связь (Один к одному) к зависимостям сотрудника
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo | null
      */
-    public function employeeDepency()
+    public function employeeDependency(): BelongsTo | null
     {
         return $this->belongsTo(EmployeeDependency::class);
     }
 
     /**
      * Связь (Один к одному) к должности сотрудника
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo | null
      */
-    public function appointment()
+    public function appointment(): BelongsTo | null
     {
         return $this->belongsTo(Appointment::class);
     }
 
     /**
      * Связь (Один ко многим) с причинами отсутствий сотрудника
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany | null
      */
-    public function employeeDefault()
+    public function employeeDefault(): HasMany | null
     {
         return $this->hasMany(EmployeeDefaults::class);
+    }
+
+    /**
+     * Получить полное имя (ФИО)
+     * @return string
+     */
+    public function fullName(): string
+    {
+        return "$this->last_name $this->first_name $this->patronymic";
     }
 
     /**
      * Является ли заместителем руководителя данный сотрудник
      * @return mixed
      */
-    public function isManager()
+    public function isManager(): mixed
     {
         return $this->appointment->is_manager;
     }
@@ -94,40 +111,40 @@ class Employee extends Model
      * Является ли Руководителем данный сотрудник
      * @return mixed
      */
-    public function isPrimaryManager()
+    public function isPrimaryManager(): mixed
     {
         return $this->appointment->is_primary_manager;
     }
+
 
     /**
      * Является ли сотрудник персоналом, который контролирует делопроизводство
      * @return mixed
      */
-    public function isControlManager()
+    public function isControlManager(): mixed
     {
         return $this->user->globalRoles->is_control_manager;
     }
 
     /**
      * Возвращает последнюю Акутальную причину отсутствия сотрудника
-     * @return EmployeeDefaults
+     * @return EmployeeDefaults|null
      */
-    public function lastDefault()
+    public function lastDefault(): EmployeeDefaults | null
     {
-        $employeeDefault = EmployeeDefaults::where('employee_id', $this->id)
-            ->where('toDate', '>=', date("Y-m-d"))->get()->last();
-        return $employeeDefault;
+        return EmployeeDefaults::where('employee_id', $this->id)
+            ->where('to_date', '>=', date("Y-m-d"))->get()->last();
     }
 
     /**
      * Находится ли сотрудник сейчас на работе
      * @return bool
      */
-    public function isOnWork()
+    public function isOnWork(): bool
     {
         $employeeDefault = $this->lastDefault();
         if ($employeeDefault == null) return true;
-        if ($employeeDefault['toDate'] >= date("Y-m-d")) return false;
+        if ($employeeDefault['to_date'] >= date("Y-m-d")) return false;
         return true;
     }
 
@@ -135,7 +152,7 @@ class Employee extends Model
      *
      * @return bool
      */
-    public function isAlwaysDefault()
+    public function isAlwaysDefault(): bool
     {
         if (!$this->isOnWork()) {
             return $this->lastDefault()->isAlways();
@@ -148,7 +165,7 @@ class Employee extends Model
      * @return bool
      *
      */
-    public function isBusy()
+    public function isBusy(): bool
     {
         return $this->user != null;
     }

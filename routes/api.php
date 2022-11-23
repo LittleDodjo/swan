@@ -1,15 +1,13 @@
 <?php
 
-
-use App\Http\Controllers\Api\BaseController\Departments\DepartmentController;
-use App\Http\Controllers\Api\BaseController\Departments\DepartmentDecencyController;
+use App\Http\Controllers\Api\BaseController\Departments\DepartmentsDependencyController;
 use App\Http\Controllers\Api\BaseController\Employee\AppointmentController;
 use App\Http\Controllers\Api\BaseController\Employee\EmployeeController;
 use App\Http\Controllers\Api\BaseController\Employee\EmployeeDefaultsController;
 use App\Http\Controllers\Api\BaseController\Employee\EmployeeDependencyController;
 use App\Http\Controllers\Api\BaseController\Employee\ReasonController;
-use App\Http\Controllers\Api\BaseController\Managements\ManagmentController;
-use App\Http\Controllers\Api\BaseController\Managements\ManagementDecencyController;
+use App\Http\Controllers\Api\BaseController\Managements\ManagementController;
+use App\Http\Controllers\Api\BaseController\Managements\ManagementsDependencyController;
 use App\Http\Controllers\Api\BaseController\OrganizationController;
 use App\Http\Controllers\Api\BaseController\User\AuthController;
 use App\Http\Controllers\Api\BaseController\User\UserRolesController;
@@ -27,52 +25,37 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'user'
-], function ($router) {
+Route::group(['prefix' => 'user'], function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
 });
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'role'
-], function ($router) {
-    Route::post('/update', [UserRolesController::class, 'updateRole']);
+Route::group(['prefix' => 'role'], function () {
+    Route::post('/update/{user}', [UserRolesController::class, 'updateRole'])
+        ->missing(fn() => response(['message' => 'Такая учетная запись не найдена'], 404));
+    Route::post('/confirm/{user}', [UserRolesController::class, 'confirmUser'])
+        ->missing(fn() => response(['message' => 'Такая учетная запись не найдена'], 404));
 });
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'defaults',
-], function ($router) {
+Route::group(['prefix' => 'defaults',], function () {
     Route::post('/{reason}', [EmployeeDefaultsController::class, 'assignDefault'])
-        ->missing(function () {
-            return response(['message' => 'Такая причина не найдена'], 404);
-        });
+        ->missing(fn() => response(['message' => 'Такая причина не найдена'], 404));
     Route::delete('/{default}', [EmployeeDefaultsController::class, 'cancelDefault'])
-        ->missing(function () {
-            return response(['Не найдено отсутствия сотрудника'], 404);
-        });
+        ->missing(fn() => response(['Не найдено отсутствия сотрудника'], 404));
     Route::get('/{employee}', [EmployeeDefaultsController::class, 'viewDefault'])
-        ->missing(function () {
-            return response(['Такой сотрудник не найден'], 404);
-        });;
+        ->missing(fn() => response(['Такой сотрудник не найден'], 404));
 });
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'depency'
-], function($route){
+Route::group(['prefix' => 'dependency'], function ($route) {
     Route::apiResource('employees', EmployeeDependencyController::class)
         ->missing(fn() => response(['message' => 'Не найдена зависимость'], 404));
 
-    Route::apiResource('departament', DepartmentDecencyController::class)
+    Route::apiResource('departments', DepartmentsDependencyController::class)
         ->missing(fn() => response(['message' => 'Не найдена зависимость'], 404));
 
-    Route::apiResource('managment', ManagementDecencyController::class)
+    Route::apiResource('managements', ManagementsDependencyController::class)
         ->missing(fn() => response(['message' => 'Не найдена зависимость'], 404));
 });
 
@@ -80,17 +63,16 @@ Route::apiResource('organization', OrganizationController::class)
     ->missing(fn() => response(['message' => "Такая организация не найдена"], 404));
 
 Route::apiResource('reason', ReasonController::class)
-    ->missing(fn () => response(['message' => 'Такая причина не найдена'], 404));
+    ->missing(fn() => response(['message' => 'Такая причина не найдена'], 404));
 
 Route::apiResource('appointment', AppointmentController::class)
-    ->missing(fn () => response(['message' => 'Такая должность не найдена'], 404));
+    ->missing(fn() => response(['message' => 'Такая должность не найдена'], 404));
 
 Route::apiResource('employee', EmployeeController::class)
-    ->missing(fn () => response(['message' => 'Такой сотрудник не найден'], 404));
+    ->missing(fn() => response(['message' => 'Такой сотрудник не найден'], 404));
 
-
-
-
+Route::apiResource('management', ManagementController::class)
+    ->missing(fn() => response(['message' => 'Управление не найдено'], 404));
 
 
 
@@ -111,35 +93,35 @@ Route::apiResource('employee', EmployeeController::class)
 //    Route::get('/all/special', [EmployeeController::class, 'viewAllSpecial']);
 //});
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'managment',
-], function ($router) {
-    Route::post('/create', [ManagmentController::class, 'newManagment']);
-    Route::delete('/delete/{id}', [ManagmentController::class, 'deleteManagment']);
-    Route::get('/view/{id}', [ManagmentController::class, 'viewManagment']);
-    Route::get('/view', [ManagmentController::class, 'viewAllManagments']);
-    Route::patch('/change/{id}/employee/depends', [ManagmentController::class, 'changeEmloyeeDepends']);
-    Route::patch('/change/{id}/employee/manager', [ManagmentController::class, 'changeEmployeeManager']);
-
-});
-
-
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'departament',
-], function ($router) {
-    Route::post('/create', [DepartmentController::class, 'newDepartament']);
-    Route::post('/delete/{id}', [DepartmentController::class, 'deleteDepartament']);
-    Route::get('/view', [DepartmentController::class, 'viewAllDepartaments']);
-    Route::get('/view/{id}', [DepartmentController::class, 'viewDepartament']);
-    Route::get('/employees/{id}', [DepartmentController::class, 'viewEmployees']);
-    Route::post('/assign/{id}', [DepartmentController::class, 'assignNewEmployee']);
-    Route::post('/assign/{id}/remove', [DepartmentController::class, 'removeAssign']);
-    Route::patch('/update/{id}/manager', [DepartmentController::class, 'updateManager']);
-    Route::patch('/update/{id}/primary', [DepartmentController::class, 'updatePrimaryManager']);
-    Route::patch('/update/{id}/depency', [DepartmentController::class, 'updateDepency']);
-    Route::patch('/update/{id}/caption', [DepartmentController::class, 'updateCaption']);
-    Route::patch('/update/{id}/short', [DepartmentController::class, 'updateShortName']);
-    Route::patch('/update/{id}/code', [DepartmentController::class, 'updateCode']);
-});
+//Route::group([
+//    'middleware' => 'api',
+//    'prefix' => 'managment',
+//], function ($router) {
+//    Route::post('/create', [ManagmentController::class, 'newManagment']);
+//    Route::delete('/delete/{id}', [ManagmentController::class, 'deleteManagment']);
+//    Route::get('/view/{id}', [ManagmentController::class, 'viewManagment']);
+//    Route::get('/view', [ManagmentController::class, 'viewAllManagments']);
+//    Route::patch('/change/{id}/employee/depends', [ManagmentController::class, 'changeEmloyeeDepends']);
+//    Route::patch('/change/{id}/employee/manager', [ManagmentController::class, 'changeEmployeeManager']);
+//
+//});
+//
+//
+//Route::group([
+//    'middleware' => 'api',
+//    'prefix' => 'departament',
+//], function ($router) {
+//    Route::post('/create', [DepartmentController::class, 'newDepartament']);
+//    Route::post('/delete/{id}', [DepartmentController::class, 'deleteDepartament']);
+//    Route::get('/view', [DepartmentController::class, 'viewAllDepartaments']);
+//    Route::get('/view/{id}', [DepartmentController::class, 'viewDepartament']);
+//    Route::get('/employees/{id}', [DepartmentController::class, 'viewEmployees']);
+//    Route::post('/assign/{id}', [DepartmentController::class, 'assignNewEmployee']);
+//    Route::post('/assign/{id}/remove', [DepartmentController::class, 'removeAssign']);
+//    Route::patch('/update/{id}/manager', [DepartmentController::class, 'updateManager']);
+//    Route::patch('/update/{id}/primary', [DepartmentController::class, 'updatePrimaryManager']);
+//    Route::patch('/update/{id}/depency', [DepartmentController::class, 'updateDepency']);
+//    Route::patch('/update/{id}/caption', [DepartmentController::class, 'updateCaption']);
+//    Route::patch('/update/{id}/short', [DepartmentController::class, 'updateShortName']);
+//    Route::patch('/update/{id}/code', [DepartmentController::class, 'updateCode']);
+//});

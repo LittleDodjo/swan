@@ -13,6 +13,7 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
  * @property mixed globalRoles
  * @property mixed|string password
  * @property mixed id
+ * @property bool|mixed is_confirmed
  * @method static find(mixed $user_id)
  */
 class User extends Authenticatable implements JWTSubject

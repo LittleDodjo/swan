@@ -19,7 +19,7 @@ class EmployeeDependencyController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
-//        $this->authorizeResource(EmployeeDepency::class, 'employees');
+//        $this->authorizeResource(EmployeeDependency::class, 'employees');
     }
 
     /**
@@ -40,7 +40,7 @@ class EmployeeDependencyController extends Controller
         if ($employee == null) {
             return response(['message' => 'Такой сотрудник не найден'], 404);
         }
-        return response(new EmployeeDependencyResource($employee->employeeDepency));
+        return response(new EmployeeDependencyResource($employee->employeeDependency));
     }
 
     /**
@@ -62,10 +62,8 @@ class EmployeeDependencyController extends Controller
         if (!$this->checkRank($dependsEmployee->rank, $employeePrimary->rank)) {
             return response(['message' => 'Нельзя выполнить привязку'], 422);
         }
-        $dependsEmployee->employeeDepency->update(['employee_id' => $employeePrimary->id]);
-        return response([
-            'message' => 'Зависимость успешно создана',
-        ], 221);
+        $dependsEmployee->employeeDependency->update(['employee_id' => $employeePrimary->id]);
+        return response(['message' => 'Зависимость успешно создана',], 201);
     }
 
     /**
@@ -86,7 +84,7 @@ class EmployeeDependencyController extends Controller
      * @param EmployeeDependency $employeeDepency
      * @return Response
      */
-    public function update(EmployeeDecencyRequest $request, EmployeeDependency $employeeDepency): Response
+    public function update(EmployeeDecencyRequest $request, EmployeeDependency $employee): Response
     {
         $dependsEmployee = Employee::find($request->employee_id); // Зависимый сотрудник
         $employeePrimary = Employee::find($request->employee_depends_id); // Ведомый сотрудник
@@ -99,19 +97,19 @@ class EmployeeDependencyController extends Controller
         if (!$this->checkRank($dependsEmployee->rank, $employeePrimary->rank)) {
             return response(['message' => 'Нельзя выполнить привязку'], 422);
         }
-        $dependsEmployee->employeeDepency->update(['employee_id' => $employeePrimary->id]);
+        $dependsEmployee->employeeDependency->update(['employee_id' => $employeePrimary->id]);
         return response(['message' => 'Зависимость успешно изменена']);
     }
 
     /**
      * Удалить зависимость сотрудника к сотруднику
      *
-     * @param EmployeeDependency $employeeDepency
+     * @param EmployeeDependency $employeeDependency
      * @return Response response
      */
-    public function destroy(EmployeeDependency $employeeDepency): Response
+    public function destroy(EmployeeDependency $employee): Response
     {
-        $employeeDepency->update(['employee_id' => null]);
+        $employee->update(['employee_id' => null]);
         return response(['message' => 'Зависимость удалена']);
     }
 
