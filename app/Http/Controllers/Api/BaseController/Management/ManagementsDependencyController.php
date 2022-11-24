@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Http\Controllers\Api\BaseController\Managements;
+namespace App\Http\Controllers\Api\BaseController\Management;
 
 use App\Http\Controllers\Controller;
+use App\Models\BaseModels\Managements\Management;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ManagementsDependencyController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Отобразить зависимости управлений
      *
      * @return Response
      */
     public function index(): Response
     {
-        //
+        return \response(Management::all());
     }
 
     /**
@@ -32,10 +33,10 @@ class ManagementsDependencyController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param Management $management
      * @return Response
      */
-    public function show(int $id): Response
+    public function show(Management $management): Response
     {
         //
     }

@@ -7,18 +7,44 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property mixed department
+ */
 class DepartmentsToManagement extends Model
 {
     use HasFactory;
 
+    protected $table = 'departments_to_managements';
 
     protected $fillable = [
         'department_id',
         'management_id',
     ];
 
+    /**
+     * Возвращает отдел принадлежащий управлению ( один к одному )
+     * @return BelongsTo
+     */
     public function department(): BelongsTo
     {
         return $this->belongsTo(Department::class);
+    }
+
+    /**
+     * Возвращает руководителя отдела
+     * @return mixed
+     */
+    public function primaryManager(): mixed
+    {
+        return $this->department->employeePrimaryManager;
+    }
+
+    /**
+     * Возвращает заместителя руководителя отдела
+     * @return mixed
+     */
+    public function manager(): mixed
+    {
+        return $this->department->employeeManager;
     }
 }

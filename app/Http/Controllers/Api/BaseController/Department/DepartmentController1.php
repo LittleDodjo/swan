@@ -1,60 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\Api\BaseController\Departments;
+namespace App\Http\Controllers\Api\BaseController\Department;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Api\BaseResource\AllDepartmentResource;
 use App\Http\Resources\Api\BaseResource\AllDepartmentResourceCollection;
-use App\Http\Resources\Api\BaseResource\Department\DepartmentEmployeesResource;
 use App\Http\Resources\Api\BaseResource\Department\DepartmentResource;
-use App\Http\Resources\Api\BaseResource\Employee\EmployeeResource;
-use App\Http\Resources\Api\BaseResource\Pivots\DepartmentsToManagementResourceCollection;
 use App\Http\Resources\Api\BaseResource\Pivots\EmployeesToDepartmentResource;
 use App\Http\Resources\Api\BaseResource\Pivots\EmployeesToDepartmentResourceCollection;
 use App\Models\BaseModels\AllDepartment;
-use App\Models\BaseModels\Departments\Department;
-use App\Models\BaseModels\Departments\EmployeeDepartment;
 use App\Models\BaseModels\Employees\Employee;
-use App\Models\BaseModels\Managements\Management;
-use App\Models\BaseModels\Pivots\DepartmentsToManagement;
-use App\Models\BaseModels\Pivots\EmployeeDepartamentsToEmployee;
-use App\Models\BaseModels\Pivots\EmployeesToDepartment;
-use App\Models\BaseModels\Pivots\EmployeesToEmployeeDepartment;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Arr;
 
 
-class DepartmentController extends Controller
+class DepartmentController1 extends Controller
 {
-
-    public $config = [
-        'mdep' => [
-            'model' => Department::class,
-            'depends_model' => Management::class,
-            'depends_key' => 'managment_depends',
-            'pivot_model' => DepartmentsToManagement::class,
-            'pivot_key' => 'managment_id',
-            'departament_key' => 'departament_id',
-            'employees_model' => EmployeesToDepartment::class,
-            'employees_key' => 'departament_id',
-        ],
-        'edep' => [
-            'model' => EmployeeDepartment::class,
-            'depends_model' => Employee::class,
-            'depends_key' => 'employee_depends',
-            'pivot_model' => EmployeeDepartamentsToEmployee::class,
-            'pivot_key' => 'employee_id',
-            'departament_key' => 'employee_departament_id',
-            'employees_model' => EmployeesToEmployeeDepartment::class,
-            'employees_key' => 'employee_departament_id',
-        ],
-    ];
 
     public function __construct()
     {
-//        $this->middleware('auth:api');
+        $this->middleware('auth:api');
     }
 
     /**

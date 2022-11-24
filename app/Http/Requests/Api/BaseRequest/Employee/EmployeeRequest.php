@@ -29,10 +29,10 @@ class EmployeeRequest extends FormRequest
             'patronymic' => 'string|min:3|max:20',
             'phone_number' => 'required|string',
             'appointment_id' => 'required|integer',
-            'depency_id' => 'integer',
             'organization_id' => 'required',
             'email' => 'required|email|unique:employees,email',
             'cabinet' => 'required|string',
+            'rank' => 'integer|min:1|max:7',
             'sex' => 'boolean'
         ];
     }
@@ -55,7 +55,6 @@ class EmployeeRequest extends FormRequest
             'phone_number.string' => 'Ошибка - неверный формат номера телефона',
             'appointment_id.required' => 'Должность нужно указать обязательно',
             'appointment_id.integer' => 'Ошибка указания должности',
-            'depency_id.integer' => 'Ошибка указания зависимости',
             'email.required' => 'Необходимо указать почту',
             'email.email' => 'Неверный формат почты',
             'email.unique' => 'Такая почта уже существует в системе',

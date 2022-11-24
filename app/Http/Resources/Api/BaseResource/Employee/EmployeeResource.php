@@ -48,7 +48,7 @@ class EmployeeResource extends JsonResource
             "rank" => $this->rank,
             "sex" => $this->sex,
             "cabinet" => $this->cabinet,
-            "dependency" => new EmployeeDependencyResource($this->employeeDependency),
+//            "dependency" => new EmployeeDependencyResource($this->employeeDependency),
             "appointment" => new AppointmentResource($this->appointment),
             "organization" => new OrganizationResource($this->organization),
             "default" => new ShortEmployeeDefaultResource( $this->lastDefault()),

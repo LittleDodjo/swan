@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api\BaseController\Departments;
+namespace App\Http\Controllers\Api\BaseController\Department;
 
 use App\Http\Controllers\Controller;
+use App\Models\BaseModels\Managements\Management;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -15,7 +16,7 @@ class DepartmentsDependencyController extends Controller
      */
     public function index(): Response
     {
-        //
+
     }
 
     /**
@@ -26,7 +27,7 @@ class DepartmentsDependencyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return \response([]);
     }
 
     /**
@@ -37,7 +38,7 @@ class DepartmentsDependencyController extends Controller
      */
     public function show(int $id): Response
     {
-        //
+        return \response([]);
     }
 
     /**
@@ -60,6 +61,6 @@ class DepartmentsDependencyController extends Controller
      */
     public function destroy(int $id): Response
     {
-        //
+        return \response([]);
     }
 }

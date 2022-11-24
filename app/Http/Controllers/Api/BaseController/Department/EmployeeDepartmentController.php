@@ -1,20 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api\BaseController\Managements;
+namespace App\Http\Controllers\Api\BaseController\Department;
 
 use App\Http\Controllers\Controller;
-use App\Models\BaseModels\Managements\Management;
+use App\Models\BaseModels\Departments\EmployeeDepartment;
 use Illuminate\Http\Request;
 
-class ManagementController extends Controller
+class EmployeeDepartmentController extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-        $this->authorizeResource(Management::class, 'management');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -28,7 +21,7 @@ class ManagementController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -39,10 +32,10 @@ class ManagementController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\BaseModels\Managements\Management $management
+     * @param  \App\Models\BaseModels\Departments\EmployeeDepartment  $employeeDepartment
      * @return \Illuminate\Http\Response
      */
-    public function show(Management $management)
+    public function show(EmployeeDepartment $employeeDepartment)
     {
         //
     }
@@ -50,11 +43,11 @@ class ManagementController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\BaseModels\Managements\Management $management
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\BaseModels\Departments\EmployeeDepartment  $employeeDepartment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Management $management)
+    public function update(Request $request, EmployeeDepartment $employeeDepartment)
     {
         //
     }
@@ -62,10 +55,10 @@ class ManagementController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\BaseModels\Managements\Management $management
+     * @param  \App\Models\BaseModels\Departments\EmployeeDepartment  $employeeDepartment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Management $management)
+    public function destroy(EmployeeDepartment $employeeDepartment)
     {
         //
     }

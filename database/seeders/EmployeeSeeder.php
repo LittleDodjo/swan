@@ -42,6 +42,32 @@ class EmployeeSeeder extends Seeder
             'rank' => 2,
             'employee_dependency_id' => $depency->id,
         ]);
+        $depency = EmployeeDependency::create();
+        Employee::create([
+            'organization_id' => 1,
+            'appointment_id' => 1,
+            'first_name' => "Заместитель",
+            'last_name' => "Министра",
+            'patronymic' => "Владимирович",
+            'phone_number' => "211-11-11",
+            'cabinet' => '42',
+            'email' => "zam@bk.ru",
+            'rank' => 5,
+            'employee_dependency_id' => $depency->id,
+        ]);
+        $depency = EmployeeDependency::create();
+        Employee::create([
+            'organization_id' => 1,
+            'appointment_id' => 1,
+            'first_name' => "Щека",
+            'last_name' => "Начальник",
+            'patronymic' => "Управления",
+            'phone_number' => "211-11-11",
+            'cabinet' => '42',
+            'email' => "naxh@bk.ru",
+            'rank' => 4,
+            'employee_dependency_id' => $depency->id,
+        ]);
 
 
 

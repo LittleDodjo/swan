@@ -33,9 +33,9 @@ class AllDepartmentResource extends JsonResource
             $department = EmployeeDepartment::find($this->employee_department_id);
             $type = 'edep';
         }
-        $departmentResource = new ShortDepartmentResource($department);
+        $department = new ShortDepartmentResource($department);
         return [
-            'department' => $departmentResource,
+            'department' => $department,
             'type' => $type,
         ];
     }

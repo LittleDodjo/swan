@@ -6,6 +6,7 @@ use App\Models\BaseModels\Organization;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use JetBrains\PhpStorm\Pure;
 
 class OrganizationPolicy
 {
@@ -38,21 +39,21 @@ class OrganizationPolicy
      * Determine whether the user can create models.
      *
      * @param User $user
-     * @return Response|bool
+     * @return bool
      */
-    public function create(User $user): Response|bool
+    #[Pure] public function create(User $user): bool
     {
-        return $user->globalRoles->is_root;
+        return $user->isRoot();
     }
 
 
     /**
      * @param User $user
-     * @return mixed
+     * @return bool
      */
-    public function update(User $user): mixed
+    #[Pure] public function update(User $user): bool
     {
-        return $user->globalRoles->is_root;
+        return $user->isRoot();
     }
 
     /**
@@ -60,10 +61,10 @@ class OrganizationPolicy
      *
      * @param User $user
      * @param Organization $organization
-     * @return Response|bool
+     * @return bool
      */
-    public function delete(User $user, Organization $organization): Response|bool
+    #[Pure] public function delete(User $user, Organization $organization): bool
     {
-        return $user->globalRoles->is_root;
+        return $user->isRoot();
     }
 }

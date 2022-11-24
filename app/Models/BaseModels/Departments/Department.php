@@ -18,6 +18,7 @@ class Department extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'management_depends',
         'employee_manager_id',
         'employee_primary_manager_id',
@@ -26,22 +27,22 @@ class Department extends Model
         'display_number',
     ];
 
-    public function managementDepends(): HasOne
+    public function managementDepends(): HasOne | null
     {
         return $this->hasOne(Management::class);
     }
 
-    public function employeeManager(): HasOne
+    public function employeeManager(): HasOne | null
     {
         return $this->hasOne(Employee::class);
     }
 
-    public function employeePrimaryManager(): HasOne
+    public function employeePrimaryManager(): HasOne | null
     {
         return $this->hasOne(Employee::class);
     }
 
-    public function employees(): HasMany
+    public function employees(): HasMany | null
     {
         return $this->hasMany(EmployeesToDepartment::class);
     }

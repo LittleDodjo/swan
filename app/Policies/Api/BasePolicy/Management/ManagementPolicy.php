@@ -5,6 +5,8 @@ namespace App\Policies\Api\BasePolicy\Management;
 use App\Models\BaseModels\Managements\Management;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
+use JetBrains\PhpStorm\Pure;
 
 class ManagementPolicy
 {
@@ -13,58 +15,58 @@ class ManagementPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(User $user): Response|bool
     {
-        return true;
+        return $user->is_confirmed;
     }
 
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\BaseModels\Managements\Management  $management
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Management $management
+     * @return Response|bool
      */
-    public function view(User $user, Management $management)
+    public function view(User $user, Management $management): Response|bool
     {
-        return true;
+        return $user->is_confirmed;
     }
 
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return bool
      */
-    public function create(User $user)
+    #[Pure] public function create(User $user): bool
     {
-        return true;
+        return $user->isAdmin() || $user->isRoot();
     }
 
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\BaseModels\Managements\Management  $management
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Management $management
+     * @return Response|bool
      */
-    public function update(User $user, Management $management)
+    #[Pure] public function update(User $user, Management $management): Response|bool
     {
-        return true;
+        return $user->isAdmin() || $user->isRoot();
     }
 
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\BaseModels\Managements\Management  $management
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param Management $management
+     * @return Response|bool
      */
-    public function delete(User $user, Management $management)
+    #[Pure] public function delete(User $user, Management $management): Response|bool
     {
-        return true;
+        return $user->isRoot();
     }
 }

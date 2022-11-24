@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Api\BaseResource\Management;
 
-use App\Http\Resources\Api\BaseResource\Employee\ShortEmployeeResource;
+use App\Http\Resources\Api\BaseResource\Employee\SmallEmployeeResource;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -30,8 +30,8 @@ class ManagementResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'employee_depends' => new ShortEmployeeResource($this->employeeDepends),
-            'employee_manager' => new ShortEmployeeResource($this->employeeManager),
+            'employee_depends' => new SmallEmployeeResource($this->employeeDepends),
+            'employee_manager' => new SmallEmployeeResource($this->employeeManager),
             'caption' => $this->caption,
             'short_name' => $this->short_name,
         ];

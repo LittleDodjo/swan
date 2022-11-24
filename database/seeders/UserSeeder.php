@@ -19,7 +19,8 @@ class UserSeeder extends Seeder
     {
         $user = User::create([
             'login' => 'soave99',
-            'password' => Hash::make('123456')
+            'password' => Hash::make('123456'),
+            'is_confirmed' => true,
         ]);
         UserRoles::create([
             'user_id' => $user->id,
@@ -27,5 +28,6 @@ class UserSeeder extends Seeder
             'is_root' => true,
             'is_control_manager' => true,
         ]);
+
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\BaseController\Employee;
 
+use App\Http\Controllers\Api\BaseProvider\DependencyProvider;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\BaseRequest\Employee\EmployeeDecencyRequest;
 use App\Http\Resources\Api\BaseResource\Employee\EmployeeDependencyResource;
@@ -24,9 +25,9 @@ class EmployeeDependencyController extends Controller
 
     /**
      * Посмотреть все зависимости сотрудника
-     *
      * @param Request $request
      * @return Response
+     * @noinspection PhpPossiblePolymorphicInvocationInspection
      */
     public function index(Request $request): Response
     {
@@ -59,7 +60,7 @@ class EmployeeDependencyController extends Controller
         if ($employeePrimary->is($dependsEmployee)) {
             return response(['message' => 'Нельзя установить зависимость самому сотруднику'], 422);
         }
-        if (!$this->checkRank($dependsEmployee->rank, $employeePrimary->rank)) {
+        if (!DependencyProvider::checkEmployeeDependency($dependsEmployee->rank, $employeePrimary->rank)) {
             return response(['message' => 'Нельзя выполнить привязку'], 422);
         }
         $dependsEmployee->employeeDependency->update(['employee_id' => $employeePrimary->id]);
@@ -81,7 +82,7 @@ class EmployeeDependencyController extends Controller
      * Изменить зависимость сотрудника к сотруднику
      *
      * @param EmployeeDecencyRequest $request
-     * @param EmployeeDependency $employeeDepency
+     * @param EmployeeDependency $employee
      * @return Response
      */
     public function update(EmployeeDecencyRequest $request, EmployeeDependency $employee): Response
@@ -94,7 +95,7 @@ class EmployeeDependencyController extends Controller
         if ($employeePrimary->is($dependsEmployee)) {
             return response(['message' => 'Нельзя установить зависимость самому сотруднику'], 422);
         }
-        if (!$this->checkRank($dependsEmployee->rank, $employeePrimary->rank)) {
+        if (!DependencyProvider::checkEmployeeDependency($dependsEmployee->rank, $employeePrimary->rank)) {
             return response(['message' => 'Нельзя выполнить привязку'], 422);
         }
         $dependsEmployee->employeeDependency->update(['employee_id' => $employeePrimary->id]);
@@ -104,31 +105,12 @@ class EmployeeDependencyController extends Controller
     /**
      * Удалить зависимость сотрудника к сотруднику
      *
-     * @param EmployeeDependency $employeeDependency
+     * @param EmployeeDependency $employee
      * @return Response response
      */
     public function destroy(EmployeeDependency $employee): Response
     {
         $employee->update(['employee_id' => null]);
         return response(['message' => 'Зависимость удалена']);
-    }
-
-
-    /**
-     * Говнокод который потом исправлю... когда-то...
-     * @param $employeeDependsRank
-     * @param $employeePrimaryRank
-     * @return bool
-     */
-    private function checkRank($employeeDependsRank, $employeePrimaryRank): bool
-    {
-        if ($employeeDependsRank == 7) return false;
-        if ($employeeDependsRank == 6 && $employeePrimaryRank == 7) return true;
-        if ($employeeDependsRank == 5 && $employeePrimaryRank == 7) return true;
-        if ($employeeDependsRank == 4 && ($employeePrimaryRank == 5 || $employeePrimaryRank == 6)) return true;
-        if ($employeeDependsRank == 3 && ($employeePrimaryRank == 4 || $employeePrimaryRank == 5 || $employeePrimaryRank == 6 || $employeePrimaryRank == 7)) return true;
-        if ($employeeDependsRank == 2 && $employeePrimaryRank == 3) return true;
-        if ($employeeDependsRank == 1 && ($employeePrimaryRank == 2 || $employeePrimaryRank == 3)) return true;
-        return false;
     }
 }

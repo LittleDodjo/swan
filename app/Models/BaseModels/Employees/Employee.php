@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property mixed patronymic
  * @property mixed first_name
  * @property mixed last_name
+ * @property mixed rank
  */
 class Employee extends Model
 {

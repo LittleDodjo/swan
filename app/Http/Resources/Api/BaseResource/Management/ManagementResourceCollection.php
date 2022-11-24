@@ -15,6 +15,9 @@ class ManagementResourceCollection extends ResourceCollection
      * @param  Request  $request
      * @return array|Arrayable|JsonSerializable
      */
+
+    public $collects = ManagementResource::class;
+
     public function toArray($request): array|JsonSerializable|Arrayable
     {
         return parent::toArray($request);

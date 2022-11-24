@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\BaseModels\Departments\Department;
+use App\Models\BaseModels\Departments\EmployeeDepartment;
 use App\Models\BaseModels\Employees\Appointment;
 use App\Models\BaseModels\Employees\Employee;
 use App\Models\BaseModels\Employees\EmployeeDefaults;
@@ -10,6 +12,7 @@ use App\Models\BaseModels\Employees\Reason;
 use App\Models\BaseModels\Managements\Management;
 use App\Models\BaseModels\Organization;
 use App\Models\User;
+use App\Policies\Api\BasePolicy\Department\DepartmentPolicy;
 use App\Policies\Api\BasePolicy\Employee\AppointmentPolicy;
 use App\Policies\Api\BasePolicy\Employee\EmployeeDefaultsPolicy;
 use App\Policies\Api\BasePolicy\Employee\EmployeeDependencyPolicy;
@@ -35,6 +38,8 @@ class AuthServiceProvider extends ServiceProvider
         Employee::class => EmployeePolicy::class,
         EmployeeDependency::class => EmployeeDependencyPolicy::class,
         Management::class => ManagementPolicy::class,
+        Department::class => DepartmentPolicy::class,
+        EmployeeDepartment::class => DepartmentPolicy::class,
     ];
 
     /**

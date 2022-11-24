@@ -3,10 +3,11 @@
 namespace App\Policies\Api\BasePolicy\Department;
 
 use App\Models\BaseModels\Departments\Department;
+use App\Models\BaseModels\Departments\EmployeeDepartment;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class DepartamentPolicy
+class DepartmentPolicy
 {
     use HandlesAuthorization;
 
@@ -18,7 +19,7 @@ class DepartamentPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -28,9 +29,9 @@ class DepartamentPolicy
      * @param  \App\Models\BaseModels\Departments\Department  $departament
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Department $departament)
+    public function view(User $user, Department | EmployeeDepartment $departament)
     {
-        //
+        return true;
     }
 
     /**
@@ -41,7 +42,7 @@ class DepartamentPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -51,9 +52,9 @@ class DepartamentPolicy
      * @param  \App\Models\BaseModels\Departments\Department  $departament
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Department $departament)
+    public function update(User $user, Department | EmployeeDepartment $departament)
     {
-        //
+        return true;
     }
 
     /**
@@ -63,32 +64,8 @@ class DepartamentPolicy
      * @param  \App\Models\BaseModels\Departments\Department  $departament
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Department $departament)
+    public function delete(User $user, Department | EmployeeDepartment $departament)
     {
-        //
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\BaseModels\Departments\Department  $departament
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function restore(User $user, Department $departament)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\BaseModels\Departments\Department  $departament
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function forceDelete(User $user, Department $departament)
-    {
-        //
+        return true;
     }
 }

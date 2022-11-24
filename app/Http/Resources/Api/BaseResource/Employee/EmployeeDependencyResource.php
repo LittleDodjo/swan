@@ -36,7 +36,7 @@ class EmployeeDependencyResource extends JsonResource
         return [
             'id' => $this->id,
             'employee_depends' => new ShortEmployeeResource(Employee::find($this->employee_id)),
-            'management_depends' => new ManagementResource($this->managementsDependency),
+            'management_depends' => new ManagementResource(Management::find($this->management_id)),
             'department_depends' => new DepartmentResource(Department::find($this->department_id)),
             'employee_department_depends' => new DepartmentEmployeesResource(EmployeeDepartment::find($this->employeeDepartmentDependency)),
         ];

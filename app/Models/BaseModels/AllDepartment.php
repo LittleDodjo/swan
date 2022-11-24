@@ -16,12 +16,12 @@ class AllDepartment extends Pivot
     ];
 
 
-    public function department(): HasOne
+    public function department(): HasOne | null
     {
         return $this->hasOne(Department::class);
     }
 
-    public function employeeDepartment(): HasOne
+    public function employeeDepartment(): HasOne | null
     {
         return $this->hasOne(EmployeeDepartment::class);
     }
