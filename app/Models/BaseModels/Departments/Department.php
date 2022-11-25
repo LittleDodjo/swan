@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @method static find(mixed $department_id)
+ * @property mixed management_depends
  */
 class Department extends Model
 {
@@ -19,7 +20,7 @@ class Department extends Model
 
     protected $fillable = [
         'id',
-        'management_depends',
+        'management_id',
         'employee_manager_id',
         'employee_primary_manager_id',
         'caption',
@@ -27,22 +28,38 @@ class Department extends Model
         'display_number',
     ];
 
-    public function managementDepends(): HasOne | null
+    /**
+     * Возвращает отношение к управлению (один к одному)
+     * @return HasOne|null
+     */
+    public function managementDepends(): HasOne|null
     {
         return $this->hasOne(Management::class);
     }
 
-    public function employeeManager(): HasOne | null
+    /**
+     * Возвращает заместителя руководителя
+     * @return HasOne|null
+     */
+    public function employeeManager(): HasOne|null
     {
         return $this->hasOne(Employee::class);
     }
 
-    public function employeePrimaryManager(): HasOne | null
+    /**
+     * Возвращает руководителя отделения
+     * @return HasOne|null
+     */
+    public function employeePrimaryManager(): HasOne|null
     {
         return $this->hasOne(Employee::class);
     }
 
-    public function employees(): HasMany | null
+    /**
+     * Возвращает сотрудников отделения
+     * @return HasMany|null
+     */
+    public function employees(): HasMany|null
     {
         return $this->hasMany(EmployeesToDepartment::class);
     }

@@ -4,15 +4,6 @@
 namespace App\Http\Controllers\Api\BaseProvider;
 
 
-use App\Models\BaseModels\Departments\Department;
-use App\Models\BaseModels\Departments\EmployeeDepartment;
-use App\Models\BaseModels\Employees\Employee;
-use App\Models\BaseModels\Managements\Management;
-use App\Models\BaseModels\Pivots\DepartmentsToManagement;
-use App\Models\BaseModels\Pivots\EmployeeDepartamentsToEmployee;
-use App\Models\BaseModels\Pivots\EmployeesToDepartment;
-use App\Models\BaseModels\Pivots\EmployeesToEmployeeDepartment;
-
 /**
  * Класс для проверки завимостей сотрудников, управлений и отделов
  * @package App\Http\Controllers\Api\BaseProvider

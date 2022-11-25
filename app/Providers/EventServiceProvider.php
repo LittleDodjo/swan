@@ -2,10 +2,15 @@
 
 namespace App\Providers;
 
+use App\Models\BaseModels\Departments\Department;
+use App\Models\BaseModels\Employees\Employee;
+use App\Models\BaseModels\Pivots\EmployeesToDepartment;
+use App\Observers\BaseObserver\Department\DepartmentObserver;
+use App\Observers\BaseObserver\Employee\EmployeeObserver;
+use App\Observers\BaseObserver\Employee\EmployeesToDepartmentObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -27,7 +32,9 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Department::observe(DepartmentObserver::class);
+        Employee::observe(EmployeeObserver::class);
+        EmployeesToDepartment::observe(EmployeesToDepartmentObserver::class);
     }
 
     /**

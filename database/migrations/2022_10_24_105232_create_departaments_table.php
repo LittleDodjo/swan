@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("management_depends");
+            $table->unsignedBigInteger("management_id");
             $table->unsignedBigInteger("employee_manager_id")->nullable();
             $table->unsignedBigInteger("employee_primary_manager_id");
-            $table->foreign("management_depends")->references("id")->on("managements");
+            $table->foreign("management_id")->references("id")->on("managements");
             $table->foreign("employee_manager_id")->references("id")->on("employees");
             $table->foreign("employee_primary_manager_id")->references("id")->on("employees");
             $table->string("caption");

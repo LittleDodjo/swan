@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class EmployeesToDepartament
+ * @property mixed employee
  * @package App\Models\BaseModels\Pivots
  * Модель сотрудников отдела
  */
@@ -25,4 +26,10 @@ class EmployeesToDepartment extends Model
     {
         return $this->belongsTo(Employee::class);
     }
+
+    public function employeeDependency()
+    {
+        return $this->employee->employeeDependency;
+    }
+
 }
