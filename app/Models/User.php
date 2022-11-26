@@ -2,12 +2,20 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\BaseModels\Employees\Employee;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
+/**
+ * @property mixed globalRoles
+ * @property mixed|string password
+ * @property mixed id
+ * @property bool|mixed is_confirmed
+ * @method static find(mixed $user_id)
+ */
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
@@ -18,13 +26,9 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
-        'first_name',
-        'last_name',
-        'patronymic',
         'login',
-        'email',
-        'phone',
-        'password',
+        'is_confirmed',
+        'user_roles_id',
     ];
 
     /**
@@ -47,7 +51,57 @@ class User extends Authenticatable implements JWTSubject
     ];
 
 
-    public function getJWTIdentifier()
+    /**
+     * Отношение учетной записи к сотруднику (Один к одному)
+     * @return HasOne
+     */
+    public function employee(): HasOne
+    {
+        return $this->hasOne(Employee::class);
+    }
+
+    /**
+     *
+     * Отношение учетной записи к глобальным ролям (Один к одному)
+     * @return HasOne
+     */
+    public function globalRoles(): HasOne
+    {
+        return $this->hasOne(UserRoles::class);
+    }
+
+
+    /**
+     * Проверка, является ли учетная запись суперпользователем
+     * @return bool
+     */
+    public function isRoot(): bool
+    {
+        return (bool)$this->globalRoles->is_root;
+    }
+
+    /**
+     * Проверка, является ли учетная запись контролирующего пользователя
+     * @return bool
+     */
+    public function isControlManager(): bool
+    {
+        return (bool)$this->globalRoles->is_control_manager;
+    }
+
+    /**
+     * Проверка является ли учетная запись администратором
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return (bool)$this->globalRoles->is_admin;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJWTIdentifier(): mixed
     {
         return $this->getKey();
     }
@@ -57,7 +111,7 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return array
      */
-    public function getJWTCustomClaims()
+    public function getJWTCustomClaims(): array
     {
         return [];
     }
