@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\BaseModel\Employee\Employee;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
@@ -12,6 +15,7 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
  * @property mixed|string password
  * @property mixed id
  * @property bool|mixed is_confirmed
+ * @property bool|mixed $role
  * @method static find(mixed $user_id)
  */
 class User extends Authenticatable implements JWTSubject
@@ -26,7 +30,6 @@ class User extends Authenticatable implements JWTSubject
     protected $fillable = [
         'login',
         'is_confirmed',
-        'user_roles_id',
     ];
 
     /**
@@ -65,5 +68,22 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims(): array
     {
         return [];
+    }
+
+    /**
+     * Роли пользователя
+     * @return HasOne
+     */
+    public function role(): HasOne
+    {
+        return $this->hasOne(UserRole::class);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function employee(): HasOne
+    {
+        return $this->hasOne(Employee::class);
     }
 }

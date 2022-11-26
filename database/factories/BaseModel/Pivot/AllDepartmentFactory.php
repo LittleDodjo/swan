@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\BaseModel\Pivot;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\BaseModel\Pivot\AllDepartment>
  */
-class UserFactory extends Factory
+class AllDepartmentFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +17,7 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'login' => fake()->word(),
-            'password' => '123456',
+            //
         ];
     }
 }

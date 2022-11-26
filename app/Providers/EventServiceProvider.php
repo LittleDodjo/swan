@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\BaseModel\Department\Department;
+use App\Models\BaseModel\Management\Management;
+use App\Observers\BaseObserver\Department\DepartmentObserver;
+use App\Observers\BaseObserver\Management\ManagementObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -26,6 +30,8 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Management::observe(ManagementObserver::class);
+        Department::observe(DepartmentObserver::class);
     }
 
     /**

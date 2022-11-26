@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\UserRole;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,12 +14,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('user_roles', function (Blueprint $table) {
             $table->id();
-            $table->string("login")->unique();
-            $table->string("password");
-            $table->boolean("is_confirmed")->default(false);
-            $table->rememberToken();
+            $table->foreignIdFor(User::class);
+            $table->boolean('is_root')->default(false);
+            $table->boolean('is_admin')->default(false);
+            $table->boolean('is_control')->default(false);
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('user_roles');
     }
 };
