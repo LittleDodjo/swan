@@ -17,8 +17,8 @@ class AppointmentFactory extends Factory
     public function definition()
     {
         return [
-            'name' => fake()->name,
-            'short' => fake()->name(),
+            'caption' => fake()->name,
+            'short_name' => fake()->name(),
         ];
     }
 }

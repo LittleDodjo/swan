@@ -11,6 +11,7 @@ use JsonSerializable;
 /**
  * @property mixed short_name
  * @property mixed name
+ * @property mixed $id
  */
 class OrganizationResource extends JsonResource
 {
@@ -20,10 +21,11 @@ class OrganizationResource extends JsonResource
      * @param  Request  $request
      * @return array|Arrayable|JsonSerializable
      */
-    #[ArrayShape(['name' => "mixed", 'short_name' => "mixed"])]
+    #[ArrayShape(['id' => "mixed", 'name' => "mixed", 'short_name' => "mixed"])]
     public function toArray($request): array|JsonSerializable|Arrayable
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'short_name' => $this->short_name,
         ];

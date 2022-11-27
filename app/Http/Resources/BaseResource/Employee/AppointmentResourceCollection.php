@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\BaseResource\Department;
+namespace App\Http\Resources\BaseResource\Employee;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class EmployeeDepartmentResourceCollection extends ResourceCollection
+class AppointmentResourceCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
@@ -12,8 +12,6 @@ class EmployeeDepartmentResourceCollection extends ResourceCollection
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public $collects = ShortEmployeeDepartmentResource::class;
-
     public function toArray($request)
     {
         return parent::toArray($request);

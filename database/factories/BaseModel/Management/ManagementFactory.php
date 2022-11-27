@@ -32,15 +32,15 @@ class ManagementFactory extends Factory
         ];
     }
 
-    public function configure()
-    {
-        return $this->afterMaking(function (Management $management) {
-            //
-        })->afterCreating(function (Management $management) {
-            Department::factory()->count(5)->create([
-                'management_id' => $management->id,
-                'manager_id' => Employee::factory()->create(['rank' => 3])
-            ]);
-        });
-    }
+//    public function configure()
+//    {
+//        return $this->afterMaking(function (Management $management) {
+//            //
+//        })->afterCreating(function (Management $management) {
+//            Department::factory()->count(5)->create([
+//                'management_id' => $management->id,
+//                'manager_id' => Employee::factory()->create(['rank' => 3])
+//            ]);
+//        });
+//    }
 }

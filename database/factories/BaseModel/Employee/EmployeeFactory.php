@@ -2,6 +2,7 @@
 
 namespace Database\Factories\BaseModel\Employee;
 
+use App\Models\BaseModel\Employee\Employee;
 use App\Models\BaseModel\Employee\EmployeeDependency;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -29,5 +30,14 @@ class EmployeeFactory extends Factory
             'email' => fake()->unique()->email,
             'employee_dependency_id' => EmployeeDependency::factory(),
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterMaking(function (Employee $employee) {
+            //
+        })->afterCreating(function (Employee $employee) {
+
+        });
     }
 }

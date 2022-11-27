@@ -17,6 +17,7 @@ class ManagementController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
+        $this->authorizeResource(Management::class, 'management');
     }
 
     /**

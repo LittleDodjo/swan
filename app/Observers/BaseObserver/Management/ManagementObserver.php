@@ -45,8 +45,8 @@ class ManagementObserver
                 'employee_id' => null,
                 'management_id' => null,
             ]);
-            $dependencies = EmployeeDependency::where('management_id', $management->id)
-                ->where('department_id', !null)
+            EmployeeDependency::where('management_id', $management->id)
+                ->where('department_id', '!=', null)
                 ->update(['employee_id' => $management->manager->id]);
         }
     }
@@ -63,7 +63,7 @@ class ManagementObserver
             'employee_id' => null,
             'management_id' => null,
         ]);
-        DepartmentsToManagements::destroy($management->departments);
+//        DepartmentsToManagements::destroy($management->departments);
     }
 
     /**
