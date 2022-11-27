@@ -2,12 +2,22 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\BaseModel\Employee\Employee;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
+/**
+ * @property mixed globalRoles
+ * @property mixed|string password
+ * @property mixed id
+ * @property bool|mixed is_confirmed
+ * @property bool|mixed $role
+ * @method static find(mixed $user_id)
+ */
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
@@ -18,13 +28,8 @@ class User extends Authenticatable implements JWTSubject
      * @var array<int, string>
      */
     protected $fillable = [
-        'first_name',
-        'last_name',
-        'patronymic',
         'login',
-        'email',
-        'phone',
-        'password',
+        'is_confirmed',
     ];
 
     /**
@@ -47,7 +52,10 @@ class User extends Authenticatable implements JWTSubject
     ];
 
 
-    public function getJWTIdentifier()
+    /**
+     * @return mixed
+     */
+    public function getJWTIdentifier(): mixed
     {
         return $this->getKey();
     }
@@ -57,8 +65,25 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return array
      */
-    public function getJWTCustomClaims()
+    public function getJWTCustomClaims(): array
     {
         return [];
+    }
+
+    /**
+     * Роли пользователя
+     * @return HasOne
+     */
+    public function role(): HasOne
+    {
+        return $this->hasOne(UserRole::class);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function employee(): HasOne
+    {
+        return $this->hasOne(Employee::class);
     }
 }

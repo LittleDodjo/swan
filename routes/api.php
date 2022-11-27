@@ -1,40 +1,35 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\BaseController\AuthController;
+use App\Http\Controllers\BaseController\Department\DepartmentController;
+use App\Http\Controllers\BaseController\Department\EmployeeDepartmentController;
+use App\Http\Controllers\BaseController\Employee\AppointmentController;
+use App\Http\Controllers\BaseController\Employee\ReasonController;
+use App\Http\Controllers\BaseController\Management\ManagementController;
+use App\Http\Controllers\BaseController\OrganizationController;
 use Illuminate\Support\Facades\Route;
 
-use  App\Http\Controllers\Api\User\AuthController;
-use  App\Http\Controllers\Api\Subsystem\Outgoing\OutDocumentController;
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
-
-
-
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'user'
-], function ($router) {
+Route::group(['prefix' => 'user'], function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
 });
 
+Route::apiResource('management', ManagementController::class)
+    ->missing(fn() => response(['message' => 'Такое управление не найдено'], 404));
 
-Route::group([
-    'middleware' => 'api',
-    'prefix' => 'subsystem/outgoing',
-],function ($router) {
-    Route::post('/documents', [OutDocumentController::class, 'getOutgoingDocuments']);
-    Route::post('/create', [OutDocumentController::class, 'createOutgoingDocument']);
-});
+Route::apiResource('department/edep', EmployeeDepartmentController::class)
+    ->missing(fn() => response(['message' => 'Такой отдел не найден'], 404));
+
+Route::apiResource('department/mdep', DepartmentController::class)
+    ->missing(fn() => response(['message' => 'Такой отдел не найден'], 404));
+
+Route::apiResource('organization', OrganizationController::class)
+    ->missing(fn() => response(['message' => 'Такая организация не найдена'], 404));
+
+Route::apiResource('reason', ReasonController::class)
+    ->missing(fn() => response(['message' => 'Такая причина не найдена'], 404));
+
+Route::apiResource('appointment', AppointmentController::class)
+    ->missing(fn() => response(['message' => 'Такая должность не найдена'], 404));
