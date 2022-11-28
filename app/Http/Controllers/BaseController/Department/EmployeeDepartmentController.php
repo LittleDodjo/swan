@@ -18,6 +18,7 @@ class EmployeeDepartmentController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
+        $this->authorizeResource(EmployeeDepartment::class, 'edep');
     }
 
     /**
@@ -38,7 +39,6 @@ class EmployeeDepartmentController extends Controller
      */
     public function store(StoreEmployeeDepartmentRequest $request): Response
     {
-        $this->authorize('create');
         EmployeeDepartment::create($request->validated());
         return \response(['message' => 'Отделение создано']);
     }
@@ -63,7 +63,6 @@ class EmployeeDepartmentController extends Controller
      */
     public function update(UpdateEmployeeDepartmentRequest $request, EmployeeDepartment $edep): Response
     {
-        $this->authorize('create', $edep);
         $edep->update($request->validated());
         return response(['message' => 'Отделение обновлено']);
     }

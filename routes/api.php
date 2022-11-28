@@ -4,6 +4,8 @@ use App\Http\Controllers\BaseController\AuthController;
 use App\Http\Controllers\BaseController\Department\DepartmentController;
 use App\Http\Controllers\BaseController\Department\EmployeeDepartmentController;
 use App\Http\Controllers\BaseController\Employee\AppointmentController;
+use App\Http\Controllers\BaseController\Employee\DefaultController;
+use App\Http\Controllers\BaseController\Employee\EmployeeDefaultsController;
 use App\Http\Controllers\BaseController\Employee\ReasonController;
 use App\Http\Controllers\BaseController\Management\ManagementController;
 use App\Http\Controllers\BaseController\OrganizationController;
@@ -33,3 +35,6 @@ Route::apiResource('reason', ReasonController::class)
 
 Route::apiResource('appointment', AppointmentController::class)
     ->missing(fn() => response(['message' => 'Такая должность не найдена'], 404));
+
+Route::apiResource('default', EmployeeDefaultsController::class)
+    ->missing(fn() => response(['message' => 'Отсутствие не найдено']));

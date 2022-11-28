@@ -5,10 +5,13 @@ namespace App\Models\BaseModel\Employee;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * @method isAlways()
  * @property mixed $reason
+ * @property mixed from_date
+ * @property mixed to_date
  */
 class EmployeeDefaults extends Model
 {
@@ -50,6 +53,14 @@ class EmployeeDefaults extends Model
         return $this->belongsTo(Reason::class);
     }
 
+
+    /**
+     * @return bool
+     */
+    #[Pure] public function active(): bool
+    {
+        return $this->always() || ($this->from_date < $this->to_date);
+    }
 
     /**
      * Получить статус навсегда-ли отсутствие сотрудника

@@ -17,7 +17,7 @@ class DepartmentController extends Controller
     public function __construct()
     {
         $this->middleware('auth:api');
-        $this->authorizeResource(Department::class,'department/mdep');
+        $this->authorizeResource(Department::class,'mdep');
     }
     /**
      * Display a listing of the resource.

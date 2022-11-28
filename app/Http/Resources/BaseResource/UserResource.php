@@ -16,6 +16,7 @@ use JsonSerializable;
  * @property mixed $login
  * @property mixed $id
  * @property mixed $employee
+ * @property mixed is_confirmed
  */
 class UserResource extends JsonResource
 {
@@ -31,6 +32,7 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'login' => $this->login,
+            'is_confirmed' => $this->is_confirmed,
             'role' => new UserRoleResource($this->role),
             'employee' => new EmployeeResource($this->employee),
         ];

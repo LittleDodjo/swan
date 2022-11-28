@@ -13,10 +13,10 @@ class EmployeeDepartmentPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return bool
      */
-    public function viewAny(?User $user)
+    public function viewAny(User $user): bool
     {
         return true;
     }
@@ -24,11 +24,11 @@ class EmployeeDepartmentPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\BaseModel\Department\EmployeeDepartment  $employeeDepartment
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @param EmployeeDepartment $edep
+     * @return bool
      */
-    public function view(?User $user, EmployeeDepartment $employeeDepartment)
+    public function view(User $user, EmployeeDepartment $edep): bool
     {
         return true;
     }
@@ -36,8 +36,8 @@ class EmployeeDepartmentPolicy
     /**
      * Determine whether the user can create models.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @param User $user
+     * @return bool
      */
     public function create(User $user)
     {
@@ -47,7 +47,7 @@ class EmployeeDepartmentPolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
+     * @param User $user
      * @param  \App\Models\BaseModel\Department\EmployeeDepartment  $employeeDepartment
      * @return \Illuminate\Auth\Access\Response|bool
      */
@@ -59,12 +59,12 @@ class EmployeeDepartmentPolicy
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
+     * @param User $user
      * @param  \App\Models\BaseModel\Department\EmployeeDepartment  $employeeDepartment
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function delete(User $user, EmployeeDepartment $employeeDepartment)
     {
-        return true;
+        return $user->role->is_root || $user->role->is_admin;
     }
 }
