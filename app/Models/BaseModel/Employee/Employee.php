@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property mixed $patronymic
  * @property mixed $last_name
  * @property mixed $id
+ * @property mixed rank
+ * @property mixed dependency
  */
 class Employee extends Model
 {
@@ -81,7 +83,10 @@ class Employee extends Model
         return $this->belongsTo(EmployeeDependency::class, 'employee_dependency_id');
     }
 
-    public function employeesDepends()
+    /**
+     * @return HasMany
+     */
+    public function employeesDepends(): HasMany
     {
         return $this->hasMany(EmployeeDependency::class);
     }
@@ -112,7 +117,7 @@ class Employee extends Model
     public function defaultAlways(): bool
     {
         if (!$this->onWork()) {
-            return $this->lastDefault()->isAlways();
+            return $this->lastDefault()->always();
         }
         return false;
     }

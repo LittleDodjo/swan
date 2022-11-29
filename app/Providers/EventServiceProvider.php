@@ -5,8 +5,12 @@ namespace App\Providers;
 use App\Models\BaseModel\Department\Department;
 use App\Models\BaseModel\Department\EmployeeDepartment;
 use App\Models\BaseModel\Management\Management;
+use App\Models\BaseModel\Pivot\EmployeesToDepartments;
+use App\Models\BaseModel\Pivot\EmployeeToEmployeeDepartments;
 use App\Observers\BaseObserver\Department\DepartmentObserver;
 use App\Observers\BaseObserver\Department\EmployeeDepartmentObserver;
+use App\Observers\BaseObserver\Employee\EmployeeToDepartmentsObserver;
+use App\Observers\BaseObserver\Employee\EmployeeToEmployeeDepartmentsObserver;
 use App\Observers\BaseObserver\Management\ManagementObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -35,6 +39,8 @@ class EventServiceProvider extends ServiceProvider
         Management::observe(ManagementObserver::class);
         Department::observe(DepartmentObserver::class);
         EmployeeDepartment::observe(EmployeeDepartmentObserver::class);
+        EmployeesToDepartments::observe(EmployeeToDepartmentsObserver::class);
+        EmployeeToEmployeeDepartments::observe(EmployeeToEmployeeDepartmentsObserver::class);
     }
 
     /**

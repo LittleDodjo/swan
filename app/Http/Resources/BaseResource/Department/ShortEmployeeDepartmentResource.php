@@ -2,17 +2,25 @@
 
 namespace App\Http\Resources\BaseResource\Department;
 
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use JetBrains\PhpStorm\ArrayShape;
 
+/**
+ * @property mixed caption
+ * @property mixed id
+ */
 class ShortEmployeeDepartmentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param  Request  $request
+     * @return array
      */
-    public function toArray($request)
+    #[ArrayShape(['id' => "mixed", 'caption' => "mixed"])]
+    public function toArray($request): array
     {
         return [
             'id' => $this->id,

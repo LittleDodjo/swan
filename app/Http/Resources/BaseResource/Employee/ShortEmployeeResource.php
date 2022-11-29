@@ -17,7 +17,7 @@ use JsonSerializable;
  * @property mixed last_name
  * @property mixed first_name
  * @property mixed id
- * @method isOnWork()
+ * @method onWork()
  */
 class ShortEmployeeResource extends JsonResource
 {
@@ -40,7 +40,7 @@ class ShortEmployeeResource extends JsonResource
             "phone" => $this->phone_number,
             "email" => $this->email,
             'sex' => $this->sex,
-            'is_work' => $this->isOnWork(),
+            'is_work' => $this->onWork(),
             "appointment" => new AppointmentResource($this->appointment),
         ];
     }

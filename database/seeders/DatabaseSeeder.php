@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
         Employee::factory(2)->create(['rank' => 3]);
         Employee::factory(2)->create(['rank' => 2]);
         Employee::factory(6)->create(['rank' => 1]);
-        Employee::factory(2)->create(['rank' => 7]);
+//        Employee::factory(2)->create(['rank' => 7]);
         Employee::factory(2)->create(['rank' => 6]);
-        Management::factory(1)->create();
+//        Management::factory(1)->create();
     }
 }

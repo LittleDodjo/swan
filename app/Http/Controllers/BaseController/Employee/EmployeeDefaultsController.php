@@ -47,7 +47,6 @@ class EmployeeDefaultsController extends Controller
      */
     public function store(StoreDefaultRequest $request): Response
     {
-//        $this->authorize('create');
         EmployeeDefaults::create($request->validated());
         return \response($request->validated());
     }
@@ -60,7 +59,6 @@ class EmployeeDefaultsController extends Controller
      */
     public function show(EmployeeDefaults $default): Response
     {
-//        $this->authorize('view', $default);
         return response(new DefaultResource($default));
     }
 

@@ -12,6 +12,7 @@ use JetBrains\PhpStorm\Pure;
  * @property mixed $reason
  * @property mixed from_date
  * @property mixed to_date
+ * @property mixed always
  */
 class EmployeeDefaults extends Model
 {

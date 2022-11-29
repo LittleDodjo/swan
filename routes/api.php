@@ -5,10 +5,14 @@ use App\Http\Controllers\BaseController\Department\DepartmentController;
 use App\Http\Controllers\BaseController\Department\EmployeeDepartmentController;
 use App\Http\Controllers\BaseController\Employee\AppointmentController;
 use App\Http\Controllers\BaseController\Employee\DefaultController;
+use App\Http\Controllers\BaseController\Employee\EmployeeController;
 use App\Http\Controllers\BaseController\Employee\EmployeeDefaultsController;
 use App\Http\Controllers\BaseController\Employee\ReasonController;
 use App\Http\Controllers\BaseController\Management\ManagementController;
 use App\Http\Controllers\BaseController\OrganizationController;
+use App\Http\Controllers\BaseController\Pivot\EmployeesToDepartmentController;
+use App\Http\Controllers\BaseController\Pivot\EmployeesToEmployeeDepartmentsController;
+use App\Http\Controllers\BaseController\UserRoleController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'user'], function () {
@@ -16,7 +20,10 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
+    Route::post('/role', [UserRoleController::class, 'role']);
+    Route::post('/confirm', [UserRoleController::class, 'confirm']);
 });
+
 
 Route::apiResource('management', ManagementController::class)
     ->missing(fn() => response(['message' => 'Такое управление не найдено'], 404));
@@ -38,3 +45,22 @@ Route::apiResource('appointment', AppointmentController::class)
 
 Route::apiResource('default', EmployeeDefaultsController::class)
     ->missing(fn() => response(['message' => 'Отсутствие не найдено']));
+
+Route::apiResource('employee', EmployeeController::class)
+    ->missing(fn() => response(['message' => 'Такой сотрудник не найден']));
+
+Route::post('mdep', [EmployeesToDepartmentController::class, 'store']);
+
+Route::get('mdep/{department}', [EmployeesToDepartmentController::class, 'show'])
+    ->missing(fn() => response(['message' => 'Отдел не найден'], 404));
+
+Route::delete('mdep/{employee}', [EmployeesToDepartmentController::class, 'delete'])
+    ->missing(fn() => response(['message' => 'Сотрудник не найден'], 404));
+
+Route::post('edep', [EmployeesToEmployeeDepartmentsController::class, 'store']);
+
+Route::get('edep/{department}', [EmployeesToEmployeeDepartmentsController::class, 'show'])
+    ->missing(fn() => response(['message' => 'Отдел не найден'], 404));
+
+Route::delete('edep/{employee}', [EmployeesToEmployeeDepartmentsController::class, 'delete'])
+    ->missing(fn() => response(['message' => 'Сотрудник не найден'], 404));

@@ -1,22 +1,23 @@
 <?php
 
-namespace App\Http\Resources\BaseResource\Department;
+namespace App\Http\Resources\BaseResource\Pivot;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use JsonSerializable;
 
-class EmployeeDepartmentResourceCollection extends ResourceCollection
+class EmployeesToDepartmentsResourceCollection extends ResourceCollection
 {
+
+
+    public $collects = EmployeesToDepartmentsResource::class;
     /**
      * Transform the resource collection into an array.
      *
      * @param  Request  $request
      * @return array|Arrayable|JsonSerializable
      */
-    public $collects = ShortEmployeeDepartmentResource::class;
-
     public function toArray($request): array|JsonSerializable|Arrayable
     {
         return parent::toArray($request);

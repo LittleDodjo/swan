@@ -28,13 +28,11 @@ class SmallEmployeeResource extends JsonResource
     #[ArrayShape(['id' => "mixed", 'rank' => "mixed", 'full_name' => "string", 'appointment' => ""])]
     public function toArray($request): array|JsonSerializable|Arrayable
     {
-        if($this->appointment == null) $appointment = "no!";
-        else $appointment = $this->appointment->name;
         return [
             'id' => $this->id,
             'rank' => $this->rank,
             'full_name' =>  $this->fullName(),
-            'appointment' => $appointment,
+            'appointment' => new AppointmentResource($this->appointment),
         ];
     }
 }

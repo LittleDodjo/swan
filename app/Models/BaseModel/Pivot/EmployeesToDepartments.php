@@ -6,7 +6,13 @@ use App\Models\BaseModel\Department\Department;
 use App\Models\BaseModel\Employee\Employee;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
+/**
+ * @property mixed department
+ * @property mixed employee
+ */
 class EmployeesToDepartments extends Model
 {
     use HasFactory;
@@ -16,13 +22,19 @@ class EmployeesToDepartments extends Model
         'department_id',
     ];
 
-    public function employee()
+    /**
+     * @return BelongsTo
+     */
+    public function employee(): BelongsTo
     {
-        return $this->hasOne(Employee::class);
+        return $this->belongsTo(Employee::class);
     }
 
-    public function department()
+    /**
+     * @return BelongsTo
+     */
+    public function department(): BelongsTo
     {
-        return $this->hasOne(Department::class);
+        return $this->belongsTo(Department::class);
     }
 }
