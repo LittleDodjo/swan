@@ -28,6 +28,7 @@ class UserRoleController extends Controller
      */
     public function role(RoleRequest $request,User $user): Response
     {
+        $user->role->update($request->validated());
         return response(['message' => 'Роли учетной записи обновлены']);
     }
 
@@ -39,6 +40,7 @@ class UserRoleController extends Controller
      */
     public function confirm(ConfirmRequest $request, User $user): Response
     {
+        $user->update($request->validated());
         return response(['message' => 'Учетная запись подтверждена']);
     }
 }

@@ -6,6 +6,7 @@ use App\Models\BaseModel\Department\EmployeeDepartment;
 use App\Models\BaseModel\Employee\Employee;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 //Сотрудники отдела edep
 
@@ -23,12 +24,18 @@ class EmployeesToEmployeeDepartments extends Model
     ];
 
 
-    public function employee()
+    /**
+     * @return BelongsTo
+     */
+    public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class, 'employee_id');
     }
 
-    public function department()
+    /**
+     * @return BelongsTo
+     */
+    public function department(): BelongsTo
     {
         return $this->belongsTo(EmployeeDepartment::class, 'employee_department_id');
     }

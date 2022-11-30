@@ -1,20 +1,19 @@
 <?php
 
-namespace App\Http\Requests\BaseRequest;
+namespace App\Http\Requests\BaseRequest\Employee;
 
 use Illuminate\Foundation\Http\FormRequest;
-use JetBrains\PhpStorm\ArrayShape;
 
-class ConfirmRequest extends FormRequest
+class DeleteEmployeeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
-    public function authorize(): bool
+    public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,10 +21,10 @@ class ConfirmRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    #[ArrayShape(['is_confirmed' => "string"])] public function rules(): array
+    public function rules()
     {
         return [
-            'is_confirmed' => 'boolean'
+            //
         ];
     }
 }

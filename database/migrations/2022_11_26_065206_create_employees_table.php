@@ -32,6 +32,7 @@ return new class extends Migration
             $table->foreignIdFor(Appointment::class)->nullable();
             $table->foreignIdFor(EmployeeDependency::class)->nullable()->default(null);
             $table->foreignIdFor(Organization::class);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

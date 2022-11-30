@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreignIdFor(Management::class)->nullable();
             $table->foreignIdFor(Department::class)->nullable();
             $table->foreignIdFor(EmployeeDepartment::class)->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

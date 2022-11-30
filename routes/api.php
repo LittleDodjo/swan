@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BaseController\AuthController;
+use App\Http\Controllers\BaseController\Department\AllDepartmentController;
 use App\Http\Controllers\BaseController\Department\DepartmentController;
 use App\Http\Controllers\BaseController\Department\EmployeeDepartmentController;
 use App\Http\Controllers\BaseController\Employee\AppointmentController;
@@ -20,8 +21,10 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
-    Route::post('/role', [UserRoleController::class, 'role']);
-    Route::post('/confirm', [UserRoleController::class, 'confirm']);
+    Route::post('/role/{user}', [UserRoleController::class, 'role'])
+        ->missing(fn() => response(['not found']));
+    Route::post('/confirm/{user}', [UserRoleController::class, 'confirm'])
+        ->missing(fn() => response(['not found']));
 });
 
 
@@ -64,3 +67,5 @@ Route::get('edep/{department}', [EmployeesToEmployeeDepartmentsController::class
 
 Route::delete('edep/{employee}', [EmployeesToEmployeeDepartmentsController::class, 'delete'])
     ->missing(fn() => response(['message' => 'Сотрудник не найден'], 404));
+
+Route::get('all/departments', [AllDepartmentController::class, 'index']);

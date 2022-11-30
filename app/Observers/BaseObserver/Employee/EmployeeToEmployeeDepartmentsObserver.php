@@ -3,16 +3,17 @@
 namespace App\Observers\BaseObserver\Employee;
 
 use App\Models\BaseModel\Pivot\EmployeesToEmployeeDepartments;
+use App\Models\BaseModel\Pivot\EmployeeToEmployeeDepartments;
 
 class EmployeeToEmployeeDepartmentsObserver
 {
     /**
      * Handle the EmployeesToEmployeeDepartments "created" event.
      *
-     * @param EmployeesToEmployeeDepartments $employeesToEmployeeDepartments
+     * @param EmployeeToEmployeeDepartments $employeesToEmployeeDepartments
      * @return void
      */
-    public function created(EmployeesToEmployeeDepartments $employeesToEmployeeDepartments)
+    public function created(EmployeeToEmployeeDepartments $employeesToEmployeeDepartments)
     {
         $department = $employeesToEmployeeDepartments->department;
         $employee = $employeesToEmployeeDepartments->employee;

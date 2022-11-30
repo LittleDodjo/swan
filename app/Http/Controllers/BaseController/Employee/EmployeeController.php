@@ -6,8 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BaseRequest\Employee\StoreEmployeeRequest;
 use App\Http\Requests\BaseRequest\Employee\UpdateEmployeeRequest;
 use App\Http\Resources\BaseResource\Employee\EmployeeResourceCollection;
+use App\Http\Resources\BaseResource\Employee\ShortEmployeeResource;
+use App\Models\BaseModel\Department\Department;
+use App\Models\BaseModel\Department\EmployeeDepartment;
 use App\Models\BaseModel\Employee\Employee;
+use App\Models\BaseModel\Management\Management;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class EmployeeController extends Controller
 {
@@ -18,11 +23,11 @@ class EmployeeController extends Controller
         $this->authorizeResource(Employee::class);
     }
     /**
-     * Выводит список всех сотрудников,
+     * Выводит список всех сотрудников, исключа
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function index()
+    public function index(): Response
     {
         return response(new EmployeeResourceCollection(
             Employee::all()->reject(fn($employee) => $employee->defaultAlways())
@@ -30,47 +35,53 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Создать сотрудника
      *
      * @param StoreEmployeeRequest $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
-    public function store(StoreEmployeeRequest $request)
+    public function store(StoreEmployeeRequest $request): Response
     {
-        //
+        Employee::create($request->validated());
+        return response(['message' => 'Сотрудник создан']);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\BaseModel\Employee\Employee  $employee
-     * @return \Illuminate\Http\Response
+     * @param Employee $employee
+     * @return Response
      */
-    public function show(Employee $employee)
+    public function show(Employee $employee): Response
     {
-        //
+        return response(new ShortEmployeeResource($employee));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\BaseModel\Employee\Employee  $employee
-     * @return \Illuminate\Http\Response
+     * @param UpdateEmployeeRequest $request
+     * @param Employee $employee
+     * @return Response
      */
-    public function update(UpdateEmployeeRequest $request, Employee $employee)
+    public function update(UpdateEmployeeRequest $request, Employee $employee): Response
     {
-        //
+        $employee->update($request->validated());
+        return response(['message' => 'Данные сотрудника обновлены']);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\BaseModel\Employee\Employee  $employee
-     * @return \Illuminate\Http\Response
+     * @param Employee $employee
+     * @return Response
      */
-    public function destroy(Employee $employee)
+    public function destroy(Employee $employee): Response
     {
-        //
+        if($employee->isManager()){
+            return \response(['message' => 'Такой сотрудник является руководителем',]);
+        }
+        $employee->delete();
+        return response(['message' => 'Сотрудник удален']);
     }
 }
