@@ -1,7 +1,0 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-.subsystem-base{
-    @apply flex h-screen w-screen flex-row overflow-hidden bg-slate-100;
-}
