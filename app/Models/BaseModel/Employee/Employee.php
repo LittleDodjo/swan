@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property mixed dependency
  * @property mixed department
  * @property mixed employeeDepartment
+ * @method static find(mixed $employee_id)
  */
 class Employee extends Model
 {

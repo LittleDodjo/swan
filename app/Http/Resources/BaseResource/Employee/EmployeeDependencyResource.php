@@ -29,6 +29,7 @@ class EmployeeDependencyResource extends JsonResource
      * @param  Request  $request
      * @return array
      */
+    #[ArrayShape(['id' => "mixed", 'employee_depends' => "\App\Http\Resources\BaseResource\Employee\ShortEmployeeResource", 'management_depends' => "\App\Http\Resources\BaseResource\Management\ManagementResource", 'department_depends' => "\App\Http\Resources\BaseResource\Department\DepartmentResource", 'employee_department_depends' => "\App\Http\Resources\BaseResource\Department\EmployeeDepartmentResource"])]
     public function toArray($request): array
     {
         return [

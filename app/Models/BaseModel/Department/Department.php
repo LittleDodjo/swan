@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property mixed $id
  * @property mixed $management_id
  * @property mixed $deputy
+ * @method static find(mixed $department_id)
  */
 class Department extends Model
 {

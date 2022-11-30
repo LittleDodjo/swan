@@ -26,7 +26,8 @@ class UserResource extends JsonResource
      * @param  Request  $request
      * @return array|Arrayable|JsonSerializable
      */
-    #[Pure] #[ArrayShape(['id' => "mixed", 'login' => "mixed", 'role' => "\App\Http\Resources\BaseResource\UserRoleResource", 'employee' => "\App\Http\Resources\BaseResource\Employee\EmployeeResource"])]
+
+    #[Pure] #[ArrayShape(['id' => "mixed", 'login' => "mixed", 'is_confirmed' => "mixed", 'role' => "\App\Http\Resources\BaseResource\UserRoleResource", 'employee' => "\App\Http\Resources\BaseResource\Employee\EmployeeResource"])]
     public function toArray($request): array|JsonSerializable|Arrayable
     {
         return [

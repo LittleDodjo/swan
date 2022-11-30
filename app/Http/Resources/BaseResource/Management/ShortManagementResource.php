@@ -15,6 +15,7 @@ use JsonSerializable;
  * @property mixed depends
  * @property mixed manager
  * @property mixed caption
+ * @property mixed id
  */
 class ShortManagementResource extends JsonResource
 {

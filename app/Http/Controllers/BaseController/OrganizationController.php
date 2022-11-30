@@ -18,14 +18,15 @@ class OrganizationController extends Controller
         $this->middleware('auth:api');
         $this->authorizeResource(Organization::class);
     }
+
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return OrganizationResourceCollection
      */
-    public function index(): Response
+    public function index(): OrganizationResourceCollection
     {
-        return response(new OrganizationResourceCollection(Organization::all()));
+        return new OrganizationResourceCollection(Organization::simplePaginate(10));
     }
 
     /**

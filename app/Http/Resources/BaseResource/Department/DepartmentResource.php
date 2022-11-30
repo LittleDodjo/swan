@@ -10,6 +10,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\DB;
+use JetBrains\PhpStorm\ArrayShape;
 use JsonSerializable;
 
 /**
@@ -29,6 +30,7 @@ class DepartmentResource extends JsonResource
      * @param  Request  $request
      * @return array|Arrayable|JsonSerializable
      */
+    #[ArrayShape(['id' => "mixed", 'caption' => "mixed", 'short_name' => "mixed", 'code' => "mixed", 'depends' => "\App\Http\Resources\BaseResource\Management\ShortManagementResource", 'manager' => "\App\Http\Resources\BaseResource\Employee\SmallEmployeeResource", 'deputy' => "\App\Http\Resources\BaseResource\Employee\SmallEmployeeResource", 'count' => "mixed", 'employees' => "\App\Http\Resources\BaseResource\Pivot\EmployeesToDepartmentsResourceCollection"])]
     public function toArray($request): array|JsonSerializable|Arrayable
     {
         $employees = EmployeesToDepartments::where('department_id', 1)->get();

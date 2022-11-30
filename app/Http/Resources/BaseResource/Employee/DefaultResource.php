@@ -18,6 +18,8 @@ use JsonSerializable;
  * @property mixed reason
  * @property mixed always
  * @property mixed active
+ * @method always()
+ * @method active()
  */
 class DefaultResource extends JsonResource
 {
@@ -27,7 +29,7 @@ class DefaultResource extends JsonResource
      * @param  Request  $request
      * @return array|Arrayable|JsonSerializable
      */
-    #[Pure] #[ArrayShape(['employee' => "\App\Http\Resources\BaseResource\Employee\SmallEmployeeResource", 'deputy' => "\App\Http\Resources\BaseResource\Employee\SmallEmployeeResource", 'reason' => "\App\Http\Resources\BaseResource\Employee\ReasonResource", 'is_always' => "mixed", 'is_active' => "mixed", 'from' => "mixed", 'to' => "mixed"])]
+    #[ArrayShape(['employee' => "\App\Http\Resources\BaseResource\Employee\SmallEmployeeResource", 'deputy' => "\App\Http\Resources\BaseResource\Employee\SmallEmployeeResource", 'reason' => "\App\Http\Resources\BaseResource\Employee\ReasonResource", 'is_always' => "mixed", 'is_active' => "mixed", 'from' => "mixed", 'to' => "mixed"])]
     public function toArray($request): array|JsonSerializable|Arrayable
     {
         return [

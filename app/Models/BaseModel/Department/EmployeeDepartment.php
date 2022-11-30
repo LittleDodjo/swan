@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property mixed $depends
  * @property mixed $id
  * @property mixed $deputy
+ * @method static find(mixed $employeeDepartmentDependency)
  */
 class EmployeeDepartment extends Model
 {

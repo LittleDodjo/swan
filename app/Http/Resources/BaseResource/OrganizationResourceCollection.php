@@ -19,6 +19,6 @@ class OrganizationResourceCollection extends ResourceCollection
      */
     public function toArray($request): array|JsonSerializable|Arrayable
     {
-        return parent::toArray($request);
+        return $this->collection;
     }
 }
