@@ -3,6 +3,7 @@
 namespace App\Http\Requests\BaseRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 class LoginRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class LoginRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -21,7 +22,8 @@ class LoginRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['login' => "string", 'password' => "string"])] public
+    function rules(): array
     {
         return [
             'login' => 'required',
@@ -29,7 +31,8 @@ class LoginRequest extends FormRequest
         ];
     }
 
-    public function messages()
+    #[ArrayShape(['login.required' => "string", 'password.required' => "string"])]
+    public function messages(): array
     {
         return [
             'login.required' => 'Необходимо указать логин',

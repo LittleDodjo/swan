@@ -2,15 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-.edit{
+.edit {
     @apply rounded-full my-2 w-96 shadow-md pl-10;
     @apply focus:ring-1 focus:ring-indigo-500;
 }
 
 .button{
+    @apply rounded-full px-4 py-2 shadow-md transition-colors;
+    @apply  delay-75;
+    @apply hover:bg-indigo-500 hover:text-white;
+}
+
+.button-svg {
     @apply relative flex justify-center rounded-full px-4 py-2 shadow-md transition-colors delay-75 hover:bg-indigo-500 hover:fill-white hover:text-white;
 }
 
-.link{
+.checkbox {
+    @apply h-4 w-4 rounded-full border-gray-300 bg-gray-100 p-2 text-indigo-500 focus:ring-1 focus:ring-indigo-500;
+}
+
+.link {
     @apply font-light underline-offset-2 underline hover:text-indigo-500 transition-colors delay-75 cursor-pointer;
 }
