@@ -11,8 +11,9 @@ class BaseButton extends Component {
 
 
     render() {
+        const data = this.props.class;
         return (
-            <input onClick={this.props.action} type="button" className="button border border-slate-400" value={this.props.value}/>
+            <input onClick={this.props.action} type="button" className={"button " + data} value={this.props.value}/>
         );
     }
 }

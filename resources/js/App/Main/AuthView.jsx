@@ -14,6 +14,7 @@ import AuthServiceProvider from "../Providers/AuthServiceProvider";
 import {toast} from 'react-hot-toast';
 import AppServiceProvider from "../Providers/AppServiceProvider";
 import CookieProvider from "../Providers/CookieProvider";
+import Loading from "../Common/Resources/Loading";
 
 class AuthView extends Component {
 
@@ -21,7 +22,7 @@ class AuthView extends Component {
         super(props);
 
         this.state = {
-            isRegister: false,
+            isRegister: true,
             isLoading: false,
             login: "",
             password: "",
@@ -53,47 +54,49 @@ class AuthView extends Component {
 
     handleAuth(data) {
         this.setState({isLoading: false});
-        if(data.code === 200) {
+        if (data.code === 200) {
             const Auth = new AppServiceProvider();
-            if(this.state.remember) {
+            if (this.state.remember) {
                 Auth.saveRemember(this.state.login, this.state.password);
             }
             Auth.saveAuth(data.headers, data.data, this.state.remember);
             this.props.action(true);
             toast.success("Авторизация успешна!");
-        }
-        else {
+        } else {
             toast.error("Ошибка авторизации");
         }
     }
 
     componentDidMount() {
         const cookieProvider = new CookieProvider();
-        if(cookieProvider.issetLocal('remember')){
+        if (cookieProvider.issetLocal('remember')) {
             this.setState({
-                login : cookieProvider.readLocal('login'),
-                password : cookieProvider.readLocal('password'),
-                remember : cookieProvider.readLocal('remember'),
+                login: cookieProvider.readLocal('login'),
+                password: cookieProvider.readLocal('password'),
             })
         }
     }
 
     render() {
+        const cookieProvider = new CookieProvider();
         return (
             <>
                 <MainView>
-                    {this.state.isRegister ? <RegisterView close={this.openRegister}/> : <></>}
+                    {this.state.isRegister ? <RegisterView action={this.openRegister}/> : <></>}
                     <MainLogo/>
                     <div className="flex w-full flex-col border-y bg-white py-10 text-center shadow-lg">
                         <h1 className="mb-4 text-xl font-light">Авторизация</h1>
                         <div className="mx-auto flex flex-col justify-center">
-                            <SvgInput data={this.state.login} handleChange={this.handleInput} name="login" svg={<User24/>}
+                            <SvgInput data={this.state.login} handleChange={this.handleInput} name="login"
+                                      svg={<User24/>}
                                       placeholder="Введите логин" type="text"/>
-                            <SvgInput data={this.state.password} handleChange={this.handleInput} name="password" svg={<Lock24/>}
+                            <SvgInput data={this.state.password} handleChange={this.handleInput} name="password"
+                                      svg={<Lock24/>}
                                       placeholder="Введите пароль" type="password"/>
                             <div className="flex justify-between">
                                 <div className="my-auto mx-2">
-                                    <BaseCheckbox data={this.state.remember} name="remember" handleChange={this.handleInput}
+                                    <BaseCheckbox data={cookieProvider.readLocal('remember')} name="remember"
+                                                  handleChange={this.handleInput}
                                                   value="Запомнить меня"/>
                                 </div>
                                 <BaseButton action={this.handleSubmit} value="Войти"/>
@@ -102,7 +105,10 @@ class AuthView extends Component {
                         <BaseLink value="Регистрация" action={this.openRegister}/>
                         <Copyright/>
                     </div>
-                    {this.state.isLoading ? "loading!" : ""}
+                    <div className="flex justify-center my-auto">
+                        {this.state.isLoading ? <Loading/> : ""}
+                    </div>
+
                 </MainView>
             </>
         );

@@ -19,8 +19,11 @@ class BaseCheckbox extends Component {
     }
 
     componentDidMount() {
-        this.setState({checked : this.props.data});
-        console.log(this.props.data);
+        if(this.props.data) {
+            this.setState({checked: "checked"});
+        }else{
+            this.setState({checked: "unchecked"});
+        }
     }
 
     render() {

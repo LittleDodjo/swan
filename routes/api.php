@@ -21,6 +21,7 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
+    Route::get('/employee/{email}', [AuthController::class, 'email']);
     Route::post('/role/{user}', [UserRoleController::class, 'role'])
         ->missing(fn() => response(['not found']));
     Route::post('/confirm/{user}', [UserRoleController::class, 'confirm'])

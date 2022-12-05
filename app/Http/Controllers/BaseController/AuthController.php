@@ -20,7 +20,7 @@ class AuthController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'register', 'email']]);
     }
 
     /**
@@ -37,7 +37,7 @@ class AuthController extends Controller
         UserRole::create(['user_id' => $user->id]);
         $employee->update(['user_id' => $user->id]);
         return response(new UserResource($user), 201)
-            ->header('Authorization', 'Bearer '. Auth::login($user));
+            ->header('Authorization', 'Bearer ' . Auth::login($user));
     }
 
     /**
@@ -52,7 +52,7 @@ class AuthController extends Controller
             return response(['message' => 'Неудачная авторизация'], 401);
         }
         return response(new UserResource(Auth::user()))
-            ->header('Authorization', 'Bearer '.$token);
+            ->header('Authorization', 'Bearer ' . $token);
     }
 
     /**
@@ -62,7 +62,7 @@ class AuthController extends Controller
     public function refresh(): Response|Application|ResponseFactory
     {
         return response([])
-            ->header('Authorization', 'Bearer '.Auth::refresh());
+            ->header('Authorization', 'Bearer ' . Auth::refresh());
     }
 
     /**
@@ -73,6 +73,18 @@ class AuthController extends Controller
     {
         Auth::logout();
         return \response([true]);
+    }
+
+    /**
+     * @param string $email
+     * @return Response|Application|ResponseFactory
+     */
+    public function email(string $email): Response|Application|ResponseFactory
+    {
+        $employee = Employee::where('email', $email)->first();
+        if($employee == null) return response(['message' => 'Сотрудник не найден'], 404);
+        if($employee->user_id != null) response(['message' => 'У данного сотрудника уже есть учетная запись'], 400);
+        return response(["employee_id" => $employee->id, 'name' => $employee->first_name]);
     }
 
 }

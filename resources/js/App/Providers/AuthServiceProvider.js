@@ -14,7 +14,7 @@ class AuthServiceProvider {
         return this.authProvider = axios.create({
             headers: {
                 Accept: 'application/json',
-                "Content-Type" : "multipart/form-data",
+                "Content-Type": "multipart/form-data",
                 Authorization: Authorization
             }
         });
@@ -39,20 +39,31 @@ class AuthServiceProvider {
             });
     }
 
-    async register(login, password, employeeId, action) {
-        const body = {"login": login, "password": password, "employee_id": employeeId};
+    async register(login, password, password_confirmation, employeeId, action) {
+        const body = {
+            "login": login,
+            "password": password,
+            'password_confirmation': password_confirmation,
+            "employee_id": employeeId
+        };
         await this.getAxios().post(this.url + "register", body).then((res) => {
             action({code: 200, data: res.data});
         }).catch((e) => {
+            console.log(e);
             action(e);
         });
     }
 
-    async getEmployee(email, action) {
-        await this.getAxios().post(this.url + "email", {"email" : email}).then((res) => {
-            action({code: 200, data: res.data});
+    async employee(email, action) {
+        await this.getAxios().get(this.url + "employee/" + email).then((res) => {
+            console.log(res.data);
+            action({code: 200, employee_id: res.data.employee_id});
         }).catch((e) => {
-            action(e);
+            console.log(e.response.data);
+            action({
+                code: e.response.status,
+                message: e.response.data.message,
+            });
         });
     }
 
