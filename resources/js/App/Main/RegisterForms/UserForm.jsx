@@ -58,7 +58,7 @@ class UserForm extends Component {
                 <div className="my-auto">
                     <h1 className="text-3xl font-light text-white">Создание учетной записи</h1>
                 </div>
-                <div className="flex flex-col my-10">
+                <div className="flex flex-col my-10 justify-center">
                     <SvgInput data={this.state.login} handleChange={this.handleInput} name="login"
                               svg={<User24/>}
                               placeholder="Придумайте логин" type="text"/>

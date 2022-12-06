@@ -45,7 +45,7 @@ class MailForm extends Component {
                 <div className="my-auto">
                     <h1 className="text-3xl font-light text-white">Укажите вашу электронную почту</h1>
                 </div>
-                <div className="flex flex-row w-1/2 my-10">
+                <div className="flex flex-row w-1/2 my-10 justify-center">
                     <SvgInput data={this.state.email} handleChange={this.handleInput} name="email"
                               svg={<Email24/>}
                               placeholder="Введите логин" type="text"/>

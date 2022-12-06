@@ -83,8 +83,8 @@ class AuthController extends Controller
     {
         $employee = Employee::where('email', $email)->first();
         if($employee == null) return response(['message' => 'Сотрудник не найден'], 404);
-        if($employee->user_id != null) response(['message' => 'У данного сотрудника уже есть учетная запись'], 400);
-        return response(["employee_id" => $employee->id, 'name' => $employee->first_name]);
+        if($employee->user != null) return response(['message' => 'У данного сотрудника уже есть учетная запись'], 400);
+        return response(["employee_id" => $employee->id]);
     }
 
 }

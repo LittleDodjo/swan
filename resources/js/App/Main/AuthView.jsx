@@ -22,7 +22,7 @@ class AuthView extends Component {
         super(props);
 
         this.state = {
-            isRegister: true,
+            isRegister: false,
             isLoading: false,
             login: "",
             password: "",
@@ -60,9 +60,10 @@ class AuthView extends Component {
                 Auth.saveRemember(this.state.login, this.state.password);
             }
             Auth.saveAuth(data.headers, data.data, this.state.remember);
-            this.props.action(true);
+            this.props.action(data);
             toast.success("Авторизация успешна!");
         } else {
+            this.props.action(data);
             toast.error("Ошибка авторизации");
         }
     }

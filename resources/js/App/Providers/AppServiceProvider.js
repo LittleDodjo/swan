@@ -11,9 +11,14 @@ class AppProvider {
         if (!cookieProvider.issetSession("authorization")) {
             action(false);
         } else {
-            const token = JSON.parse(cookieProvider.readSession("token"));
+            const token = JSON.parse(cookieProvider.readSession("authorization"));
             authProvider.refresh(token, action);
         }
+    }
+
+    saveRefresh(token){
+        const cookieProvider = new CookieProvider();
+        cookieProvider.writeSession("authorization", JSON.stringify(token));
     }
 
     saveAuth(token, data) {

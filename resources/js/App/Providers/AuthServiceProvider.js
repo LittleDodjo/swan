@@ -21,10 +21,10 @@ class AuthServiceProvider {
     }
 
     async refresh(Authorization, action) {
-        await this.getAxios().post(this.url + "refresh").then((res) => {
-            action({code: 200, data: res.data});
+        await this.getAxios(Authorization).post(this.url + "refresh").then((res) => {
+            action({code: 200, authorization: res.headers.authorization});
         }).catch((e) => {
-            action(e);
+            action({code: e.response.status});
         });
     }
 
@@ -56,10 +56,8 @@ class AuthServiceProvider {
 
     async employee(email, action) {
         await this.getAxios().get(this.url + "employee/" + email).then((res) => {
-            console.log(res.data);
             action({code: 200, employee_id: res.data.employee_id});
         }).catch((e) => {
-            console.log(e.response.data);
             action({
                 code: e.response.status,
                 message: e.response.data.message,
