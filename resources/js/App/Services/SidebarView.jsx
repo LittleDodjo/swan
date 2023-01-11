@@ -21,7 +21,6 @@ class Sidebar extends Component {
             <aside className="aside-box">
                 <ul className="side-menu">
                     <SvgSidebar id={1} action={this.selectMenu} svg={<User24/>}/>
-                    <SvgSidebar id={1} action={this.selectMenu} svg={<Door24/>}/>
                 </ul>
                 <div className="aside-btn relative w-full">
                     <svg className="m-4 mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"

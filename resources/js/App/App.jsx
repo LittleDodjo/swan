@@ -48,6 +48,7 @@ class App extends Component {
         appProvider.checkAuth(this.refreshAuth);
         const interval = setInterval(() => {
             const maxTokenTime = this.state.maxTokenTime;
+            if (sessionStorage.getItem("authorization") === null) appProvider.checkAuth(this.refreshAuth);
             if (this.state.authState === false) return;
             if (this.state.lastRefresh >= maxTokenTime) {
                 appProvider.checkAuth(this.refreshAuth);

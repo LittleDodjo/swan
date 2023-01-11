@@ -7,6 +7,7 @@ class UserServiceProvider
 
     }
 
+
     //Получить пользователя
     me(){
         const cookieProvider = new CookieProvider();
@@ -18,6 +19,11 @@ class UserServiceProvider
             roles: JSON.parse(roles),
             employee: JSON.parse(employee),
         };
+    }
+
+    user(id)
+    {
+
     }
 
 }

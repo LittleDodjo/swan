@@ -1,6 +1,7 @@
 //Провайдер регистрации и аутентификации
 
 import axios from "axios";
+import CookieProvider from "./CookieProvider";
 
 class AuthServiceProvider {
 
@@ -39,6 +40,23 @@ class AuthServiceProvider {
             });
     }
 
+    async logout(){
+        const provider = this.getAxios();
+        await provider.post(this.url + "logout").then(() => {
+            const cookieProvider = new CookieProvider();
+            cookieProvider.removeSession("user");
+            cookieProvider.removeSession("employee");
+            cookieProvider.removeSession("roles");
+            cookieProvider.removeSession("authorization");
+        }).catch(() => {
+            const cookieProvider = new CookieProvider();
+            cookieProvider.removeSession("user");
+            cookieProvider.removeSession("employee");
+            cookieProvider.removeSession("roles");
+            cookieProvider.removeSession("authorization");
+        });
+    }
+
     async register(login, password, password_confirmation, employeeId, action) {
         const body = {
             "login": login,
@@ -54,6 +72,7 @@ class AuthServiceProvider {
         });
     }
 
+    //Для поиска содруника для учетной записи
     async employee(email, action) {
         await this.getAxios().get(this.url + "employee/" + email).then((res) => {
             action({code: 200, employee_id: res.data.employee_id});

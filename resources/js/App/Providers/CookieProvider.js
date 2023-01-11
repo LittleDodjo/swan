@@ -31,6 +31,10 @@ class CookieProvider{
         const local = this.readLocal(key);
         return (local !== null && local !=="");
     }
+
+    removeSession(key){
+        sessionStorage.removeItem(key);
+    };
 }
 
 export default CookieProvider;

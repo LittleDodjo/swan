@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.user-avatar {
+    @apply rounded-full h-14 w-14 flex cursor-pointer;
+    @apply bg-gradient-to-r from-cyan-500 to-blue-500;
+    @apply outline outline-offset-2 outline-2 outline-blue-400;
+    @apply hidden lg:flex;
+}
+
+.user-avatar > p {
+    @apply font-bold text-2xl text-white mx-auto my-auto;
+}
+
+.svg-button-top {
+    @apply border-l p-4 flex fill-slate-500 text-slate-500;
+    @apply transition-colors delay-75 cursor-pointer;
+    @apply hover:bg-indigo-500 hover:fill-white hover:text-white;
+}
