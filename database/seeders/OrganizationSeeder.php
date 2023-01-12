@@ -15,6 +15,6 @@ class OrganizationSeeder extends Seeder
      */
     public function run()
     {
-        Organization::create(['name' => 'Минсоцотнощений']);
+        Organization::create(['name' => 'Министерство социальных отношений Челябинской области']);
     }
 }

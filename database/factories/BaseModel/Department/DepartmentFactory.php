@@ -3,6 +3,8 @@
 namespace Database\Factories\BaseModel\Department;
 
 use App\Models\BaseModel\Department\Department;
+use App\Models\BaseModel\Employee\Employee;
+use App\Models\BaseModel\Management\Management;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,6 +21,9 @@ class DepartmentFactory extends Factory
     {
         return [
             'code' => fake()->unique(true, 1000)->numberBetween(0, 5000000),
+            'management_id' => Management::factory()->create(),
+            'manager_id' => Employee::factory()->create(),
+            'deputy_id' => Employee::factory()->create(),
             'caption' => fake()->userName,
         ];
     }

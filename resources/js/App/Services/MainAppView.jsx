@@ -14,7 +14,7 @@ class MainAppView extends Component {
             <div className="subsystem-base">
                 <Sidebar/>
                 <main className="main-subsystem-base">
-                    <UserView/>
+                    <UserView id={0}/>
                 </main>
             </div>
         );

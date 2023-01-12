@@ -28,7 +28,6 @@ class EmployeeFactory extends Factory
             'cabinet' => fake()->buildingNumber,
             'rank' => fake()->numberBetween(1, 7),
             'email' => fake()->unique()->email,
-            'employee_dependency_id' => EmployeeDependency::factory(),
         ];
     }
 

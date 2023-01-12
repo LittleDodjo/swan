@@ -23,6 +23,10 @@ class UserServiceProvider
 
     user(id)
     {
+        return {employee: null};
+    }
+
+    getDepends(depends){
 
     }
 

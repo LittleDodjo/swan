@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import UserBodyItem from "./UserBodyItem";
+import DependenciesUser from "./DependenciesUser";
 
 class UserBody extends Component {
 
@@ -7,6 +8,7 @@ class UserBody extends Component {
         super(props);
 
     }
+
 
 
 
@@ -38,7 +40,7 @@ class UserBody extends Component {
                             <div className="basis-2/6 my-auto">Роли</div>
                             <div className="my-auto flex">
                                 {roles.map((data, key) => (
-                                    <p className="mx-2 rounded-full border bg-slate-100 p-2 text-sm font-light"
+                                    <p className="mx-2 rounded-full border border-indigo-400 bg-slate-100 p-2 text-sm font-light"
                                        key={key}>{data}</p>
                                 ))}
                             </div>
@@ -47,11 +49,7 @@ class UserBody extends Component {
 
                 </div>
 
-                <div className="my-2 border-y bg-white">
-                    <div className="border-b p-4">
-                        <p className="text-xl font-light">Зависимости сотрудника</p>
-                    </div>
-                </div>
+                {this.props.employee.rank < 7 ? <DependenciesUser dependency={this.props.employee.dependency}/> : <>/</>}
             </>
         );
     }

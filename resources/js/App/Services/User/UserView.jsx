@@ -2,25 +2,33 @@ import React, {Component} from 'react';
 import UserHeader from "./Comonents/UserHeader";
 import UserServiceProvider from "../../Providers/UserServiceProvider";
 import UserBody from "./Comonents/UserBody";
+import UserNotFound from "./Comonents/UserNotFound";
 
 class UserView extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            user: null
+            user: null,
+            employee: null,
+            roles: null,
+
         }
     }
 
-
     componentDidMount() {
         const userProvider = new UserServiceProvider();
-        this.setState(userProvider.me());
+        if (this.props.id === 0) this.setState(userProvider.me());
+        else {
+            this.setState({user: userProvider.me().user});
+            this.setState(userProvider.user(this.props.id));
+        }
         console.log(userProvider.me());
     }
 
     render() {
         if (this.state.user == null) return <></>;
+        if(this.state.employee === null || this.state.roles === null) return <UserNotFound id={this.props.id}/>
         const avatar = this.state.employee.first_name[0] + this.state.employee.last_name[0];
         return (
             <div className="flex flex-col">

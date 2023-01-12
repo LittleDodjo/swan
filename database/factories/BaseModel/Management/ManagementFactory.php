@@ -26,8 +26,8 @@ class ManagementFactory extends Factory
     public function definition(): array
     {
         return [
-            'depends_id' => Employee::factory(),
-            'manager_id' => Employee::factory(),
+            'depends_id' => Employee::factory()->create(['rank' => 5]),
+            'manager_id' => Employee::factory()->create(['rank' => 4]),
             'caption' => fake()->company,
         ];
     }
