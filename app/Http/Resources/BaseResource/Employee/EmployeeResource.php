@@ -3,6 +3,7 @@
 namespace App\Http\Resources\BaseResource\Employee;
 
 use App\Http\Resources\BaseResource\OrganizationResource;
+use App\Http\Resources\BaseResource\UserResource;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -25,6 +26,7 @@ use JsonSerializable;
  * @property mixed $organization
  * @property mixed $appointment
  * @property mixed $dependency
+ * @property mixed user
  */
 class EmployeeResource extends JsonResource
 {
@@ -48,6 +50,7 @@ class EmployeeResource extends JsonResource
             "sex" => $this->sex,
             "cabinet" => $this->cabinet,
             "is_work" => $this->onWork(),
+            "user" => $this->user,
             "dependency" => new EmployeeDependencyResource($this->dependency),
             "appointment" => new AppointmentResource($this->appointment),
             "organization" => new OrganizationResource($this->organization),

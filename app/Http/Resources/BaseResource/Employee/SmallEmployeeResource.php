@@ -25,13 +25,13 @@ class SmallEmployeeResource extends JsonResource
      * @param  Request  $request
      * @return array|Arrayable|JsonSerializable
      */
-    #[ArrayShape(['id' => "mixed", 'rank' => "mixed", 'full_name' => "string", 'appointment' => ""])]
+    #[ArrayShape(['id' => "mixed", 'rank' => "mixed", 'fullName' => "string", 'appointment' => ""])]
     public function toArray($request): array|JsonSerializable|Arrayable
     {
         return [
             'id' => $this->id,
             'rank' => $this->rank,
-            'full_name' =>  $this->fullName(),
+            'fullName' =>  $this->fullName(),
             'appointment' => new AppointmentResource($this->appointment),
         ];
     }

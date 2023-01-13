@@ -31,8 +31,12 @@ class UserHeader extends Component {
                 </div>
                 <div className="flex">
                     {isAdmin ? <HeadingButton svg={<Admin24/>} text="Управление"/> : <></>}
-                    <HeadingButton svg={<Settings24/>} text="Настройки"/>
-                    <HeadingButton svg={<Door24/>} text="Выход" action={this.logout}/>
+                    {this.props.me ?
+                        <>
+                            <HeadingButton svg={<Settings24/>} text="Настройки"/>
+                            <HeadingButton svg={<Door24/>} text="Выход" action={this.logout}/>
+                        </> : ""
+                    }
                 </div>
             </div>
         );

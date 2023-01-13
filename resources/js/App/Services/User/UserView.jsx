@@ -3,6 +3,7 @@ import UserHeader from "./Comonents/UserHeader";
 import UserServiceProvider from "../../Providers/UserServiceProvider";
 import UserBody from "./Comonents/UserBody";
 import UserNotFound from "./Comonents/UserNotFound";
+import {toast} from "react-hot-toast";
 
 class UserView extends Component {
 
@@ -12,29 +13,48 @@ class UserView extends Component {
             user: null,
             employee: null,
             roles: null,
+            id: 12
+        }
+        this.getUser = this.getUser.bind(this);
+        this.openUser = this.openUser.bind(this);
+    }
 
+    getUser(data) {
+        if (data.status === 200) {
+            this.setState({
+                employee: data.employee,
+                id: data.employee.id,
+            });
+        }else{
+            toast.error("Такой сотрудник не найден");
+        }
+    }
+
+    openUser(employee){
+        const userProvider = new UserServiceProvider();
+        if (employee === 0) this.setState(userProvider.me());
+        else {
+            this.setState({
+                user: userProvider.me().user,
+                roles: userProvider.me().roles,
+            });
+            userProvider.user(employee, this.getUser);
         }
     }
 
     componentDidMount() {
-        const userProvider = new UserServiceProvider();
-        if (this.props.id === 0) this.setState(userProvider.me());
-        else {
-            this.setState({user: userProvider.me().user});
-            this.setState(userProvider.user(this.props.id));
-        }
-        console.log(userProvider.me());
+        this.openUser(this.state.id)
     }
 
     render() {
         if (this.state.user == null) return <></>;
-        if(this.state.employee === null || this.state.roles === null) return <UserNotFound id={this.props.id}/>
+        if (this.state.employee === null || this.state.roles === null) return <UserNotFound id={this.state.id}/>
         const avatar = this.state.employee.first_name[0] + this.state.employee.last_name[0];
         return (
             <div className="flex flex-col">
-                <UserHeader avatar={avatar} fullName={this.state.employee.full_name}
+                <UserHeader me={this.state.id === 0} avatar={avatar} fullName={this.state.employee.full_name}
                             appointment={this.state.employee.appointment} role={this.state.roles}/>
-                <UserBody user={this.state.user} employee={this.state.employee}
+                <UserBody openUser={this.openUser} me={this.state.id === 0} user={this.state.user} employee={this.state.employee}
                           role={this.state.roles}/>
             </div>
         );

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\BaseController\Employee;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BaseRequest\Employee\StoreEmployeeRequest;
 use App\Http\Requests\BaseRequest\Employee\UpdateEmployeeRequest;
+use App\Http\Resources\BaseResource\Employee\EmployeeResource;
 use App\Http\Resources\BaseResource\Employee\EmployeeResourceCollection;
 use App\Http\Resources\BaseResource\Employee\ShortEmployeeResource;
 use App\Models\BaseModel\Department\Department;
@@ -54,7 +55,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee): Response
     {
-        return response(new ShortEmployeeResource($employee));
+        return response(new EmployeeResource($employee));
     }
 
     /**

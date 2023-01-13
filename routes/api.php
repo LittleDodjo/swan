@@ -48,10 +48,10 @@ Route::apiResource('appointment', AppointmentController::class)
     ->missing(fn() => response(['message' => 'Такая должность не найдена'], 404));
 
 Route::apiResource('default', EmployeeDefaultsController::class)
-    ->missing(fn() => response(['message' => 'Отсутствие не найдено']));
+    ->missing(fn() => response(['message' => 'Отсутствие не найдено'], 404));
 
 Route::apiResource('employee', EmployeeController::class)
-    ->missing(fn() => response(['message' => 'Такой сотрудник не найден']));
+    ->missing(fn() => response(['message' => 'Такой сотрудник не найден'], 404));
 
 Route::post('mdep', [EmployeesToDepartmentController::class, 'store']);
 

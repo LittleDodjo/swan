@@ -1,37 +1,39 @@
 import React, {Component} from 'react';
 import UserServiceProvider from "../../../Providers/UserServiceProvider";
+import UserBodyItem from "./UserBodyItem";
 
 class DependenciesUser extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            depends: null
+        };
+
+        this.depends = this.depends.bind(this);
+    }
+
+    depends() {
+        const userProvider = new UserServiceProvider();
+        const result = userProvider.getDepends(this.props.dependency);
+        this.setState({depends: result})
     }
 
     componentDidMount() {
-        console.log(this.props.dependency)
+        this.depends();
     }
 
     render() {
-        const userProvider = new UserServiceProvider();
-        const depends = userProvider.getDepends(this.props.dependency);
-        if (depends) return (
-            <></>
-        );
+        if (this.state.depends === null) return <></>
         return (
             <div className="my-2 border-y bg-white">
                 <div className="border-b p-4">
                     <p className="text-xl font-light">Зависимости сотрудника</p>
                 </div>
-                <div className="flex flex-col divide-y">
-                    <div className="p-4 bg-slate-400 flex">
-                        <p className="basis-2/6">Начальник</p>
-                        <p>Щека такой-то</p>
-                    </div>
-                    <div className="p-4 bg-slate-400 flex">
-                        <p className="basis-2/6">Отдел</p>
-                        <p>Наименование отдела</p>
-                    </div>
+                <div className="divide-y">
+                    {this.state.depends.map((data, key) => (
+                        <UserBodyItem openUser={this.props.openUser} key={key} data={data.caption} caption={data.type} id={data.id}/>
+                    ))}
                 </div>
             </div>
         );

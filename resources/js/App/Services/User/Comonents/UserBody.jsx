@@ -10,8 +10,6 @@ class UserBody extends Component {
     }
 
 
-
-
     render() {
         const roles = [];
         if (this.props.role.is_root) roles.push("Суперпользователь");
@@ -22,6 +20,14 @@ class UserBody extends Component {
         if (this.props.employee.rank === 1) roles.push("Рядовой сотрудник");
         return (
             <>
+                {!this.props.me && this.props.employee.user === null ?
+                    <div className="border-y mt-2 p-2 bg-white text-center text-slate-500">У данного сотрудника нет
+                        учетной записи</div> : ""}
+
+                {this.props.me && !this.props.user.is_confirmed ?
+                    <div className="border-y mt-2 p-2 bg-white text-center text-slate-500">Учетная запись не
+                        подтверждена, обратитесь к администратору</div> : ""}
+
                 <div className="my-2 border-y bg-white">
                     <div className="border-b p-4 flex">
                         <p className="text-xl font-light">Данные сотрудника</p>
@@ -29,11 +35,10 @@ class UserBody extends Component {
                             @{this.props.employee.id}
                         </p>
                     </div>
-
                     <div className="divide-y">
                         <UserBodyItem caption="Организация" data={this.props.employee.organization.name}/>
                         <UserBodyItem caption="Почта" data={this.props.employee.email}/>
-                        <UserBodyItem caption="Логин" data={this.props.user.login}/>
+                        {this.props.me ? <UserBodyItem caption="Логин" data={this.props.user.login}/> : ""}
                         <UserBodyItem caption="Телефон" data={this.props.employee.phone}/>
                         <UserBodyItem caption="Номер кабинета" data={this.props.employee.cabinet}/>
                         <div className="flex hover:bg-gray-50 p-4">
@@ -49,7 +54,8 @@ class UserBody extends Component {
 
                 </div>
 
-                {this.props.employee.rank < 7 ? <DependenciesUser dependency={this.props.employee.dependency}/> : <>/</>}
+                {this.props.employee.rank < 7 ?
+                    <DependenciesUser openUser={this.props.openUser} dependency={this.props.employee.dependency}/> : <>/</>}
             </>
         );
     }
