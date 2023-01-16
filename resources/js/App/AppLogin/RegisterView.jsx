@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Step from "./Components/Step";
-import Mail from "./Components/Resources/Mail";
-import Account from "./Components/Resources/Account";
+import Mail24 from "../Common/Resources/Mail24";
+import Account24 from "../Common/Resources/Account24";
 import CloseRegister from "./Components/CloseRegister";
 import MailForm from "./RegisterForms/MailForm";
 import UserForm from "./RegisterForms/UserForm";
@@ -32,12 +32,12 @@ class RegisterView extends Component {
         const steps = [
             {
                 caption: "Электронная почта",
-                svg: <Mail/>,
+                svg: <Mail24/>,
                 body: <MailForm id={0} action={this.handleStep}/>
             },
             {
                 caption: "Учетная запись",
-                svg: <Account/>,
+                svg: <Account24/>,
                 body: <UserForm id={1} employee={this.employee} action={this.props.action}/>
             },
         ];

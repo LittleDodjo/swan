@@ -16,11 +16,13 @@ class AppProvider {
         }
     }
 
+    //обновить токен авторизации
     saveRefresh(token){
         const cookieProvider = new CookieProvider();
         cookieProvider.writeSession("authorization", JSON.stringify(token));
     }
 
+    //сохранить авторизацию
     saveAuth(token, data) {
         const cookieProvider = new CookieProvider();
         const user = {'login': data.login, 'id': data.id, 'confirmed': data.is_confirmed};
@@ -31,6 +33,7 @@ class AppProvider {
         cookieProvider.writeSession("roles", JSON.stringify(role));
     }
 
+    //сохранить данные входа в систему
     saveRemember(login, password) {
         const cookieProvider = new CookieProvider();
         cookieProvider.writeLocal("login", login);

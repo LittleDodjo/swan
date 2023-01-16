@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import User24 from "./Resources/User24";
+import User24 from "../../Common/Resources/User24";
 import BaseInput from "./BaseInput";
 
 class SvgInput extends Component {

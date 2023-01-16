@@ -32,3 +32,7 @@
 .subsystem-base{
     @apply flex h-screen w-screen flex-row overflow-hidden bg-slate-100;
 }
+
+.mini-sidebar{
+    @apply border bg-white shadow-md absolute bottom-2 left-20 rounded-lg;
+}

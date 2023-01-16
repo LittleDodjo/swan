@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {toast} from "react-hot-toast";
-import SvgInput from "../../Common/SvgInput";
+import SvgInput from "../Components/SvgInput";
 import Email24 from "../../Common/Resources/Email24";
-import BaseButton from "../../Common/BaseButton";
-import Loading from "../../Common/Resources/Loading";
+import BaseButton from "../Components/BaseButton";
+import Loading24 from "../../Common/Resources/Loading24";
 import AuthServiceProvider from "../../Providers/AuthServiceProvider";
 
 class MailForm extends Component {
@@ -51,7 +51,7 @@ class MailForm extends Component {
                               placeholder="Введите логин" type="text"/>
                     <BaseButton action={this.handleSubmit} value="Продолжить" class="mx-4 h-full my-auto"/>
                 </div>
-                {this.state.loading ? <Loading/> : ""}
+                {this.state.loading ? <Loading24/> : ""}
             </>
         );
     }

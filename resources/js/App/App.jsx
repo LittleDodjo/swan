@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import {Toaster} from 'react-hot-toast';
-import {BrowserRouter, Navigate, Route, Routes} from 'react-router-dom';
-import AuthView from "./Main/AuthView";
+import {BrowserRouter} from 'react-router-dom';
+import AuthView from "./AppLogin/AuthView";
 import AppServiceProvider from "./Providers/AppServiceProvider";
-import Loading from "./Common/Resources/Loading";
-import MainAppView from "./Services/MainAppView";
+import AppRoutes from "./AppRoutes";
 
 class App extends Component {
 
@@ -15,12 +14,14 @@ class App extends Component {
             maxTokenTime: 700,
             lastRefresh: 0,
             refreshTokenInterval: null,
-            loading: true,
         };
 
         this.authAction = this.authAction.bind(this);
-        this.refreshAuth = this.refreshAuth.bind(this);
+        this.refreshAction = this.refreshAction.bind(this);
+        this.resetAuth = this.resetAuth.bind(this);
+        this.tokenTime = this.tokenTime.bind(this);
     }
+
 
     authAction(data) {
         if (data.code === 200) {
@@ -31,7 +32,7 @@ class App extends Component {
         }
     }
 
-    refreshAuth(data) {
+    refreshAction(data) {
         if (data.code === 200) {
             this.setState({authState: true});
             const appProvider = new AppServiceProvider();
@@ -42,53 +43,44 @@ class App extends Component {
         }
     }
 
+    resetAuth() {
+        this.setState({
+            lastRefresh: 0,
+            authState: false,
+        });
+    }
+
+    tokenTime() {
+        this.setState((prevState) => ({
+            lastRefresh: prevState.lastRefresh + 1
+        }));
+    }
+
     componentDidMount() {
-        this.setState({loading: false});
         const appProvider = new AppServiceProvider();
-        appProvider.checkAuth(this.refreshAuth);
+        appProvider.checkAuth(this.refreshAction);
+        if (this.state.authState === false) return;
         const interval = setInterval(() => {
-            const maxTokenTime = this.state.maxTokenTime;
-            if (sessionStorage.getItem("authorization") === null) appProvider.checkAuth(this.refreshAuth);
-            if (this.state.authState === false) return;
-            if (this.state.lastRefresh >= maxTokenTime) {
-                appProvider.checkAuth(this.refreshAuth);
+            if (sessionStorage.getItem("authorization") === null) this.resetAuth();
+            if (this.state.lastRefresh >= this.state.maxTokenTime) {
+                appProvider.checkAuth(this.refreshAction);
                 this.setState({lastRefresh: 0});
             }
-            this.setState((prevState) => ({
-                lastRefresh: prevState.lastRefresh + 1
-            }));
+            this.tokenTime();
         }, 1000);
         this.setState({refreshTokenInterval: interval});
     }
 
     render() {
-        if (!this.state.loading)
-            return (
-                <>
-                    <Toaster position="bottom-right"/>
-                    <BrowserRouter>
-                        <Routes>
-                            <Route exact path='/' element={
-                                this.state.authState ? <Navigate to="/app"/> : <AuthView action={this.authAction}/>
-                            }/>
-                            <Route exact path="/app" element={
-                                this.state.authState ? <MainAppView/> : <Navigate to="/"/>
-                            }/>
-                        </Routes>
-                    </BrowserRouter>
-                </>
-            );
-        else return (
-            <div className="h-screen w-screen flex justify-center">
-                <div className="my-auto ">
-                    <div className="justify-center flex my-4">
-                        <Loading/>
-                    </div>
-                    <div className="mx-auto my-4">
-                        <h1 className="text-center font-light">Подождите, приложение загружается</h1>
-                    </div>
-                </div>
-            </div>
+        return (
+            <>
+                <Toaster position="bottom-right"/>
+                <BrowserRouter>
+                    <AppRoutes authState={this.state.authState}>
+                        <AuthView action={this.authAction}/>
+                    </AppRoutes>
+                </BrowserRouter>
+            </>
         );
     }
 }

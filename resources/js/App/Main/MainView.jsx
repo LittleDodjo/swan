@@ -1,15 +1,20 @@
 import React, {Component} from 'react';
+import Sidebar from "./SidebarView";
 
 class MainView extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {};
     }
 
     render() {
         return (
-            <div className="relative flex h-screen w-screen flex-col bg-slate-100">
-                {this.props.children}
+            <div className="subsystem-base">
+                <Sidebar/>
+                <main className="main-subsystem-base">
+                    {this.props.view}
+                </main>
             </div>
         );
     }

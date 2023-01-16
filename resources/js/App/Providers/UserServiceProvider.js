@@ -3,20 +3,22 @@ import axios from "axios";
 
 class UserServiceProvider {
 
-    url = "api/employee/";
+    url = "/api/employee/";
 
 
     constructor() {
     }
 
     getAxios(Authorization) {
-        return this.authProvider = axios.create({
+
+        return {
             headers: {
                 Accept: 'application/json',
-                "Content-Type": "multipart/form-data",
+                "Content-Type":
+                    "multipart/form-data",
                 Authorization: Authorization
             }
-        });
+        }
     }
 
     //Получить пользователя
@@ -33,11 +35,10 @@ class UserServiceProvider {
     }
 
     async user(id, action) {
-        const cookieProvider = new CookieProvider();
-        const token = JSON.parse(cookieProvider.readSession("authorization"));
-        await this.getAxios(token).get(this.url + id).then((res) => {
+        const token = JSON.parse(sessionStorage.getItem("authorization"));
+        await axios.get(this.url + id, this.getAxios(token)).then((res) => {
             console.log(res)
-            action( {
+            action({
                 status: res.status,
                 employee: res.data
             });

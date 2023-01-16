@@ -1,18 +1,19 @@
 import React, {Component} from 'react';
 
-class Database extends Component {
+class Account24 extends Component {
     render() {
         return (
             <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"
                  fill="none" viewBox="0 0 24 24" stroke="currentColor"
                  strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                 className="feather feather-database">
-                <ellipse cx="12" cy="5" rx="9" ry="3"/>
-                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
-                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
+                 className={this.props.class}>
+                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="8.5" cy="7" r="4"/>
+                <line x1="20" y1="8" x2="20" y2="14"/>
+                <line x1="23" y1="11" x2="17" y2="11"/>
             </svg>
         );
     }
 }
 
-export default Database;
+export default Account24;

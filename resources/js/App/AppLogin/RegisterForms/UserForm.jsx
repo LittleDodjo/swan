@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import Loading from "../../Common/Resources/Loading";
-import SvgInput from "../../Common/SvgInput";
+import Loading24 from "../../Common/Resources/Loading24";
+import SvgInput from "../Components/SvgInput";
 import User24 from "../../Common/Resources/User24";
 import Lock24 from "../../Common/Resources/Lock24";
-import BaseButton from "../../Common/BaseButton";
+import BaseButton from "../Components/BaseButton";
 import {toast} from "react-hot-toast";
 import AuthServiceProvider from "../../Providers/AuthServiceProvider";
 
@@ -71,7 +71,7 @@ class UserForm extends Component {
                               placeholder="Повторите пароль" type="password"/>
                     <BaseButton class="my-4" action={this.handleSubmit} value="Регистрация"/>
                 </div>
-                {this.state.loading ? <Loading/> : ""}
+                {this.state.loading ? <Loading24/> : ""}
             </>
         );
     }

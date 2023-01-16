@@ -21,3 +21,8 @@ Route::get('/', function () {
 Route::get('/app', function () {
     return view('app');
 });
+
+Route::get('/app/employee/{id}', fn() => view('app'));
+Route::get('/app/employee', fn() => view('app'));
+Route::get('/app/notification', fn() => view('app'));
+Route::get('/app/chat', fn() => view('app'));

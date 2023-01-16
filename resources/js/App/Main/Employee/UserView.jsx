@@ -3,6 +3,7 @@ import UserHeader from "./Comonents/UserHeader";
 import UserServiceProvider from "../../Providers/UserServiceProvider";
 import UserBody from "./Comonents/UserBody";
 import UserNotFound from "./Comonents/UserNotFound";
+import WithRouter from "../../WithRouter";
 import {toast} from "react-hot-toast";
 
 class UserView extends Component {
@@ -13,7 +14,7 @@ class UserView extends Component {
             user: null,
             employee: null,
             roles: null,
-            id: 12
+            id: 0
         }
         this.getUser = this.getUser.bind(this);
         this.openUser = this.openUser.bind(this);
@@ -43,7 +44,8 @@ class UserView extends Component {
     }
 
     componentDidMount() {
-        this.openUser(this.state.id)
+        if(this.props.id === null) this.openUser(this.props.params.id);
+        else this.openUser(this.props.id);
     }
 
     render() {
@@ -61,4 +63,4 @@ class UserView extends Component {
     }
 }
 
-export default UserView;
+export default WithRouter(UserView);

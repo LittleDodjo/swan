@@ -98,7 +98,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Markdown Mail Settings24
+    | Markdown Mail24 Settings24
     |--------------------------------------------------------------------------
     |
     | If you are using Markdown based email rendering, you may configure your

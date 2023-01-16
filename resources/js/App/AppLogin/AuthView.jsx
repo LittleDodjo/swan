@@ -1,20 +1,19 @@
 //Авторизация
 import React, {Component} from 'react';
-import MainView from "./MainView";
 import RegisterView from "./RegisterView";
 import MainLogo from "./Components/MainLogo";
 import Copyright from "./Components/Copyright";
 import User24 from "../Common/Resources/User24";
-import SvgInput from "../Common/SvgInput";
+import SvgInput from "./Components/SvgInput";
 import Lock24 from "../Common/Resources/Lock24";
-import BaseCheckbox from "../Common/BaseCheckbox";
-import BaseButton from "../Common/BaseButton";
-import BaseLink from "../Common/BaseLink";
+import BaseCheckbox from "./Components/BaseCheckbox";
+import BaseButton from "./Components/BaseButton";
+import BaseLink from "./Components/BaseLink";
 import AuthServiceProvider from "../Providers/AuthServiceProvider";
 import {toast} from 'react-hot-toast';
 import AppServiceProvider from "../Providers/AppServiceProvider";
 import CookieProvider from "../Providers/CookieProvider";
-import Loading from "../Common/Resources/Loading";
+import SplashLoader from "./Components/SplashLoader";
 
 class AuthView extends Component {
 
@@ -81,37 +80,35 @@ class AuthView extends Component {
     render() {
         const cookieProvider = new CookieProvider();
         return (
-            <>
-                <MainView>
-                    {this.state.isRegister ? <RegisterView action={this.openRegister}/> : <></>}
-                    <MainLogo/>
-                    <div className="flex w-full flex-col border-y bg-white py-10 text-center shadow-lg">
-                        <h1 className="mb-4 text-xl font-light">Авторизация</h1>
-                        <div className="mx-auto flex flex-col justify-center">
-                            <SvgInput data={this.state.login} handleChange={this.handleInput} name="login"
-                                      svg={<User24/>}
-                                      placeholder="Введите логин" type="text"/>
-                            <SvgInput data={this.state.password} handleChange={this.handleInput} name="password"
-                                      svg={<Lock24/>}
-                                      placeholder="Введите пароль" type="password"/>
-                            <div className="flex justify-between">
-                                <div className="my-auto mx-2">
-                                    <BaseCheckbox data={cookieProvider.readLocal('remember')} name="remember"
-                                                  handleChange={this.handleInput}
-                                                  value="Запомнить меня"/>
-                                </div>
-                                <BaseButton action={this.handleSubmit} value="Войти"/>
+            <div className="relative flex h-screen w-screen flex-col bg-slate-100">
+                {this.state.isRegister ? <RegisterView action={this.openRegister}/> : <></>}
+                <MainLogo/>
+                <div className="flex w-full flex-col border-y bg-white py-10 text-center shadow-lg">
+                    <h1 className="mb-4 text-xl font-light">Авторизация</h1>
+                    <div className="mx-auto flex flex-col justify-center">
+                        <SvgInput data={this.state.login} handleChange={this.handleInput} name="login"
+                                  svg={<User24 class="fill-slate-500"/>}
+                                  placeholder="Введите логин" type="text"/>
+                        <SvgInput data={this.state.password} handleChange={this.handleInput} name="password"
+                                  svg={<Lock24 class="fill-slate-500"/>}
+                                  placeholder="Введите пароль" type="password"/>
+                        <div className="flex justify-between">
+                            <div className="my-auto mx-2">
+                                <BaseCheckbox data={cookieProvider.readLocal('remember')} name="remember"
+                                              handleChange={this.handleInput}
+                                              value="Запомнить меня"/>
                             </div>
+                            <BaseButton action={this.handleSubmit} value="Войти"/>
                         </div>
-                        <BaseLink value="Регистрация" action={this.openRegister}/>
-                        <Copyright/>
                     </div>
-                    <div className="flex justify-center my-auto">
-                        {this.state.isLoading ? <Loading/> : ""}
-                    </div>
+                    <BaseLink value="Регистрация" action={this.openRegister}/>
+                    <Copyright/>
+                </div>
+                <div className="flex justify-center my-auto">
+                    {this.state.isLoading ? <SplashLoader/> : ""}
+                </div>
 
-                </MainView>
-            </>
+            </div>
         );
     }
 }
