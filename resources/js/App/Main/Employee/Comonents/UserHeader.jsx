@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import UserAvatar from "../../Common/Components/UserAvatar";
+import EmployeeAvatar from "../../../Common/Components/EmployeeAvatar";
 import UserHeadings from "./UserHeadings";
 import HeadingButton from "./HeadingButton";
 import Settings24 from "../../../Common/Resources/Settings24";
@@ -26,7 +26,7 @@ class UserHeader extends Component {
         return (
             <div className="bg-white border-b flex">
                 <div className="flex w-full m-4">
-                    <UserAvatar text={this.props.avatar}/>
+                    <EmployeeAvatar text={this.props.avatar}/>
                     <UserHeadings fullName={this.props.fullName} appointment={this.props.appointment.name}/>
                 </div>
                 <div className="flex">

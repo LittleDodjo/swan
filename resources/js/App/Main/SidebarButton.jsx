@@ -1,21 +1,29 @@
 import React, {Component} from 'react';
-import {Link, NavLink} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
+import WithRouter from "../WithRouter";
 
 class SidebarButton extends Component {
 
     constructor(props) {
         super(props);
+
+        this.redirect = this.redirect.bind(this);
+    }
+
+    redirect() {
+        this.props.navigate(this.props.link);
     }
 
     render() {
         return (
-            <li className="aside-btn">
-                <NavLink to={this.props.link} className="aside-btn">
-                    {this.props.svg}
-                </NavLink>
+            <li className="aside-btn" onClick={this.redirect}>
+                {this.props.svg}
+                {!this.props.caption ? "" :
+                    <p className="font-light">{this.props.caption}</p>
+                }
             </li>
         );
     }
 }
 
-export default SidebarButton;
+export default WithRouter(SidebarButton);

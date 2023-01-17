@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-class UserAvatar extends Component {
+class EmployeeAvatar extends Component {
 
     constructor(props) {
         super(props);
@@ -17,4 +17,4 @@ class UserAvatar extends Component {
     }
 }
 
-export default UserAvatar;
+export default EmployeeAvatar;

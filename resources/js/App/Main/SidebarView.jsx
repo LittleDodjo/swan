@@ -14,36 +14,35 @@ class Sidebar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mini: true
+            mini: false
         };
 
-        this.openMiniSidebar = this.openMiniSidebar.bind(this);
+        this.miniSidebar = this.miniSidebar.bind(this);
     }
 
-    openMiniSidebar() {
-        this.setState({mini: !this.state.mini});
+    miniSidebar(state) {
+        this.setState({mini: state});
     }
+
 
     render() {
         return (
             <>
                 <aside className="aside-box relative">
                     <ul className="side-menu">
-                        <SidebarButton  svg={<Home24 class="fill-slate-500"/>} link={"/app"}/>
-                        <SidebarButton  svg={<FileUpload24 class="fill-slate-500"/>} link={"/app"}/>
-                        <SidebarButton svg={<Bookmark24 class="fill-slate-500"/>} link={"/app"}/>
-                        <SidebarButton  svg={<FileDownload24 class="fill-slate-500"/>} link={"/app"}/>
-                        <SidebarButton  svg={<Report24 class="fill-slate-500"/>} link={"/app"}/>
+                        <SidebarButton svg={<Home24/>} link={"/app"}/>
+                        <SidebarButton svg={<FileUpload24/>} link={"/app"}/>
+                        <SidebarButton svg={<Bookmark24/>} link={"/app"}/>
+                        <SidebarButton svg={<FileDownload24/>} link={"/app"}/>
+                        <SidebarButton svg={<Report24/>} link={"/app"}/>
                     </ul>
-                    <div className="aside-btn relative w-full">
+                    <div className="aside-btn relative w-full" onClick={() => this.miniSidebar(!this.state.mini)}>
                         <ul className="side-menu">
-                            <li onClick={this.openMiniSidebar}>
-                                <Menu24 class="fill-slate-500"/>
-                            </li>
+                            <SidebarButton svg={<Menu24/>}/>
                         </ul>
                     </div>
                 </aside>
-                <MiniSidebar state={this.state.mini}/>
+                <MiniSidebar action={this.miniSidebar} state={this.state.mini}/>
             </>
         );
     }

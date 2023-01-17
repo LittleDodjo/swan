@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import {Navigate, Route, Routes} from 'react-router-dom';
 import MainView from "./Main/MainView";
 import HomeView from "./Main/Home/HomeView";
-import UserView from "./Main/Employee/UserView";
-import Notification from "react-notifications/lib/Notification";
+import UserView from "./Main/Employee/EmployeeView";
 import NotificationsView from "./Main/Notifications/NotificationsView";
 import ChatView from "./Main/Chats/ChatView";
 
@@ -18,7 +17,7 @@ class AppRoutes extends Component {
         return (
             <Routes>
                 <Route exact path='/' element={
-                    this.props.authState ? <Navigate to="/app"/> : this.props.children
+                    this.props.authState ? <Navigate to="/app/employee"/> : this.props.children
                 }/>
                 <Route  path="/app" element={
                     this.props.authState ? <MainView view={<HomeView/>}/> : <Navigate to="/"/>
