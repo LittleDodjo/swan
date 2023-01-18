@@ -1,5 +1,6 @@
 import CookieProvider from "./CookieProvider";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 class UserServiceProvider {
 
@@ -43,9 +44,8 @@ class UserServiceProvider {
                 employee: res.data
             });
         }).catch((e) => {
-            console.log(e)
+            toast.error("error");
         });
-        return {employee: null};
     }
 
     getDepends(depends) {

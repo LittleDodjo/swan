@@ -1,5 +1,6 @@
 @import "main.css";
-@import "user.css";
+@import "employee.css";
+@import "outgoing.css";
 
 @tailwind base;
 @tailwind components;

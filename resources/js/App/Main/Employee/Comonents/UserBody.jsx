@@ -24,7 +24,7 @@ class UserBody extends Component {
                     <div className="border-y mt-2 p-2 bg-white text-center text-slate-500">У данного сотрудника нет
                         учетной записи</div> : ""}
 
-                {this.props.me && !this.props.user.is_confirmed ?
+                {this.props.me && !this.props.user.confirmed ?
                     <div className="border-y mt-2 p-2 bg-white text-center text-slate-500">Учетная запись не
                         подтверждена, обратитесь к администратору</div> : ""}
 
@@ -54,8 +54,8 @@ class UserBody extends Component {
 
                 </div>
 
-                {this.props.employee.rank < 7 ?
-                    <DependenciesUser openUser={this.props.openUser} dependency={this.props.employee.dependency}/> : <>/</>}
+                {/*{this.props.employee.rank < 7 ?*/}
+                {/*    <DependenciesUser openUser={this.props.openUser} dependency={this.props.employee.dependency}/> : <>/</>}*/}
             </>
         );
     }

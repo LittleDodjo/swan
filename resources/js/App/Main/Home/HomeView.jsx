@@ -21,9 +21,14 @@ class HomeView extends Component {
         if (this.state.employee === null) return (<>loading..</>);
         const employee = this.state.employee;
         return (
-            <div className="bg-white p-4 border-b">
-                <p className="font-light text-xl">Добрый день, {employee.first_name + " " + employee.last_name}</p>
-            </div>
+            <>
+                <div className="bg-white p-4 border-b">
+                    <p className="font-light text-xl">Добрый день, {employee.first_name}</p>
+                </div>
+                <div className="bg-white border-y p-4 mt-4">
+                    Пока новостей нет
+                </div>
+            </>
         );
     }
 }

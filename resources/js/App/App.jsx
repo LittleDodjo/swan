@@ -59,7 +59,6 @@ class App extends Component {
     componentDidMount() {
         const appProvider = new AppServiceProvider();
         appProvider.checkAuth(this.refreshAction);
-        if (this.state.authState === false) return;
         const interval = setInterval(() => {
             if (sessionStorage.getItem("authorization") === null) this.resetAuth();
             if (this.state.lastRefresh >= this.state.maxTokenTime) {

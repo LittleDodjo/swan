@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {Navigate, useNavigate} from "react-router-dom";
 import WithRouter from "../WithRouter";
 
 class SidebarButton extends Component {

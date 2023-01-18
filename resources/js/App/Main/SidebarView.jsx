@@ -31,10 +31,10 @@ class Sidebar extends Component {
                 <aside className="aside-box relative">
                     <ul className="side-menu">
                         <SidebarButton svg={<Home24/>} link={"/app"}/>
-                        <SidebarButton svg={<FileUpload24/>} link={"/app"}/>
-                        <SidebarButton svg={<Bookmark24/>} link={"/app"}/>
-                        <SidebarButton svg={<FileDownload24/>} link={"/app"}/>
-                        <SidebarButton svg={<Report24/>} link={"/app"}/>
+                        <SidebarButton svg={<FileUpload24/>} link={"/app/outgoing"}/>
+                        <SidebarButton svg={<Bookmark24/>} link={"/app/marks"}/>
+                        <SidebarButton svg={<FileDownload24/>} link={"/app/ingoing"}/>
+                        <SidebarButton svg={<Report24/>} link={"/app/reports"}/>
                     </ul>
                     <div className="aside-btn relative w-full" onClick={() => this.miniSidebar(!this.state.mini)}>
                         <ul className="side-menu">

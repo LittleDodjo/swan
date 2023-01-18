@@ -30,10 +30,10 @@ class UserHeader extends Component {
                     <UserHeadings fullName={this.props.fullName} appointment={this.props.appointment.name}/>
                 </div>
                 <div className="flex">
-                    {isAdmin ? <HeadingButton svg={<Admin24/>} text="Управление"/> : <></>}
+                    {isAdmin ? <HeadingButton svg={<Admin24/>} text="Управление" action={this.props.admin}/> : <></>}
                     {this.props.me ?
                         <>
-                            <HeadingButton svg={<Settings24/>} text="Настройки"/>
+                            <HeadingButton svg={<Settings24/>} text="Настройки" action={this.props.settings}/>
                             <HeadingButton svg={<Door24/>} text="Выход" action={this.logout}/>
                         </> : ""
                     }

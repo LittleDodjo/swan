@@ -35,6 +35,29 @@
 }
 
 .mini-sidebar{
-    @apply border bg-white shadow-md absolute bottom-2 left-20 rounded-lg;
+    @apply border bg-white shadow-md absolute bottom-2 left-20 rounded-lg z-50;
     @apply transition-all delay-150;
+}
+
+.splash-screen {
+    @apply absolute h-full w-full pt-20 backdrop-blur-md overflow-y-hidden;
+}
+
+.splash-screen-line {
+    @apply mx-auto mt-2 h-1 w-60 rounded-full bg-gray-200;
+}
+
+.splash-screen-ref {
+    @apply flex h-full flex-col border-t bg-white drop-shadow-2xl;
+    transform: translateY(100%);
+    animation: splash 0.2s forwards;
+}
+
+.splash-screen-caption{
+    @apply w-full border-b p-2 text-2xl font-light flex justify-between;
+}
+
+@keyframes  splash{
+    0% { transform: translateY(100%);}
+    100% { transform: translateY(0%);}
 }
