@@ -57,6 +57,11 @@
     @apply w-full border-b p-2 text-2xl font-light flex justify-between;
 }
 
+.redirect-link{
+    @apply cursor-pointer transition-colors delay-75;
+    @apply hover:text-indigo-500 hover:underline;
+}
+
 @keyframes  splash{
     0% { transform: translateY(100%);}
     100% { transform: translateY(0%);}

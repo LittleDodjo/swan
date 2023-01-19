@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import WithRouter from "../WithRouter";
+import withRouter from "../withRouter";
 
 class SidebarButton extends Component {
 
@@ -25,4 +25,4 @@ class SidebarButton extends Component {
     }
 }
 
-export default WithRouter(SidebarButton);
+export default withRouter(SidebarButton);

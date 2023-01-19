@@ -18,3 +18,7 @@
     @apply transition-colors delay-75 cursor-pointer;
     @apply hover:bg-indigo-500 hover:fill-white hover:text-white;
 }
+
+.employee-view{
+    @apply relative flex h-full flex-col overflow-y-auto overflow-x-hidden;
+}

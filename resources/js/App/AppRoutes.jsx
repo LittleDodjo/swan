@@ -21,16 +21,25 @@ class AppRoutes extends Component {
         return (
             <Routes>
                 <Route exact path='/' element={
-                    this.props.authState ? <Navigate to="/app/outgoing"/> : this.props.children
+                    this.props.authState ? <Navigate to="/app/employee"/> : this.props.children
                 }/>
-                <Route  path="/app" element={
+                <Route exact  path="/app" element={
                     this.props.authState ? <MainView view={<HomeView/>}/> : <Navigate to="/"/>
                 }/>
-                <Route  path="/app/employee/:id" element={
+                <Route exact  path="/app/employee/:id" element={
                     this.props.authState ? <MainView view={<UserView/>}/> : <Navigate to="/"/>
                 }/>
                 <Route  path="/app/employee" element={
-                    this.props.authState ? <MainView view={<UserView id={0}/>}/> : <Navigate to="/"/>
+                    this.props.authState ? <MainView view={<UserView/>}/> : <Navigate to="/"/>
+                }/>
+                <Route exact path="/app/edep/:id" element={
+                    this.props.authState ? <MainView view={<>edep</>}/> : <Navigate to="/"/>
+                }/>
+                <Route  path="/app/mdep/:id" element={
+                    this.props.authState ? <MainView view={<>mdep</>}/> : <Navigate to="/"/>
+                }/>
+                <Route  path="/app/management/:id" element={
+                    this.props.authState ? <MainView view={<>management</>}/> : <Navigate to="/"/>
                 }/>
                 <Route  path="/app/outgoing" element={
                     this.props.authState ? <MainView view={<OutgoingView/>}/> : <Navigate to="/"/>

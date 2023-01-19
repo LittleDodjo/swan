@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import UserServiceProvider from "../../Providers/UserServiceProvider";
+import EmployeeProvider from "../../Providers/EmployeeProvider";
 
 class HomeView extends Component {
 
@@ -13,8 +13,9 @@ class HomeView extends Component {
     }
 
     componentDidMount() {
-        const userProvider = new UserServiceProvider();
-        this.setState(userProvider.me());
+        this.setState({employee: JSON.parse(sessionStorage.getItem("employee"))});
+        this.setState({roles: JSON.parse(sessionStorage.getItem("roles"))});
+        this.setState({user: JSON.parse(sessionStorage.getItem("user"))});
     }
 
     render() {

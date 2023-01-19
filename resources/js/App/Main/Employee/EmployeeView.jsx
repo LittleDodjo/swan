@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import UserHeader from "./Comonents/UserHeader";
-import UserServiceProvider from "../../Providers/UserServiceProvider";
-import UserBody from "./Comonents/UserBody";
-import UserNotFound from "./Comonents/UserNotFound";
-import WithRouter from "../../WithRouter";
-import {toast} from "react-hot-toast";
+import toast from "react-hot-toast";
+import withRouter from "../../withRouter";
+import EmployeeProvider from "../../Providers/EmployeeProvider";
+import EmployeeHeader from "./Comonents/EmployeeHeader";
+import EmployeeBody from "./Comonents/EmployeeBody";
 import EmployeeSettings from "./EmployeeSettings";
 import EmployeeAdmin from "./EmployeeAdmin";
 
@@ -13,72 +12,72 @@ class EmployeeView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: null,
             employee: null,
-            roles: null,
-            id: 0,
-            settingsWindow: false,
-            adminWindow: false,
+            admin: false,
+            settings: false,
         }
-        this.getUser = this.getUser.bind(this);
-        this.openUser = this.openUser.bind(this);
-        this.openSettings = this.openSettings.bind(this);
-        this.openAdmin = this.openAdmin.bind(this);
+
+        this.settings = this.settings.bind(this);
+        this.admin = this.admin.bind(this);
     }
 
-    openSettings(state) {
-        this.setState({settingsWindow: state});
+    settings(state) {
+        this.setState({settings: state});
     }
 
-    openAdmin(state) {
-        this.setState({adminWindow: state});
+    admin(state) {
+        this.setState({admin: state});
     }
 
-    getUser(data) {
-        if (data.status === 200) {
-            this.setState({
-                employee: data.employee,
-                id: data.employee.id,
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.params.id !== prevProps.params.id) {
+            this.forceUpdate(() => {
+                EmployeeProvider.employee(this.props.params.id, (response) => {
+                    if (response.status === 404) {
+                        toast.error("Такой пользователь не найден");
+                    }
+                    if (response.status === 200) {
+                        this.setState({employee: response.employee});
+                    }
+                });
             });
-        } else {
-            toast.error("Такой сотрудник не найден");
-        }
-    }
-
-    openUser(employee) {
-        const userProvider = new UserServiceProvider();
-        if (employee === 0) this.setState(userProvider.me());
-        else {
-            this.setState({
-                user: userProvider.me().user,
-                roles: userProvider.me().roles,
-            });
-            userProvider.user(employee, this.getUser);
         }
     }
 
     componentDidMount() {
-        if (this.props.id === null) this.openUser(this.props.params.id);
-        else this.openUser(this.props.id);
+        if (!this.props.params.id) {
+            this.setState({employee: JSON.parse(sessionStorage.getItem("employee"))});
+        } else {
+            EmployeeProvider.employee(this.props.params.id, (response) => {
+                if (response.status === 404) {
+                    toast.error("Такой пользователь не найден");
+                }
+                if (response.status === 200) {
+                    this.setState({employee: response.employee});
+                }
+            });
+        }
     }
 
     render() {
-        if (this.state.user == null) return <></>;
-        if (this.state.employee === null || this.state.roles === null) return <UserNotFound id={this.state.id}/>
-        const avatar = this.state.employee.first_name[0] + this.state.employee.last_name[0];
+        if (this.state.employee === null) return <>loading</>;
+        const employee = this.state.employee
+        const data = {
+            avatar: employee.first_name[0] + employee.last_name[0],
+            fullName: employee.full_name,
+            appointment: employee.appointment.name,
+            isAdmin: (this.props.roles.is_admin || this.props.roles.is_root),
+            me: !this.props.params.id,
+        };
         return (
-            <div className="relative flex h-full flex-col overflow-y-auto overflow-x-hidden">
-                <UserHeader me={this.state.id === 0} avatar={avatar} fullName={this.state.employee.full_name}
-                            appointment={this.state.employee.appointment} role={this.state.roles}
-                            settings={this.openSettings} admin={this.openAdmin}/>
-                <UserBody openUser={this.openUser} me={this.state.id === 0} user={this.state.user}
-                          employee={this.state.employee}
-                          role={this.state.roles}/>
-                <EmployeeSettings action={this.openSettings} state={this.state.settingsWindow}/>
-                <EmployeeAdmin action={this.openAdmin} state={this.state.adminWindow}/>
+            <div className="employee-view">
+                <EmployeeHeader me={!this.props.params.id} data={data} admin={this.admin} settings={this.settings}/>
+                <EmployeeBody me={!this.props.params.id} employee={employee}/>
+                <EmployeeSettings state={this.state.settings} action={this.settings}/>
+                <EmployeeAdmin state={this.state.admin} action={this.admin}/>
             </div>
         );
     }
 }
 
-export default WithRouter(EmployeeView);
+export default withRouter(EmployeeView);
