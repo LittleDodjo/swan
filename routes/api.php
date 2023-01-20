@@ -14,6 +14,7 @@ use App\Http\Controllers\BaseController\OrganizationController;
 use App\Http\Controllers\BaseController\Pivot\EmployeesToDepartmentController;
 use App\Http\Controllers\BaseController\Pivot\EmployeesToEmployeeDepartmentsController;
 use App\Http\Controllers\BaseController\UserRoleController;
+use App\Http\Controllers\Outgoing\Stamps\StampRegisterController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'user'], function () {
@@ -26,7 +27,6 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/confirm/{user}', [UserRoleController::class, 'confirm'])
         ->missing(fn() => response(['not found']));
 });
-
 
 Route::apiResource('management', ManagementController::class)
     ->missing(fn() => response(['message' => 'Такое управление не найдено'], 404));
@@ -69,3 +69,6 @@ Route::delete('edep/{employee}', [EmployeesToEmployeeDepartmentsController::clas
     ->missing(fn() => response(['message' => 'Сотрудник не найден'], 404));
 
 Route::get('all/departments', [AllDepartmentController::class, 'index']);
+
+Route::apiResource('stamps/register', StampRegisterController::class)
+    ->missing(fn() => response(['message' => 'Данный номинал не найден'], 404));
