@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('organization_registers', function (Blueprint $table) {
             $table->id();
-            $table->string("name")->unique();
+            $table->string("name");
             $table->integer("index");
             $table->string("city");
             $table->string("street");
-            $table->integer("number")->unique();
+            $table->string("number");
             $table->softDeletes();
             $table->timestamps();
         });

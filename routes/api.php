@@ -14,7 +14,11 @@ use App\Http\Controllers\BaseController\OrganizationController;
 use App\Http\Controllers\BaseController\Pivot\EmployeesToDepartmentController;
 use App\Http\Controllers\BaseController\Pivot\EmployeesToEmployeeDepartmentsController;
 use App\Http\Controllers\BaseController\UserRoleController;
-use App\Http\Controllers\Outgoing\Stamps\StampRegisterController;
+use App\Http\Controllers\OutgoingController\OrganizationRegisterController;
+use App\Http\Controllers\OutgoingController\OutgoingRegisterController;
+use App\Http\Controllers\OutgoingController\Stamps\StampBalanceController;
+use App\Http\Controllers\OutgoingController\Stamps\StampRegisterController;
+use App\Models\OutgoingModel\OutgoingRegister;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'user'], function () {
@@ -70,5 +74,17 @@ Route::delete('edep/{employee}', [EmployeesToEmployeeDepartmentsController::clas
 
 Route::get('all/departments', [AllDepartmentController::class, 'index']);
 
-Route::apiResource('stamps/register', StampRegisterController::class)
+Route::apiResource('register/correspondent', OrganizationRegisterController::class)
+    ->missing(fn() => response(['message' => 'Организация не найдена'], 404));
+
+Route::apiResource('register/stamp', StampRegisterController::class)
     ->missing(fn() => response(['message' => 'Данный номинал не найден'], 404));
+
+Route::get('stamps/balance', [StampBalanceController::class, 'index']);
+
+Route::get('stamps/history', [StampBalanceController::class, 'history']);
+
+Route::post('stamps/balance', [StampBalanceController::class, 'store']);
+
+Route::apiResource('outgoing', OutgoingRegisterController::class)
+    ->missing(fn() => response(['message' => 'Исходящий документ не найден'], 404));

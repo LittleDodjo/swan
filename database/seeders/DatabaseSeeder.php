@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\BaseModel\Employee\Employee;
 use App\Models\BaseModel\Management\Management;
+use App\Models\OutgoingModel\Stamps\StampBalance;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -25,5 +26,7 @@ class DatabaseSeeder extends Seeder
         Employee::factory(2)->create(['rank' => 7]);
         Employee::factory(2)->create(['rank' => 6]);
         Management::factory(1)->create();
+        $this->call(StampBalanceSeeder::class);
+        $this->call(StampRegisterSeeder::class);
     }
 }

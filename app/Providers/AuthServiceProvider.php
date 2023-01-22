@@ -10,17 +10,20 @@ use App\Models\BaseModel\Employee\EmployeeDefaults;
 use App\Models\BaseModel\Employee\Reason;
 use App\Models\BaseModel\Management\Management;
 use App\Models\BaseModel\Organization;
-use App\Models\Outgoing\Stamps\StampRegister;
+use App\Models\OutgoingModel\OrganizationRegister;
+use App\Models\OutgoingModel\OutgoingRegister;
+use App\Models\OutgoingModel\Stamps\StampRegister;
 use App\Policies\BasePolicy\Department\DepartmentPolicy;
 use App\Policies\BasePolicy\Department\EmployeeDepartmentPolicy;
 use App\Policies\BasePolicy\Employee\AppointmentPolicy;
-use App\Policies\BasePolicy\Employee\DefaultPolicy;
 use App\Policies\BasePolicy\Employee\EmployeeDefaultsPolicy;
 use App\Policies\BasePolicy\Employee\EmployeePolicy;
 use App\Policies\BasePolicy\Employee\ReasonPolicy;
 use App\Policies\BasePolicy\Management\ManagementPolicy;
 use App\Policies\BasePolicy\OrganizationPolicy;
-use App\Policies\Outgoing\Stamps\StampRegisterPolicy;
+use App\Policies\OutgoingPolicy\OrganizationRegisterPolicy;
+use App\Policies\OutgoingPolicy\OutgoingRegisterPolicy;
+use App\Policies\OutgoingPolicy\Stamps\StampRegisterPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -40,6 +43,8 @@ class AuthServiceProvider extends ServiceProvider
         Employee::class => EmployeePolicy::class,
         Reason::class => ReasonPolicy::class,
         StampRegister::class => StampRegisterPolicy::class,
+        OrganizationRegister::class => OrganizationRegisterPolicy::class,
+        OutgoingRegister::class => OutgoingRegisterPolicy::class,
     ];
 
     /**

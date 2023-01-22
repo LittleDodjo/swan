@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\BaseModel\Employee\Employee;
 use App\Models\OutgoingModel\OutgoingRegister;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -15,11 +14,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('outgoing_histories', function (Blueprint $table) {
+        Schema::create('stamp_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(OutgoingRegister::class);
-            $table->foreignIdFor(Employee::class);
-            $table->json('touched_fields');
+            $table->json('stamps_used');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('outgoing_histories');
+        Schema::dropIfExists('stamp_histories');
     }
 };

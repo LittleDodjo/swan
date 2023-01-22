@@ -5,7 +5,7 @@ namespace Database\Factories\Outgoing\Stamps;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Outgoing\Stamps\StampRegister>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\OutgoingModel\Stamps\StampRegister>
  */
 class StampRegisterFactory extends Factory
 {
