@@ -17,7 +17,7 @@ return new class extends Migration {
         Schema::create('outgoing_registers', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Employee::class);
-            $table->json('stamps_used');
+            $table->json('stamps_used')->nullable();
             $table->json('departure_data');
             $table->string('registration_number');
             $table->date('registration_date');
@@ -25,6 +25,7 @@ return new class extends Migration {
             $table->integer('lists_count')->default(1);
             $table->integer('envelopes_count')->default(1);
             $table->integer('copies_count')->default(1);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

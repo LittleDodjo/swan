@@ -14,5 +14,7 @@ class UserRole extends Model
         'is_root',
         'is_admin',
         'is_control',
+        'outgoing_manager',
+        'incoming_manager',
     ];
 }

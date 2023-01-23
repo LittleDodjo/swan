@@ -18,7 +18,7 @@ class StampRegisterResourceResource extends JsonResource
     #[ArrayShape(['id' => "mixed", 'value' => "mixed", 'count' => "mixed"])] public function
     toArray($request): array|JsonSerializable|Arrayable
     {
-        $balance = StampBalance::query()->latest()->first();
+        $balance = StampBalance::orderby('id', 'desc')->first();
         return [
             'id' => $this->id,
             'value' => $this->value,

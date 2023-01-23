@@ -2,17 +2,16 @@
 
 namespace App\Http\Resources\OutgoingResource;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use JsonSerializable;
 
 class OutgoingHistoryResourceCollection extends ResourceCollection
 {
-    /**
-     * Transform the resource collection into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
-     */
-    public function toArray($request)
+
+    public $collects = OutgoingHistoryResource::class;
+
+    public function toArray($request): array|JsonSerializable|Arrayable
     {
         return parent::toArray($request);
     }

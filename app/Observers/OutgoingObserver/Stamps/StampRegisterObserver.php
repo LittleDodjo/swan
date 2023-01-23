@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Observers\Outgoing\Stamps;
+namespace App\Observers\OutgoingObserver\Stamps;
 
 use App\Models\OutgoingModel\Stamps\StampBalance;
 use App\Models\OutgoingModel\Stamps\StampRegister;
-use Illuminate\Support\Facades\Log;
-use mysql_xdevapi\Exception;
 
 class StampRegisterObserver
 {

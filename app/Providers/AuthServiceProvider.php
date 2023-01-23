@@ -12,6 +12,7 @@ use App\Models\BaseModel\Management\Management;
 use App\Models\BaseModel\Organization;
 use App\Models\OutgoingModel\OrganizationRegister;
 use App\Models\OutgoingModel\OutgoingRegister;
+use App\Models\OutgoingModel\Stamps\StampBalance;
 use App\Models\OutgoingModel\Stamps\StampRegister;
 use App\Policies\BasePolicy\Department\DepartmentPolicy;
 use App\Policies\BasePolicy\Department\EmployeeDepartmentPolicy;
@@ -23,6 +24,7 @@ use App\Policies\BasePolicy\Management\ManagementPolicy;
 use App\Policies\BasePolicy\OrganizationPolicy;
 use App\Policies\OutgoingPolicy\OrganizationRegisterPolicy;
 use App\Policies\OutgoingPolicy\OutgoingRegisterPolicy;
+use App\Policies\OutgoingPolicy\Stamps\StampBalancePolicy;
 use App\Policies\OutgoingPolicy\Stamps\StampRegisterPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -43,6 +45,7 @@ class AuthServiceProvider extends ServiceProvider
         Employee::class => EmployeePolicy::class,
         Reason::class => ReasonPolicy::class,
         StampRegister::class => StampRegisterPolicy::class,
+        StampBalance::class => StampBalancePolicy::class,
         OrganizationRegister::class => OrganizationRegisterPolicy::class,
         OutgoingRegister::class => OutgoingRegisterPolicy::class,
     ];

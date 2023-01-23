@@ -20,6 +20,8 @@ return new class extends Migration
             $table->boolean('is_root')->default(false);
             $table->boolean('is_admin')->default(false);
             $table->boolean('is_control')->default(false);
+            $table->boolean('outgoing_manager')->default(false);
+            $table->boolean('incoming_manager')->default(false);
             $table->timestamps();
         });
     }

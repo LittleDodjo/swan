@@ -30,10 +30,6 @@ class StoreOutgoingRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'message_type' => 'boolean',
-            'copies_count' => 'integer',
-            'envelopes_count' => 'integer',
-            'lists_count' => 'integer',
             'registration_number' => 'string|required',
             'registration_date' => 'before_or_equal:now|required',
             'departure_data.mail' => 'array|nullable',
@@ -76,14 +72,50 @@ class StoreOutgoingRegisterRequest extends FormRequest
             ],
             'stamps_used' => 'array|nullable',
             'stamps_used.*.id' => 'exists:stamp_registers,id|required|sometimes',
-            'stamps_used.*.count' => 'integer|min:1|required|sometimes'
+            'stamps_used.*.count' => 'integer|min:1|required|sometimes',
+            'envelopes_count' => 'min:1|integer',
+            'lists_count' => 'min:1|integer',
+            'message_type' => 'boolean|required',
+            'copies_count' => 'min:1|integer',
         ];
     }
 
     public function messages(): array
     {
         return [
-
+            'registration_number.required' => 'Необходимо указать регистрационный номер исходящего письма',
+            'registration_number.string' => 'Неверный формат регистрационного номера',
+            'departure_data.mail.array' => 'Неверный формат данных (почта)',
+            'departure_data.mail.address.email' => 'Неверный формат электронной почты',
+            'departure_data.mail.address.required' => 'Необходимо указать адрес электронной почты',
+            'departure_data.mail.date.required' => 'Необходимо указать дату отправки',
+            'departure_data.mail.date.before_or_equal' => 'Дата должна быть не позднее текущей даты',
+            'departure_data.organization.array' => 'Неверный формат данных (Организация)',
+            'departure_data.organization.address.exists' => 'Такой организации не найдено в реестре',
+            'departure_data.organization.address.required' => 'Необходимо указать адрес организации',
+            'departure_data.organization.date.required' => 'Необходимо указать дату отправки',
+            'departure_data.organization.date.before_or_equal' => 'Дата должна быть не позднее текущей даты',
+            'departure_data.people.array' => 'Неверный формат данных (Организация)',
+            'departure_data.people.address.string' => 'Неверный формат данных адреса',
+            'departure_data.people.address.required' => 'Необходимо указать адрес доставки',
+            'departure_data.people.date.required' => 'Необходимо указать дату отправки',
+            'departure_data.people.date.before_or_equal' => 'Дата должна быть не позднее текущей даты',
+            'departure_data.people.name.string' => 'Неверный формат ФИО получателя',
+            'departure_data.people.name.required' => 'Необходимо указать ФИО получателя',
+            'stamps_used.array' => 'Неверный формат данных полученных от клиента',
+            'stamps_used.*.id.exists' => 'Марки такого номинала не найдено в реестре',
+            'stamps_used.*.id.required' => 'Обязательно необходимо указать идентификатор марки в реестре',
+            'stamps_used.*.count.required' => 'Обязательно необходимо указать количество марок',
+            'stamps_used.*.count.integer' => 'Неверный формат данных',
+            'stamps_used.*.count.min' => 'Марок должно быть не менее 1',
+            'envelopes_count.min' => 'Минимальное количество конвертов 1',
+            'envelopes_count.integer' => 'Неверный формат данных количества конвертов',
+            'lists_count.min' => 'Минимальное количество конвертов 1',
+            'lists_count.integer' => 'Неверный формат данных количества конвертов',
+            'copies_count.min' => 'Минимальное количество конвертов 1',
+            'copies_count.integer' => 'Неверный формат данных количества конвертов',
+            'message_type.boolean' => 'Неверный формат данных типа письма',
+            'message_type.required' => 'Тип письма указывать обязательно',
         ];
     }
 }

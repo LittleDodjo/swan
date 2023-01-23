@@ -6,11 +6,25 @@ use App\Models\BaseModel\Employee\Employee;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property mixed employee_id
+ * @property mixed stamps_used
+ * @property mixed employee
+ * @property mixed id
+ * @property mixed history
+ */
 class OutgoingRegister extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    protected $casts = [
+        'stamps_used' => 'array',
+        'departure_data' => 'array',
+    ];
 
     protected $fillable = [
         'employee_id',
@@ -23,14 +37,14 @@ class OutgoingRegister extends Model
         'copies_count',
     ];
 
-    public function employee(): HasOne
+    public function employee(): BelongsTo
     {
-        return $this->hasOne(Employee::class);
+        return $this->BelongsTo(Employee::class);
     }
 
-    public function history(): BelongsTo
+    public function history(): HasMany
     {
-        return $this->BelongsTo(OutgoingHistory::class);
+        return $this->HasMany(OutgoingHistory::class);
     }
 
     public function departure(){

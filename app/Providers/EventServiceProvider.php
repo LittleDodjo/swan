@@ -7,13 +7,15 @@ use App\Models\BaseModel\Department\EmployeeDepartment;
 use App\Models\BaseModel\Management\Management;
 use App\Models\BaseModel\Pivot\EmployeesToDepartments;
 use App\Models\BaseModel\Pivot\EmployeeToEmployeeDepartments;
+use App\Models\OutgoingModel\OutgoingRegister;
 use App\Models\OutgoingModel\Stamps\StampRegister;
 use App\Observers\BaseObserver\Department\DepartmentObserver;
 use App\Observers\BaseObserver\Department\EmployeeDepartmentObserver;
 use App\Observers\BaseObserver\Employee\EmployeeToDepartmentsObserver;
 use App\Observers\BaseObserver\Employee\EmployeeToEmployeeDepartmentsObserver;
 use App\Observers\BaseObserver\Management\ManagementObserver;
-use App\Observers\Outgoing\Stamps\StampRegisterObserver;
+use App\Observers\OutgoingObserver\OutgoingRegisterObserver;
+use App\Observers\OutgoingObserver\Stamps\StampRegisterObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -44,6 +46,7 @@ class EventServiceProvider extends ServiceProvider
         EmployeesToDepartments::observe(EmployeeToDepartmentsObserver::class);
         EmployeeToEmployeeDepartments::observe(EmployeeToEmployeeDepartmentsObserver::class);
         StampRegister::observe(StampRegisterObserver::class);
+        OutgoingRegister::observe(OutgoingRegisterObserver::class);
     }
 
     /**

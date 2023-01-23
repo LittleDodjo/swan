@@ -64,7 +64,7 @@ class StampRegisterController extends Controller
     public function update(UpdateStampRegisterRequest $request, StampRegister $stamp): Response|Application|ResponseFactory
     {
         $stamp->update($request->validated());
-        return response(['message' => 'Номинал успешно обновлен', $stamp]);
+        return response(['message' => 'Номинал успешно обновлен']);
     }
 
     /**

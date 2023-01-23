@@ -28,6 +28,8 @@ class UserRoleResource extends JsonResource
             'is_admin' => $this->is_admin,
             'is_root' => $this->is_root,
             'is_control' => $this->is_control,
+            'incoming_manager' => $this->incoming_manager,
+            'outgoing_manager' => $this->outgoing_manager,
         ];
     }
 }

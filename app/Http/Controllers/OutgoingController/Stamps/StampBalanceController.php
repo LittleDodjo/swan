@@ -27,7 +27,7 @@ class StampBalanceController extends Controller
      */
     public function index(): Response|Application|ResponseFactory
     {
-        $stamp = StampBalance::query()->latest()->first();
+        $stamp = StampBalance::orderby('id', 'desc')->first();
         return response(new StampBalanceResource($stamp));
     }
 
@@ -37,7 +37,10 @@ class StampBalanceController extends Controller
      */
     public function store(StoreStampBalanceRequest $request): Response|Application|ResponseFactory
     {
-        $oldBalance = StampBalance::query()->latest()->first()->balance;
+        if($request->user()->cannot('store', StampBalance::class)){
+            abort(401, 'Нет доступа для совершения данного действия');
+        }
+        $oldBalance = StampBalance::orderby('id', 'desc')->first()->balance;
         $balance = new StampBalance();
         $balance->employee_id = Auth::user()->id;
         foreach ($request->balance as $key => $value) {
@@ -45,7 +48,7 @@ class StampBalanceController extends Controller
         }
         $balance->balance = $oldBalance;
         $balance->save();
-        return response($balance);
+        return response(['message' => 'Добавлена запись поступления марок на баланс']);
     }
 
     public function history(): Response|Application|ResponseFactory

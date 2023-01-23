@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\BaseModel\Employee\Employee;
+use App\Models\BaseModel\Employee\EmployeeDependency;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -21,6 +22,15 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
+
+
+    protected static function booted()
+    {
+        static::created(function (User $user) {
+            UserRole::create(['user_id' => $user->id]);
+        });
+    }
+
 
     /**
      * The attributes that are mass assignable.

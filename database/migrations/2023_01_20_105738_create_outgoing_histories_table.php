@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(OutgoingRegister::class);
             $table->foreignIdFor(Employee::class);
             $table->json('touched_fields');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
