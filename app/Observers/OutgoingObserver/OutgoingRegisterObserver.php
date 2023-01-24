@@ -7,6 +7,7 @@ use App\Models\OutgoingModel\OutgoingRegister;
 use App\Models\OutgoingModel\Stamps\StampBalance;
 use App\Models\OutgoingModel\Stamps\StampHistory;
 use Error;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 
 class OutgoingRegisterObserver
@@ -51,36 +52,23 @@ class OutgoingRegisterObserver
     public function updated(OutgoingRegister $outgoingRegister)
     {
         if ($outgoingRegister->isDirty('stamps_used')) {
-            $isArrived = false;
-            $isUsed = false;
             $balance = StampBalance::orderby('id', 'desc')->first()->balance;
             $oldStamps = $outgoingRegister->getOriginal('stamps_used');
             $currentStamps = $outgoingRegister->stamps_used;
             foreach ($currentStamps as $key => $value) {
-                if ($value['count'] < $oldStamps[$value['id']]['count']) { //Вернуть в реестр
-                    $different = $oldStamps[$value['id']]['count'] - $value['count'];
-                    $balance[$value['id']] += $different;
-                    $isArrived = true;
-                } elseif ($value['count'] > $oldStamps[$value['id']]['count']) { //Забрать из реестра
-                    $different = $value['count'] - $oldStamps[$value['id']]['count'];
-                    $balance[$value['id']] -= $different;
-                    $isUsed = true;
+                if(Arr::exists($oldStamps, $value['id'])) {
+                    if ($value['count'] < $oldStamps[$value['id']]['count']) { //Вернуть в реестр
+                        $different = $oldStamps[$value['id']]['count'] - $value['count'];
+                        $balance[$value['id']] += $different;
+                    } elseif ($value['count'] > $oldStamps[$value['id']]['count']) { //Забрать из реестра
+                        $different = $value['count'] - $oldStamps[$value['id']]['count'];
+                        $balance[$value['id']] -= $different;
+                    }
                 }
             }
-            if ($isArrived) {
-                StampBalance::create([
-                    'employee_id' => $outgoingRegister->employee->id,
-                    'type' => true,
-                    'balance' => $balance,
-                ]);
-            }
-            if ($isUsed) {
-                StampBalance::create([
-                    'employee_id' => $outgoingRegister->employee->id,
-                    'type' => false,
-                    'balance' => $balance,
-                ]);
-            }
+            StampBalance::orderby('id', 'desc')->first()->update([
+                'balance' => $balance,
+            ]);
         }
     }
 
@@ -105,9 +93,7 @@ class OutgoingRegisterObserver
         foreach ($stamps as $key => $value) {
             $balance[$value['id']] += $value['count'];
         }
-        StampBalance::create([
-            'employee_id' => $outgoingRegister->employee->id,
-            'type' => true,
+        StampBalance::orderby('id', 'desc')->first()->update([
             'balance' => $balance,
         ]);
     }
@@ -133,14 +119,8 @@ class OutgoingRegisterObserver
         foreach ($stamps as $key => $value) {
             $balance[$value['id']] -= $value['count'];
         }
-        StampBalance::create([
-            'employee_id' => $outgoingRegister->employee->id,
-            'type' => false,
+        StampBalance::orderby('id', 'desc')->first()->update([
             'balance' => $balance,
-        ]);
-        StampHistory::create([
-            'outgoing_register_id' => $outgoingRegister->id,
-            'stamps_used' => $outgoingRegister->stamps_used,
         ]);
     }
 

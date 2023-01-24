@@ -73,18 +73,24 @@ class OutgoingRegisterController extends Controller
      */
     public function update(UpdateOutgoingRegisterRequest $request, OutgoingRegister $outgoing): Response
     {
-        $newStamps = $outgoing->stamps_used;
         if (Arr::exists($request->validated(), 'stamps_used')) {
-            $balance = StampBalance::orderby('id', 'desc')->first()->balance;
-            foreach ($request->stamps_used as $key => $value) {
-                if ($balance[$value['id']] < ($value['count'] - $outgoing->stamps_used[$value['id']]['count'])) {
-                    return response(['message' => 'На баллансе недостаточно марок для изменения'], 400);
+            $balance = StampBalance::orderby('id', 'desc')->first()->balance; //последняя запись балланса
+            $currentStamps = $outgoing->stamps_used; //текущие использованные марки в документе
+            $needleStamps = $request->stamps_used; //те марки которые необходимо удалить
+            foreach ($needleStamps as $key => $value) {
+                if (Arr::exists($currentStamps, $value['id'])) {
+                    if ((int)$balance[$value['id']] < (int)($value['count'] - $currentStamps[$value['id']]['count'])) {
+                        return response(['message' => 'Недостаточно марок на баллансе'], 400);
+                    }
+                } else {
+                    if ($balance[$value['id']] < $value['count']) {
+                        return response(['message' => 'Недостаточно марок на баллансе'], 400);
+                    }
                 }
-                $newStamps[$value['id']]['count'] = $value['count'];
             }
         }
-        $outgoing->update([$request->safe()->except('stamps_used'), 'stamps_used' => $newStamps]);
-        return \response(['message' => 'Документ успешно изменен']);
+        $outgoing->update([$request->safe()->except('stamps_used'), 'stamps_used' => $needleStamps]);
+        return response(['message' => 'Документ успешно изменен']);
     }
 
     /**

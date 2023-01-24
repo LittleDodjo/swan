@@ -5,7 +5,6 @@ use App\Http\Controllers\BaseController\Department\AllDepartmentController;
 use App\Http\Controllers\BaseController\Department\DepartmentController;
 use App\Http\Controllers\BaseController\Department\EmployeeDepartmentController;
 use App\Http\Controllers\BaseController\Employee\AppointmentController;
-use App\Http\Controllers\BaseController\Employee\DefaultController;
 use App\Http\Controllers\BaseController\Employee\EmployeeController;
 use App\Http\Controllers\BaseController\Employee\EmployeeDefaultsController;
 use App\Http\Controllers\BaseController\Employee\ReasonController;
@@ -18,7 +17,6 @@ use App\Http\Controllers\OutgoingController\OrganizationRegisterController;
 use App\Http\Controllers\OutgoingController\OutgoingRegisterController;
 use App\Http\Controllers\OutgoingController\Stamps\StampBalanceController;
 use App\Http\Controllers\OutgoingController\Stamps\StampRegisterController;
-use App\Models\OutgoingModel\OutgoingRegister;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'user'], function () {
