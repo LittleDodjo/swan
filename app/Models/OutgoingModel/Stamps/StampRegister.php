@@ -8,13 +8,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property mixed $id
+ * @property mixed count
  */
 class StampRegister extends Model
 {
     use HasFactory, SoftDeletes;
 
+
+
     protected $fillable = [
-        'value'
+        'value',
+        'count',
     ];
 
 }

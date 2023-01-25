@@ -45,7 +45,6 @@ class EventServiceProvider extends ServiceProvider
         EmployeeDepartment::observe(EmployeeDepartmentObserver::class);
         EmployeesToDepartments::observe(EmployeeToDepartmentsObserver::class);
         EmployeeToEmployeeDepartments::observe(EmployeeToEmployeeDepartmentsObserver::class);
-        StampRegister::observe(StampRegisterObserver::class);
         OutgoingRegister::observe(OutgoingRegisterObserver::class);
     }
 

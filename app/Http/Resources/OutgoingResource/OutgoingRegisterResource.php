@@ -22,6 +22,7 @@ use JsonSerializable;
  * @property mixed registration_number
  * @property mixed history
  * @property mixed message_type
+ * @property mixed id
  */
 class OutgoingRegisterResource extends JsonResource
 {
@@ -43,6 +44,7 @@ class OutgoingRegisterResource extends JsonResource
             ];
         }
         return [
+            'id' => $this->id,
             'registrationNumber' => $this->registration_number,
             'registrationDate' => $this->registration_date,
             'envelopes' => $this->envelopes_count,

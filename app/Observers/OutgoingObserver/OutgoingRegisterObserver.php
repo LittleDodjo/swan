@@ -4,11 +4,9 @@ namespace App\Observers\OutgoingObserver;
 
 use App\Models\OutgoingModel\OutgoingHistory;
 use App\Models\OutgoingModel\OutgoingRegister;
-use App\Models\OutgoingModel\Stamps\StampBalance;
 use App\Models\OutgoingModel\Stamps\StampHistory;
-use Error;
+use App\Models\OutgoingModel\Stamps\StampRegister;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Log;
 
 class OutgoingRegisterObserver
 {
@@ -28,18 +26,13 @@ class OutgoingRegisterObserver
             ], true)
         ]);
         $stamps = $outgoingRegister->stamps_used;
-        $balance = StampBalance::orderby('id', 'desc')->first()->balance;
         foreach ($stamps as $key => $value) {
-            $balance[$value['id']] -= $value['count'];
+            $stamp = StampRegister::find($value['id']);
+            $stamp->update(['count' => $stamp->count - $value['count']]);
         }
-        StampBalance::create([
-            'employee_id' => $outgoingRegister->employee->id,
-            'type' => false,
-            'balance' => $balance,
-        ]);
         StampHistory::create([
-            'outgoing_register_id' => $outgoingRegister->id,
-            'stamps_used' => $outgoingRegister->stamps_used,
+            'employee_id' => $outgoingRegister->employee->id,
+            'stamps' => $stamps,
         ]);
     }
 

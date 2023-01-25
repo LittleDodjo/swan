@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 /**
  * @property mixed employee_id
@@ -47,7 +48,8 @@ class OutgoingRegister extends Model
         return $this->HasMany(OutgoingHistory::class);
     }
 
-    public function departure(){
-
+    public function stamps(): Collection
+    {
+        return collect($this->stamps_used);
     }
 }

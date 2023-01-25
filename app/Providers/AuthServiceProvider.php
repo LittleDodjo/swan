@@ -44,8 +44,6 @@ class AuthServiceProvider extends ServiceProvider
         Appointment::class => AppointmentPolicy::class,
         Employee::class => EmployeePolicy::class,
         Reason::class => ReasonPolicy::class,
-        StampRegister::class => StampRegisterPolicy::class,
-        StampBalance::class => StampBalancePolicy::class,
         OrganizationRegister::class => OrganizationRegisterPolicy::class,
         OutgoingRegister::class => OutgoingRegisterPolicy::class,
     ];

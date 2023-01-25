@@ -10,9 +10,12 @@ use App\Http\Resources\OutgoingResource\OutgoingRegisterResourceCollection;
 use App\Models\OutgoingModel\OutgoingRegister;
 use App\Models\OutgoingModel\Stamps\StampBalance;
 use App\Models\OutgoingModel\Stamps\StampRegister;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 
 class OutgoingRegisterController extends Controller
 {
@@ -30,7 +33,9 @@ class OutgoingRegisterController extends Controller
      */
     public function index(): Response
     {
-        return response(new OutgoingRegisterResourceCollection(OutgoingRegister::paginate(15)));
+        return response(
+            new OutgoingRegisterResourceCollection(OutgoingRegister::orderby('id', 'desc')->paginate(50))
+        );
     }
 
     /**
@@ -41,10 +46,10 @@ class OutgoingRegisterController extends Controller
      */
     public function store(StoreOutgoingRegisterRequest $request): Response
     {
-        $balance = StampBalance::orderby('id', 'desc')->first()->balance;
-        foreach ($request->stamps_used as $key => $value) {
-            if ($balance[$value['id']] < $value['count']) {
-                return response(['message' => 'На баллансе недостаточно марок'], 400);
+        if(Arr::exists($request->validated(), 'stamps_used')){
+            foreach ($request->stamps_used as $key => $value) {
+                $stamp = StampRegister::find($value['id']);
+                if($stamp->count - $value['count'] < 0) return response(['message' => 'Недостаточно марок на баллансе']);
             }
         }
         $outgoing = new OutgoingRegister($request->validated());
@@ -73,6 +78,13 @@ class OutgoingRegisterController extends Controller
      */
     public function update(UpdateOutgoingRegisterRequest $request, OutgoingRegister $outgoing): Response
     {
+        $now = $outgoing->stamps();
+        $needle = $request->stamps_used;
+        return response([
+            'Сейчас' => $now,
+            'Нужно' => $needle,
+        ]);
+
         if (Arr::exists($request->validated(), 'stamps_used')) {
             $balance = StampBalance::orderby('id', 'desc')->first()->balance; //последняя запись балланса
             $currentStamps = $outgoing->stamps_used; //текущие использованные марки в документе
@@ -88,8 +100,9 @@ class OutgoingRegisterController extends Controller
                     }
                 }
             }
+            $outgoing->update(['stamps_used' => $needleStamps]);
         }
-        $outgoing->update([$request->safe()->except('stamps_used'), 'stamps_used' => $needleStamps]);
+        $outgoing->update($request->safe()->except('stamps_used'));
         return response(['message' => 'Документ успешно изменен']);
     }
 
@@ -104,4 +117,19 @@ class OutgoingRegisterController extends Controller
         $outgoing->delete();
         return response(['message' => 'Документ удален, использованые марки возвращены на балланс']);
     }
+
+    /**
+     * @param OutgoingRegister $outgoing
+     * @return Response|Application|ResponseFactory
+     */
+    public function forceDelete(OutgoingRegister $outgoing): Response|Application|ResponseFactory
+    {
+        $outgoing->forceDelete();
+        return \response(['message' => 'Документ удален навсегда, марки возвращены на балланс']);
+    }
+
+    public function restore(){
+
+    }
+
 }

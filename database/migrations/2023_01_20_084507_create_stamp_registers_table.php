@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('stamp_registers', function (Blueprint $table) {
             $table->id();
             $table->float("value")->unique();
+            $table->unsignedInteger('count')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

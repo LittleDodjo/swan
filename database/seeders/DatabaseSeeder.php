@@ -27,7 +27,6 @@ class DatabaseSeeder extends Seeder
         Employee::factory(2)->create(['rank' => 7]);
         Employee::factory(2)->create(['rank' => 6]);
         Management::factory(1)->create();
-        $this->call(StampBalanceSeeder::class);
         $this->call(StampRegisterSeeder::class);
         $this->call(OrganizationRegisterSeeder::class);
     }

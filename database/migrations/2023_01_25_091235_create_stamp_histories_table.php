@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\BaseModel\Employee\Employee;
-use App\Models\OutgoingModel\OutgoingRegister;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('stamp_balances', function (Blueprint $table) {
+        Schema::create('stamp_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Employee::class);
-            $table->boolean('type')->default(true);
-            $table->json('balance');
+            $table->json('stamps');
+            $table->boolean('type')->default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stamp_balances');
+        Schema::dropIfExists('stamp_histories');
     }
 };

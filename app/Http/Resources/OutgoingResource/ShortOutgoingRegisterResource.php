@@ -12,6 +12,7 @@ use JetBrains\PhpStorm\ArrayShape;
  * @property mixed message_type
  * @property mixed departure_data
  * @property mixed created_at
+ * @property mixed id
  */
 class ShortOutgoingRegisterResource extends JsonResource
 {
@@ -21,10 +22,11 @@ class ShortOutgoingRegisterResource extends JsonResource
      * @param  Request  $request
      * @return array
      */
-    #[ArrayShape(['registrationNumber' => "mixed", 'registrationDate' => "mixed", 'message_type' => "mixed", 'departure' => "mixed", 'created' => "mixed"])]
+    #[ArrayShape(['id' => "mixed", 'registrationNumber' => "mixed", 'registrationDate' => "mixed", 'message_type' => "mixed", 'departure' => "mixed", 'created' => "mixed"])]
     public function toArray($request): array
     {
         return [
+            'id' => $this->id,
             'registrationNumber' => $this->registration_number,
             'registrationDate' => $this->registration_date,
             'message_type' => $this->message_type,

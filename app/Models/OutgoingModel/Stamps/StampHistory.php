@@ -2,26 +2,20 @@
 
 namespace App\Models\OutgoingModel\Stamps;
 
-use App\Models\OutgoingModel\OutgoingRegister;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class StampHistory extends Model
 {
-
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $casts = [
-        'stamps_used' => 'array',
+        'stamps' => 'array',
     ];
 
     protected $fillable = [
-        'outgoing_register_id',
-        'stamps_used',
+        'type',
+        'stamps',
     ];
-
-    public function outgoing()
-    {
-        $this->belongsTo(OutgoingRegister::class, 'outgoing_register_id');
-    }
 }
