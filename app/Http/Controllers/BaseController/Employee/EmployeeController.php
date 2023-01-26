@@ -80,7 +80,7 @@ class EmployeeController extends Controller
     public function destroy(Employee $employee): Response
     {
         if($employee->isManager()){
-            return \response(['message' => 'Такой сотрудник является руководителем',]);
+            return \response(['message' => 'Такой сотрудник является руководителем',], 400);
         }
         $employee->delete();
         return response(['message' => 'Сотрудник удален']);

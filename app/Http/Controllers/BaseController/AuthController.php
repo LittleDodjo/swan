@@ -34,7 +34,6 @@ class AuthController extends Controller
         $user = new User(['login' => $request->login]);
         $user->password = Hash::make($request->password);
         $user->save();
-        UserRole::create(['user_id' => $user->id]);
         $employee->update(['user_id' => $user->id]);
         return response(new UserResource($user), 201)
             ->header('Authorization', 'Bearer ' . Auth::login($user));

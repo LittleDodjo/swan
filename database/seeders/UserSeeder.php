@@ -22,13 +22,7 @@ class UserSeeder extends Seeder
         $user->password = Hash::make('123456');
         $user->save();
         $employee = Employee::find(1);
-        $employee->user = $user;
-        $employee->refresh();
-        UserRole::create([
-            'user_id' => $user->id,
-            'is_root' => true,
-            'is_admin' => true,
-            'is_control' => true,
-        ]);
+        $employee->user_id = $user->id;
+        $employee->save();
     }
 }

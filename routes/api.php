@@ -5,7 +5,6 @@ use App\Http\Controllers\BaseController\Department\AllDepartmentController;
 use App\Http\Controllers\BaseController\Department\DepartmentController;
 use App\Http\Controllers\BaseController\Department\EmployeeDepartmentController;
 use App\Http\Controllers\BaseController\Employee\AppointmentController;
-use App\Http\Controllers\BaseController\Employee\DefaultController;
 use App\Http\Controllers\BaseController\Employee\EmployeeController;
 use App\Http\Controllers\BaseController\Employee\EmployeeDefaultsController;
 use App\Http\Controllers\BaseController\Employee\ReasonController;
@@ -14,6 +13,9 @@ use App\Http\Controllers\BaseController\OrganizationController;
 use App\Http\Controllers\BaseController\Pivot\EmployeesToDepartmentController;
 use App\Http\Controllers\BaseController\Pivot\EmployeesToEmployeeDepartmentsController;
 use App\Http\Controllers\BaseController\UserRoleController;
+use App\Http\Controllers\OutgoingController\OrganizationRegisterController;
+use App\Http\Controllers\OutgoingController\OutgoingRegisterController;
+use App\Http\Controllers\OutgoingController\Stamps\StampController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'user'], function () {
@@ -27,7 +29,6 @@ Route::group(['prefix' => 'user'], function () {
     Route::post('/confirm/{user}', [UserRoleController::class, 'confirm'])
         ->missing(fn() => response(['not found']));
 });
-
 
 Route::apiResource('management', ManagementController::class)
     ->missing(fn() => response(['message' => 'Такое управление не найдено'], 404));
@@ -70,3 +71,23 @@ Route::delete('edep/{employee}', [EmployeesToEmployeeDepartmentsController::clas
     ->missing(fn() => response(['message' => 'Сотрудник не найден'], 404));
 
 Route::get('all/departments', [AllDepartmentController::class, 'index']);
+
+Route::apiResource('register/correspondent', OrganizationRegisterController::class)
+    ->missing(fn() => response(['message' => 'Организация не найдена'], 404));
+
+Route::apiResource('outgoing', OutgoingRegisterController::class)
+    ->missing(fn() => response(['message' => 'Исходящий документ не найден'], 404));
+
+Route::group(['prefix' => 'stamps'], function () {
+    Route::get('/register', [StampController::class, 'register']);
+    Route::post('/register', [StampController::class, 'storeRegister']);
+    Route::patch('/register/{stamp}', [StampController::class, 'updateRegister'])
+        ->missing(fn() => response(['message' => 'Такой номинал не найден в реестре'], 404));
+    Route::delete('/register/{stamp}', [StampController::class, 'deleteRegister'])
+        ->missing(fn() => response(['message' => 'Такой номинал не найден в реестре'], 404));
+    Route::delete('/register/{stamp}/force', [StampController::class, 'forceDeleteRegister'])
+        ->missing(fn() => response(['message' => 'Такой номинал не найден в реестре'], 404));
+    Route::get('/register/{stamp}/restore', [StampController::class, 'restoreRegister']);
+    Route::get('history', [StampController::class, 'history']);
+    Route::post('balance', [StampController::class, 'balance']);
+});
