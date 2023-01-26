@@ -1,25 +1,69 @@
 import React, {Component} from 'react';
+import OutgoingHeader from "./Components/OutgoingHeader";
+import OutgoingArchive from "./OutgoingArchive";
+import OutgoingFilter from "./OutgoingFilter";
+import OutgoingTable from "./Components/OutgoingTable";
+import OutgoingTableHeader from "./Components/OutgoingTableHeader";
+import SplashLoader from "../../AppLogin/Components/SplashLoader";
+import OutgoingProvider from "../../Providers/OutgoingProvider";
+import OutgoingTableBody from "./Components/OutgoingTableBody";
+import CookieProvider from "../../Providers/CookieProvider";
+import toast from "react-hot-toast";
 
 class OutgoingView extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            filter: false,
+            archive: false,
+            table: ['*', 'Тип отправления', 'Адресат', 'Марки', 'Регистрационный номер', 'Дата регистрации', 'Исполнитель'],
+            loaded: false,
+            page: 1,
+            maxPage: 1,
+        };
+
+        this.filter = this.filter.bind(this);
+        this.archive = this.archive.bind(this)
+    }
+
+    filter(state) {
+        this.setState({filter: state});
+    }
+
+    archive(state) {
+        this.setState({archive: state});
+    }
+
+    componentDidMount() {
+        if (!CookieProvider.issetSession('outgoing')) {
+            OutgoingProvider.index(this.state.page, (res) => {
+                if (res.status === 200) {
+                    this.setState({maxPage: res.total, loaded: true, data: res.data.data});
+                    CookieProvider.writeSession('outgoing', JSON.stringify(res.data.data));
+                } else {
+                    toast.error("Не получилось загрузить данные, возможно у вас нет прав на просмотр раздела");
+                }
+            });
+        } else {
+            this.setState({loaded: true, data: JSON.parse(CookieProvider.readSession('outgoing'))});
+        }
+    }
+
     render() {
         return (
-            <div className="flex flex-col">
-                <div className="flex flex-col">
-                    <div className="m-4 flex justify-between">
-                        <p className="mx-4 basis-1/4 text-3xl font-light">Исходящая документация</p>
-                        <div className="flex basis-4/5 my-auto">
-                            <svg className="my-auto mx-2 rounded-full hover:bg-indigo-500 hover:fill-white"
-                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                                <path fill="none" d="M0 0h24v24H0z"/>
-                                <path d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"/>
-                            </svg>
-                            <input className="my-auto h-7 w-full rounded-full text-sm" type="email" name="text"
-                                   placeholder="search" id=""/>
-                        </div>
-                    </div>
-                    table
-                </div>
-            </div>
+            <>
+                <OutgoingHeader archive={this.archive} filter={this.filter}/>
+                <OutgoingArchive state={this.state.archive} action={this.archive}/>
+                <OutgoingFilter state={this.state.filter} action={this.filter}/>
+                {this.state.loaded ?
+                    <OutgoingTable>
+                        <OutgoingTableHeader table={this.state.table}/>
+                        <OutgoingTableBody data={this.state.data}/>
+                    </OutgoingTable> : <SplashLoader/>
+                }
+            </>
         );
     }
 }

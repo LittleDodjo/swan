@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
+import Header from "../../Common/Components/Header";
 
 class MarksView extends Component {
     render() {
         return (
-            <div>
-                Марки
-            </div>
+            <>
+                <Header heading={<p className="text-2xl font-light">Реестр марок</p>}/>
+            </>
         );
     }
 }

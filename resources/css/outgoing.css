@@ -2,3 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+
+.table-top{
+    @apply w-full p-2 text-center text-gray-600 font-light hover:bg-slate-50 cursor-pointer;
+    @apply transition-colors delay-75;
+}
+
+.table-body-item-line{
+    @apply flex divide-x transition-colors delay-75 cursor-pointer text-sm;
+    @apply hover:bg-slate-50 font-light;
+}
+
+.table-body-item{
+    @apply w-full p-2 text-center;
+}
+
+.table-link{
+    @apply underline hover:text-indigo-500;
+}
+
+.header-button{
+    @apply flex p-4 hover:bg-slate-100 hover:fill-indigo-500;
+}

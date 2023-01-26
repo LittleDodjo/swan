@@ -10,8 +10,8 @@ class Header extends Component {
 
     render() {
         return (
-            <div className="bg-white border-b flex">
-                <div className="flex w-full m-4">
+            <div className="bg-white border-b flex justify-between">
+                <div className="flex m-4">
                     {this.props.heading}
                 </div>
                 <div className="flex">

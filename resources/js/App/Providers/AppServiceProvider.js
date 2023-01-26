@@ -6,39 +6,35 @@ class AppProvider {
 
     //проверить авторизацию пользователя
     checkAuth(action) {
-        const cookieProvider = new CookieProvider();
         const authProvider = new AuthServiceProvider();
-        if (!cookieProvider.issetSession("authorization")) {
+        if (!CookieProvider.issetSession("authorization")) {
             action(false);
         } else {
-            const token = JSON.parse(cookieProvider.readSession("authorization"));
+            const token = JSON.parse(CookieProvider.readSession("authorization"));
             authProvider.refresh(token, action);
         }
     }
 
     //обновить токен авторизации
     saveRefresh(token){
-        const cookieProvider = new CookieProvider();
-        cookieProvider.writeSession("authorization", JSON.stringify(token));
+        CookieProvider.writeSession("authorization", JSON.stringify(token));
     }
 
     //сохранить авторизацию
     saveAuth(token, data) {
-        const cookieProvider = new CookieProvider();
         const user = {'login': data.login, 'id': data.id, 'confirmed': data.is_confirmed};
         const role = data.role;
-        cookieProvider.writeSession("authorization", JSON.stringify(token));
-        cookieProvider.writeSession("employee", JSON.stringify(data.employee));
-        cookieProvider.writeSession("user", JSON.stringify(user));
-        cookieProvider.writeSession("roles", JSON.stringify(role));
+        CookieProvider.writeSession("authorization", JSON.stringify(token));
+        CookieProvider.writeSession("employee", JSON.stringify(data.employee));
+        CookieProvider.writeSession("user", JSON.stringify(user));
+        CookieProvider.writeSession("roles", JSON.stringify(role));
     }
 
     //сохранить данные входа в систему
     saveRemember(login, password) {
-        const cookieProvider = new CookieProvider();
-        cookieProvider.writeLocal("login", login);
-        cookieProvider.writeLocal("password", password);
-        cookieProvider.writeLocal("remember", true);
+        CookieProvider.writeLocal("login", login);
+        CookieProvider.writeLocal("password", password);
+        CookieProvider.writeLocal("remember", true);
     }
 }
 

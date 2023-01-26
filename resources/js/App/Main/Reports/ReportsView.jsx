@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
+import Header from "../../Common/Components/Header";
 
 class ReportsView extends Component {
     render() {
         return (
-            <div>
-                Reports
-            </div>
+            <>
+                <Header heading={<p className="text-2xl font-light">Отчеты</p>}/>
+            </>
         );
     }
 }

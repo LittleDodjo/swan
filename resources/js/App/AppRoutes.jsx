@@ -9,6 +9,8 @@ import ReportsView from "./Main/Reports/ReportsView";
 import MarksView from "./Main/Marks/MarksView";
 import IngoingView from "./Main/Ingoing/IngoingView";
 import OutgoingView from "./Main/Outgoing/OutgoingView";
+import OutgoingCreateView from "./Main/Outgoing/OutgoingCreateView";
+import OutgoingDocumentView from "./Main/Outgoing/OutgoingDocumentView";
 
 class AppRoutes extends Component {
 
@@ -21,7 +23,7 @@ class AppRoutes extends Component {
         return (
             <Routes>
                 <Route exact path='/' element={
-                    this.props.authState ? <Navigate to="/app/employee"/> : this.props.children
+                    this.props.authState ? <Navigate to="/app"/> : this.props.children
                 }/>
                 <Route exact  path="/app" element={
                     this.props.authState ? <MainView view={<HomeView/>}/> : <Navigate to="/"/>
@@ -44,8 +46,11 @@ class AppRoutes extends Component {
                 <Route  path="/app/outgoing" element={
                     this.props.authState ? <MainView view={<OutgoingView/>}/> : <Navigate to="/"/>
                 }/>
+                <Route  path="/app/create/outgoing" element={
+                    this.props.authState ? <MainView view={<OutgoingCreateView/>}/> : <Navigate to="/"/>
+                }/>
                 <Route  path="/app/outgoing/:id" element={
-                    this.props.authState ? <MainView view={<OutgoingView/>}/> : <Navigate to="/"/>
+                    this.props.authState ? <MainView view={<OutgoingDocumentView/>}/> : <Navigate to="/"/>
                 }/>
                 <Route  path="/app/ingoing" element={
                     this.props.authState ? <MainView view={<IngoingView/>}/> : <Navigate to="/"/>

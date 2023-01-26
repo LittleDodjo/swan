@@ -77,6 +77,7 @@ class StoreOutgoingRegisterRequest extends FormRequest
             'lists_count' => 'min:1|integer',
             'message_type' => 'boolean|required',
             'copies_count' => 'min:1|integer',
+            'executor_id' => 'required|exists:employees,id',
         ];
     }
 

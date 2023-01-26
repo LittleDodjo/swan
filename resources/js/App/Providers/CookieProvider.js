@@ -6,33 +6,33 @@ class CookieProvider{
 
     }
 
-    readLocal(key){
+    static readLocal(key){
         return localStorage.getItem(key);
     }
 
-    readSession(key){
+    static readSession(key){
         return sessionStorage.getItem(key);
     }
 
-    writeLocal(key, value){
+    static writeLocal(key, value){
         return localStorage.setItem(key, value);
     }
 
-    writeSession(key, value){
+    static writeSession(key, value){
         return sessionStorage.setItem(key, value);
     }
 
-    issetSession(key){
+    static issetSession(key){
         const session = this.readSession(key);
         return (session !== null && session !=="");
     }
 
-    issetLocal(key){
+    static issetLocal(key){
         const local = this.readLocal(key);
         return (local !== null && local !=="");
     }
 
-    removeSession(key){
+    static removeSession(key){
         sessionStorage.removeItem(key);
     };
 }

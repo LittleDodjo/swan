@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\OutgoingResource;
 
+use App\Models\BaseModel\Employee\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use JetBrains\PhpStorm\ArrayShape;
@@ -13,6 +14,8 @@ use JetBrains\PhpStorm\ArrayShape;
  * @property mixed departure_data
  * @property mixed created_at
  * @property mixed id
+ * @property mixed executor_id
+ * @method stamps()
  */
 class ShortOutgoingRegisterResource extends JsonResource
 {
@@ -22,14 +25,17 @@ class ShortOutgoingRegisterResource extends JsonResource
      * @param  Request  $request
      * @return array
      */
-    #[ArrayShape(['id' => "mixed", 'registrationNumber' => "mixed", 'registrationDate' => "mixed", 'message_type' => "mixed", 'departure' => "mixed", 'created' => "mixed"])]
+    #[ArrayShape(['id' => "mixed", 'registrationNumber' => "mixed", 'stamps' => "", 'executor' => "mixed", 'executorId' => "mixed", 'registrationDate' => "mixed", 'messageType' => "mixed", 'departure' => "mixed", 'created' => "mixed"])]
     public function toArray($request): array
     {
         return [
             'id' => $this->id,
             'registrationNumber' => $this->registration_number,
+            'stamps' => $this->stamps(),
+            'executor' => Employee::find($this->executor_id)->fullName(),
+            'executorId' => $this->executor_id,
             'registrationDate' => $this->registration_date,
-            'message_type' => $this->message_type,
+            'messageType' => $this->message_type,
             'departure' => $this->departure_data,
             'created' => $this->created_at,
         ];

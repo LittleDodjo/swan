@@ -3,11 +3,10 @@ import {useParams, useNavigate} from 'react-router-dom';
 import CookieProvider from "./Providers/CookieProvider";
 
 const withRouter = WrappedComponent => props => {
-    const cookieProvider = new CookieProvider();
     const params = useParams();
     const navigate = useNavigate();
-    const roles = JSON.parse(cookieProvider.readSession('roles'));
-    const user = JSON.parse(cookieProvider.readSession('user'));
+    const roles = JSON.parse(CookieProvider.readSession('roles'));
+    const user = JSON.parse(CookieProvider.readSession('user'));
 
     return (
         <WrappedComponent

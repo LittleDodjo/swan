@@ -17,6 +17,7 @@ return new class extends Migration {
         Schema::create('outgoing_registers', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Employee::class);
+            $table->foreignIdFor(Employee::class, 'executor_id')->nullable();
             $table->json('stamps_used')->nullable();
             $table->json('departure_data');
             $table->string('registration_number');

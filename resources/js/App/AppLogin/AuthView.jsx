@@ -68,17 +68,16 @@ class AuthView extends Component {
     }
 
     componentDidMount() {
-        const cookieProvider = new CookieProvider();
-        if (cookieProvider.issetLocal('remember')) {
+        if (CookieProvider.issetLocal('remember')) {
             this.setState({
-                login: cookieProvider.readLocal('login'),
-                password: cookieProvider.readLocal('password'),
+                login: CookieProvider.readLocal('login'),
+                password: CookieProvider.readLocal('password'),
+                remember: CookieProvider.readLocal('remember'),
             })
         }
     }
 
     render() {
-        const cookieProvider = new CookieProvider();
         return (
             <div className="relative flex h-screen w-screen flex-col bg-slate-100">
                 {this.state.isRegister ? <RegisterView action={this.openRegister}/> : <></>}
@@ -94,7 +93,7 @@ class AuthView extends Component {
                                   placeholder="Введите пароль" type="password"/>
                         <div className="flex justify-between">
                             <div className="my-auto mx-2">
-                                <BaseCheckbox data={cookieProvider.readLocal('remember')} name="remember"
+                                <BaseCheckbox data={CookieProvider.readLocal('remember')} name="remember"
                                               handleChange={this.handleInput}
                                               value="Запомнить меня"/>
                             </div>

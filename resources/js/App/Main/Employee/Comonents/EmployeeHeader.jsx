@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import HeadingButton from "./HeadingButton";
+import HeadingButton from "../../../Common/Components/HeadingButton";
 import Settings24 from "../../../Common/Resources/Settings24";
 import Door24 from "../../../Common/Resources/Door24";
 import Admin24 from "../../../Common/Resources/Admin24";

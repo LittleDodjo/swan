@@ -31,6 +31,7 @@ class OutgoingRegister extends Model
 
     protected $fillable = [
         'employee_id',
+        'executor_id',
         'stamps_used',
         'departure_data',
         'registration_number',
@@ -43,6 +44,11 @@ class OutgoingRegister extends Model
     public function employee(): BelongsTo
     {
         return $this->BelongsTo(Employee::class);
+    }
+
+    public function executor()
+    {
+        $this->belongsTo(Employee::class, 'executor_id');
     }
 
     public function history(): HasMany
