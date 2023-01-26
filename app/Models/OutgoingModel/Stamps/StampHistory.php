@@ -15,6 +15,7 @@ class StampHistory extends Model
     ];
 
     protected $fillable = [
+        'outgoing_register_id',
         'type',
         'stamps',
     ];

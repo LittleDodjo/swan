@@ -3,6 +3,7 @@
 namespace App\Models\OutgoingModel;
 
 use App\Models\BaseModel\Employee\Employee;
+use App\Models\OutgoingModel\Stamps\StampHistory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,6 +18,7 @@ use Illuminate\Support\Collection;
  * @property mixed employee
  * @property mixed id
  * @property mixed history
+ * @property mixed stampHistory
  */
 class OutgoingRegister extends Model
 {
@@ -51,5 +53,10 @@ class OutgoingRegister extends Model
     public function stamps(): Collection
     {
         return collect($this->stamps_used);
+    }
+
+    public function stampHistory(): HasOne
+    {
+        return $this->hasOne(StampHistory::class);
     }
 }

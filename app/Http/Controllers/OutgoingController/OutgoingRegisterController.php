@@ -78,24 +78,17 @@ class OutgoingRegisterController extends Controller
      */
     public function update(UpdateOutgoingRegisterRequest $request, OutgoingRegister $outgoing): Response
     {
-        $now = $outgoing->stamps();
-        $needle = $request->stamps_used;
-        return response([
-            'Сейчас' => $now,
-            'Нужно' => $needle,
-        ]);
-
         if (Arr::exists($request->validated(), 'stamps_used')) {
-            $balance = StampBalance::orderby('id', 'desc')->first()->balance; //последняя запись балланса
             $currentStamps = $outgoing->stamps_used; //текущие использованные марки в документе
             $needleStamps = $request->stamps_used; //те марки которые необходимо удалить
             foreach ($needleStamps as $key => $value) {
+                $balance = StampRegister::find($value['id'])->count;
                 if (Arr::exists($currentStamps, $value['id'])) {
-                    if ((int)$balance[$value['id']] < (int)($value['count'] - $currentStamps[$value['id']]['count'])) {
+                    if ($balance < (int)($value['count'] - $currentStamps[$value['id']]['count'])) {
                         return response(['message' => 'Недостаточно марок на баллансе'], 400);
                     }
                 } else {
-                    if ($balance[$value['id']] < $value['count']) {
+                    if ($balance < $value['count']) {
                         return response(['message' => 'Недостаточно марок на баллансе'], 400);
                     }
                 }
