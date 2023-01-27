@@ -15,7 +15,7 @@ class OutgoingDocumentHeader extends Component {
 
     render() {
         return (
-            <Header heading={<OutgoingBack action={() => this.props.navigate("/app/outgoing")} id={this.props.id}/>}>
+            <Header heading={<OutgoingBack caption="Просмотр исходящего документа №" id={this.props.id}/>}>
                 <HeadingButton svg={<Edit24/>} text="Редактировать"
                                action={() => this.props.navigate('/app/create/outgoing')}/>
                 <HeadingButton svg={<Delete24/>} text="Удалить" action={this.props.filter}/>
