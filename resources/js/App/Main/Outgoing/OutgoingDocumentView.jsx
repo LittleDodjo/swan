@@ -28,7 +28,10 @@ class OutgoingDocumentView extends Component {
                 }
             })
         }else{
-            this.setState({loaded: true, data: JSON.parse(CookieProvider.readSession('outgoing.'+this.props.params,))});
+            this.setState({
+                loaded: true,
+                data: JSON.parse(CookieProvider.readSession('outgoing.'+this.props.params.id,))
+            });
         }
     }
 

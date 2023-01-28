@@ -12,6 +12,10 @@ class StampRegisterResourceCollection extends ResourceCollection
     public $collects = StampRegisterResource::class;
 
 
+    /**
+     * @param $request
+     * @return array|JsonSerializable|Arrayable
+     */
     public function toArray($request): array|JsonSerializable|Arrayable
     {
         return parent::toArray($request);

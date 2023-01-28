@@ -23,6 +23,8 @@ use JsonSerializable;
  * @property mixed history
  * @property mixed message_type
  * @property mixed id
+ * @method used()
+ * @method departure()
  */
 class OutgoingRegisterResource extends JsonResource
 {
@@ -34,15 +36,6 @@ class OutgoingRegisterResource extends JsonResource
      */
     public function toArray($request): array|JsonSerializable|Arrayable
     {
-        $stamps = [];
-        foreach ($this->stamps_used as $key => $value) {
-            $stamp = StampRegister::find($value['id']);
-            $stamps[] = [
-                'id' => $stamp->id,
-                'value' => $stamp->value,
-                'used' => $value['count']
-            ];
-        }
         return [
             'id' => $this->id,
             'registrationNumber' => $this->registration_number,
@@ -50,8 +43,8 @@ class OutgoingRegisterResource extends JsonResource
             'envelopes' => $this->envelopes_count,
             'lists' => $this->lists_count,
             'copies' => $this->copies,
-            'departure' => $this->departure_data,
-            'stamps' => $stamps,
+            'departure' => $this->departure(),
+            'stamps' => $this->used(),
             'created' => $this->created_at,
             'type' => $this->message_type,
             'author' => new SmallEmployeeResource($this->employee),
