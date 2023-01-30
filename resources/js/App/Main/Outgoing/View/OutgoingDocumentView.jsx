@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import withRouter from "../../withRouter";
-import OutgoingDocumentHeader from "./Components/OutgoingDocumentHeader";
-import SplashLoader from "../../AppLogin/Components/SplashLoader";
-import CookieProvider from "../../Providers/CookieProvider";
-import OutgoingProvider from "../../Providers/OutgoingProvider";
+import withRouter from "../../../withRouter";
+import OutgoingDocumentHeader from "./OutgoingDocumentHeader";
+import SplashLoader from "../../../AppLogin/Components/SplashLoader";
+import CookieProvider from "../../../Providers/CookieProvider";
+import OutgoingProvider from "../../../Providers/OutgoingProvider";
 import toast from "react-hot-toast";
-import OutgoingDocumentBody from "./Components/OutgoingDocumentBody";
+import OutgoingDocumentBody from "./OutgoingDocumentBody";
 
 class OutgoingDocumentView extends Component {
 

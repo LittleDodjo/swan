@@ -12,7 +12,7 @@ class MainView extends Component {
         return (
             <div className="subsystem-base">
                 <Sidebar/>
-                <main className="main-subsystem-base">
+                <main className="main-subsystem-base" id="scrollableDiv">
                     {this.props.view}
                 </main>
             </div>

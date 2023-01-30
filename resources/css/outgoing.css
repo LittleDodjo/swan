@@ -29,3 +29,11 @@
     @apply px-4 my-auto border border-indigo-200 py-2 rounded-lg bg-slate-50 cursor-pointer mx-2
 }
 
+.create-outgoing-select {
+    @apply focus:ring-0 border-none font-light text-lg hover:bg-slate-100 hover:text-indigo-500 h-full;
+}
+
+.infinite-scroll-component__outerdiv
+{
+    @apply flex flex-col;
+}

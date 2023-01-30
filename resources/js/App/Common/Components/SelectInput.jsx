@@ -6,7 +6,7 @@ class SelectInput extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isOpen : false,
+
         };
     }
 
@@ -14,15 +14,10 @@ class SelectInput extends Component {
 
     render() {
         return (
-            <div className="select-input" onClick={() => {
-                let open = !this.state.isOpen;
-                this.setState({isOpen: open});
-            }}>
-                <p>test</p>
-                <ArrowLeft24/>
+            <div className="select-input" onClick={this.props.action()}>
                 <div
-                    className={`select-input-body"  ${this.state.isOpen ? "" : " hidden"}`}>
-                    {this.props.children}
+                    className={"select-input-body"}>
+                    {this.state.text}
                 </div>
             </div>
         );

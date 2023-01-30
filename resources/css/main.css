@@ -40,7 +40,7 @@
 }
 
 .splash-screen {
-    @apply absolute h-full w-full pt-20 backdrop-blur-md overflow-y-hidden;
+    @apply absolute h-full w-full pt-20 backdrop-blur-md overflow-y-hidden z-10;
 }
 
 .splash-screen-line {
