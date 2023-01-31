@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
-import update from 'immutability-helper';
 import Header from "../../../Common/Components/Header";
 import OutgoingBack from "../Components/OutgoingBack";
 import OutgoingCreateBody from "./OutgoingCreateBody";
-import InfiniteScroll from "react-infinite-scroll-component";
 
 class OutgoingCreateView extends Component {
 
@@ -11,11 +9,19 @@ class OutgoingCreateView extends Component {
         super(props);
         this.state = {
             hasMore: true,
-            outgoingDocuments: [],
+            outgoingDocument: {
+                envelopes_count: 1,
+                lists_count: 1,
+                message_type: 1,
+                registration_number: "",
+                registration_date: null,
+                departure_data: [],
+                stamps_used: [],
+                executor_id: null,
+            }
         };
 
         this.updateState = this.updateState.bind(this);
-        this.pushDocument = this.pushDocument.bind(this);
         this.save = this.save.bind(this);
     }
 
@@ -23,49 +29,19 @@ class OutgoingCreateView extends Component {
 
     }
 
-    pushDocument() {
-        if (this.state.outgoingDocuments.length >= 10) {
-            this.setState({hasMore: false});
-            return;
-        }
-        const outgoingDocument = this.state.outgoingDocuments;
-        outgoingDocument.push({
-            envelopes_count: 1,
-            lists_count: 1,
-            message_type: 1,
-            registration_number: "",
-            registration_date: null,
-            departure_data: [],
-            stamps_used: [],
-            executor_id: null,
-        });
-        this.setState({outgoingDocuments: outgoingDocument,});
-    }
-
-    updateState(id, key, value) {
-        const data = this.state.outgoingDocuments;
-        const newData = update(data, {[id] : {$merge: {[key] : value}}});
-        this.setState({outgoingDocuments: newData});
-    }
-
-    componentDidMount() {
-        this.pushDocument();
-        this.pushDocument();
+    updateState(key, value) {
+        const content = this.state.outgoingDocument;
+        content[key] = value;
+        this.setState({outgoingDocument: content});
     }
 
     render() {
         return (
-            <div className="relative">
+            <div className="body-view">
                 <Header heading={<OutgoingBack caption="Создание исходящего документа"/>}>
                     <p onClick={this.save}>save</p>
                 </Header>
-                <InfiniteScroll dataLength={this.state.outgoingDocuments.length} hasMore={this.state.hasMore}
-                                scrollableTarget="scrollableDiv" className="flex flex-col"
-                                loader={<h4>Loading...</h4>} next={this.pushDocument}>
-                    {this.state.outgoingDocuments.map((value, key) => (
-                        <OutgoingCreateBody action={this.updateState} key={key} id={key} {...value}/>
-                    ))}
-                </InfiniteScroll>
+                <OutgoingCreateBody action={this.updateState} {...this.state.outgoingDocument}/>
             </div>
         );
     }

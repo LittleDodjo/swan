@@ -33,14 +33,11 @@ class SplashScreen extends Component {
             <div className={"splash-screen" + hidden}>
                 <div className="splash-screen-ref" ref={this.wrapperRef}>
                     <div className="splash-screen-line"></div>
-                    <div className="flex flex-col">
-                        <div className="splash-screen-caption">
-                            <p className="">{this.props.caption}</p>
-                            <Close24 action={this.props.action} class="hover:fill-indigo-500 cursor-pointer mx-4"/>
-                        </div>
-                        {this.props.children}
+                    <div className="splash-screen-caption">
+                        <p className="">{this.props.caption}</p>
+                        <Close24 action={this.props.action} class="hover:fill-indigo-500 cursor-pointer mx-4"/>
                     </div>
-
+                        {this.props.children}
                 </div>
             </div>
         );

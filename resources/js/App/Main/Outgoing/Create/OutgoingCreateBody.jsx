@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import OutgoingExecutor from "../Components/OutgoingExecutor";
 import OutgoingStamps from "../Components/OutgoingStamps";
+import EmployeeProvider from "../../../Providers/EmployeeProvider";
+import toast from "react-hot-toast";
 
 class OutgoingCreateBody extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            employee: "",
             envelopes_count: 1,
             lists_count: 1,
             message_type: 1,
@@ -15,16 +18,17 @@ class OutgoingCreateBody extends Component {
             departure_data: [],
             stamps_used: [],
             executor_id: null,
-            executorWindow: false,
+            executorWindow: true,
             stampWindow: false,
         }
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
         this.stampWindow = this.stampWindow.bind(this);
         this.executorWindow = this.executorWindow.bind(this);
     }
 
-    select(key, value){
+    select(key, value) {
 
     }
 
@@ -38,19 +42,25 @@ class OutgoingCreateBody extends Component {
 
     handleChange(event) {
         this.setState({[event.target.name]: event.target.value});
-        this.props.action(this.props.id, event.target.name, event.target.value);
+        this.props.action(event.target.name, event.target.value);
+    }
+
+    handleSelect(field, id)
+    {
+        this.props.action(field, id);
+    }
+
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevState.fullName !== this.state.fullName) {
+            this.forceUpdate();
+        }
     }
 
     render() {
         return (
             <>
-                <OutgoingExecutor  state={this.state.executorWindow} action={(e) => {
-                    this.setState({executorWindow: e})
-                }}/>
-                <OutgoingStamps state={this.state.stampWindow} action={(e) => {
-                    this.setState({stampWindow: e})
-                }}/>
-                <div className="bg-white flex flex-col border-y border-gray-300 mt-4 shadow-lg relative flex overflow-y-auto overflow-x-hidden">
+                <div className="bg-white flex flex-col border-y border-gray-300 mt-4 shadow-lg overflow-hidden">
                     <div className="flex">
                         <h1 className="text-xl p-4 border-r w-full">Исходящий документ #{this.props.id}</h1>
                         <select className="create-outgoing-select" value={this.state.select}
@@ -76,7 +86,8 @@ class OutgoingCreateBody extends Component {
                         </div>
                         <div className="flex">
                             <p className="basis-2/6 my-auto text-lg font-light p-4 border-r">Выберете исполнителя</p>
-                            <input type="button" value="Выбрать" onClick={() => this.executorWindow(true)}
+                            <input type="button" value={this.state.fullName !== null ? this.state.fullName : "Выбрать"}
+                                   onClick={() => this.executorWindow(true)}
                                    className="basis-4/6 hover:text-indigo-500 hover:bg-slate-100"/>
                         </div>
                         <div className="flex">
@@ -107,27 +118,25 @@ class OutgoingCreateBody extends Component {
                         </div>
                     </div>
                 </div>
-                {this.props.id < 9 ?
-                    <div className="my-20 text-xl text-indigo-500 flex fill-slate-500 align-text-middle">
-                        <svg className="mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
-                             height="24">
-                            <path fill="none" d="M0 0h24v24H0z"/>
-                            <path
-                                d="M13 16.172l5.364-5.364 1.414 1.414L12 20l-7.778-7.778 1.414-1.414L11 16.172V4h2v12.172z"/>
-                        </svg>
-                        <p className="cursor-pointer my-auto text-center font-light mx-auto">Продолжайте заполнять</p>
-                        <svg className="mx-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
-                             height="24">
-                            <path fill="none" d="M0 0h24v24H0z"/>
-                            <path
-                                d="M13 16.172l5.364-5.364 1.414 1.414L12 20l-7.778-7.778 1.414-1.414L11 16.172V4h2v12.172z"/>
-                        </svg>
-                    </div> :
-                    <div className="my-20 text-xl text-indigo-500 flex fill-slate-500 align-text-middle">
-                        <p className="cursor-pointer my-auto text-center font-light mx-auto">Документы можно
-                            схоранить</p>
-                    </div>
-                }
+                <OutgoingExecutor state={this.state.executorWindow} action={(e) => {
+                    this.setState({executorWindow: e})
+                }} select={(id) => {
+                    this.setState({executor_id: id});
+                    EmployeeProvider.employee(id, (response) => {
+                        console.log(response);
+                        if (response.status === 404) {
+                            toast.error("Такой пользователь не найден");
+                            this.setState({fullName: "404"});
+                        }
+                        if (response.status === 200) {
+                            this.setState({fullName: response.employee.full_name});
+                            this.handleSelect('executor_id', id);
+                        }
+                    });
+                }}/>
+                <OutgoingStamps state={this.state.stampWindow} action={(e) => {
+                    this.setState({stampWindow: e})
+                }}/>
             </>
         );
     }
