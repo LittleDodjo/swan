@@ -15,7 +15,7 @@ axios.interceptors.request.use(async request => {
     request.headers = {
         Accept: 'application/json',
         "Content-Type":
-            "multipart/form-data",
+            "application/json",
         Authorization: Authorization
     }
     console.log(request);

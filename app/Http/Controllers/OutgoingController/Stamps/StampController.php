@@ -7,6 +7,7 @@ use App\Http\Requests\OutgoingRequest\Stamps\StoreStampBalanceRequest;
 use App\Http\Requests\OutgoingRequest\Stamps\StoreStampRegisterRequest;
 use App\Http\Requests\OutgoingRequest\Stamps\UpdateStampRegisterRequest;
 use App\Http\Resources\OutgoingResource\Stamps\StampHistoryResourceCollection;
+use App\Http\Resources\OutgoingResource\Stamps\StampRegisterResource;
 use App\Http\Resources\OutgoingResource\Stamps\StampRegisterResourceCollection;
 use App\Models\OutgoingModel\Stamps\StampHistory;
 use App\Models\OutgoingModel\Stamps\StampRegister;
@@ -34,6 +35,11 @@ class StampController extends Controller
     public function register(): Response|Application|ResponseFactory
     {
         return response(new StampRegisterResourceCollection(StampRegister::all()));
+    }
+
+
+    public function show(StampRegister $stamp){
+        return response(new StampRegisterResource($stamp));
     }
 
     /**

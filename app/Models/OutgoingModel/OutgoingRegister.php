@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @property mixed employee_id
@@ -93,14 +94,16 @@ class OutgoingRegister extends Model
         $total = 0;
         $prevDate = Arr::first($departure)['date'];
         foreach ($departure as $key => $value) {
-            if ($prevDate != $value['date']) $equals = false;
-            if ($key == 'organization') {
-                $departure['organization']['address'] = new OrganizationRegisterResource(
-                    OrganizationRegister::find($departure['organization']['address'])
-                );
+            if (gettype($value) != 'boolean' && gettype($value) != 'integer') {
+                if ($prevDate != $value['date']) $equals = false;
+                if ($key == 'organization') {
+                    $departure['organization']['address'] = new OrganizationRegisterResource(
+                        OrganizationRegister::find($departure['organization']['address'])
+                    );
+                }
+                $prevDate = $value['date'];
+                $total++;
             }
-            $prevDate = $value['date'];
-            $total++;
         }
         $departure['equals'] = $equals;
         $departure['total'] = $total;

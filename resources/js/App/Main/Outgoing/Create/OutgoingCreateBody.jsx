@@ -3,13 +3,25 @@ import OutgoingExecutor from "../Components/OutgoingExecutor";
 import OutgoingStamps from "../Components/OutgoingStamps";
 import EmployeeProvider from "../../../Providers/EmployeeProvider";
 import toast from "react-hot-toast";
+import DepartureBlock from "./DepartureBlock";
+import OutgoingOrganization from "../Components/OutgoingOrganization";
+import OrganizationProvider from "../../../Providers/OrganizationProvider";
+import StampsList from "./StampsList";
+import StampProvider from "../../../Providers/StampProvider";
 
 class OutgoingCreateBody extends Component {
 
     constructor(props) {
         super(props);
+        const date = new Date();
         this.state = {
-            employee: "",
+            address: "",
+            name: "",
+            date: date.toISOString().split('T')[0],
+            departureType: 'organization',
+            organization: null,
+            departure_type: "email",
+            fullName: null,
             envelopes_count: 1,
             lists_count: 1,
             message_type: 1,
@@ -18,18 +30,19 @@ class OutgoingCreateBody extends Component {
             departure_data: [],
             stamps_used: [],
             executor_id: null,
-            executorWindow: true,
+            executorWindow: false,
             stampWindow: false,
+            organizationWindow: false,
+            recomended: false,
         }
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSelect = this.handleSelect.bind(this);
+        this.handleDeparture = this.handleDeparture.bind(this);
+        this.updateStamps = this.updateStamps.bind(this);
         this.stampWindow = this.stampWindow.bind(this);
         this.executorWindow = this.executorWindow.bind(this);
-    }
-
-    select(key, value) {
-
+        this.organizationWindow = this.organizationWindow.bind(this);
     }
 
     executorWindow(state) {
@@ -37,7 +50,11 @@ class OutgoingCreateBody extends Component {
     }
 
     stampWindow(state) {
-        this.setState({executorWindow: state});
+        this.setState({stampWindow: state});
+    }
+
+    organizationWindow(state) {
+        this.setState({organizationWindow: state});
     }
 
     handleChange(event) {
@@ -45,11 +62,39 @@ class OutgoingCreateBody extends Component {
         this.props.action(event.target.name, event.target.value);
     }
 
-    handleSelect(field, id)
-    {
+    handleSelect(field, id) {
         this.props.action(field, id);
     }
 
+    handleDeparture(data) {
+        this.setState({...data});
+        const type = this.state.departureType;
+        const depData = {};
+        depData[type] = {
+            date: this.state.date,
+        };
+        if (type === 'organization') {
+            if (this.state.organization !== null) {
+                depData[type].address = this.state.organization.id;
+            }
+        }
+        if (type === 'people') {
+            depData[type] = {
+                name: this.state.name,
+                address: this.state.address,
+                date: this.state.date,
+            };
+        }
+        if (type === 'email') {
+            depData[type].address = this.state.address;
+        }
+        this.props.action('departure_data', depData);
+        console.log(depData);
+    }
+
+    updateStamps(stamps) {
+        this.setState({stamps_used: stamps});
+    }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         if (prevState.fullName !== this.state.fullName) {
@@ -60,13 +105,14 @@ class OutgoingCreateBody extends Component {
     render() {
         return (
             <>
-                <div className="bg-white flex flex-col border-y border-gray-300 mt-4 shadow-lg overflow-hidden">
+                <div
+                    className="bg-white flex flex-col border border-gray-300 my-4 shadow-xl  rounded-lg shadow-md mx-10">
                     <div className="flex">
-                        <h1 className="text-xl p-4 border-r w-full">Исходящий документ #{this.props.id}</h1>
+                        <h1 className="text-xl p-4 border-r w-full">Новый исхоящий документ</h1>
                         <select className="create-outgoing-select" value={this.state.select}
                                 onChange={this.handleChange} name="message_type">
-                            <option value={0}>Письмо простое, конверт не маркированный</option>
-                            <option value={1}>Письмо заказное, конверт маркированный</option>
+                            <option value="false">Письмо простое, конверт маркированный</option>
+                            <option value="true">Письмо заказное, конверт не маркированный</option>
                         </select>
                     </div>
                     <div className="divide-y border-t border-gray-300">
@@ -90,37 +136,23 @@ class OutgoingCreateBody extends Component {
                                    onClick={() => this.executorWindow(true)}
                                    className="basis-4/6 hover:text-indigo-500 hover:bg-slate-100"/>
                         </div>
-                        <div className="flex">
-                            <p className="basis-2/6 my-auto text-lg font-light p-4 border-r">Выберете адресата</p>
-                            <select
-                                className="basis-4/6 h-full border-none focus:ring-0 uppercase hover:bg-slate-100 hover:text-indigo-500 "
-                                value={this.state.select}
-                                onChange={this.handleChange}>
-                                <option value={0}>Отправка электронной почтой</option>
-                                <option value={1}>Отправка организцации</option>
-                                <option value={1}>Отправка гражданину</option>
-                            </select>
-                        </div>
-                        <div className="flex">
-                            <p className="basis-2/6 my-auto text-lg font-light p-4 border-r">Укажите вес письма</p>
-                        </div>
+                        <DepartureBlock organization={this.state.organization}
+                                        action={(data) => this.handleDeparture(data)}
+                                        organizationWindow={this.organizationWindow}/>
+                        {/*<StampsWeight action={this.prepareStamps} type={this.state.message_type}/>*/}
                         <div className="flex flex-col">
                             <div className="flex border-b">
                                 <p className="basis-2/6 my-auto text-lg font-light p-4 border-r">Выберете
                                     необходимые
                                     марки</p>
-                                <input type="button" value="Добавить марку"
+                                <input type="button" value="Добавить марку" onClick={() => this.stampWindow(true)}
                                        className="basis-4/6 hover:text-indigo-500 hover:bg-slate-100"/>
                             </div>
-                            <div
-                                className="m-4 p-4 rounded-lg border border-gray-300 bg-gray-100 flex flex-wrap">test
-                            </div>
+                            <StampsList stamps={this.state.stamps_used} action={this.updateStamps}/>
                         </div>
                     </div>
                 </div>
-                <OutgoingExecutor state={this.state.executorWindow} action={(e) => {
-                    this.setState({executorWindow: e})
-                }} select={(id) => {
+                <OutgoingExecutor state={this.state.executorWindow} action={this.executorWindow} select={(id) => {
                     this.setState({executor_id: id});
                     EmployeeProvider.employee(id, (response) => {
                         console.log(response);
@@ -134,9 +166,53 @@ class OutgoingCreateBody extends Component {
                         }
                     });
                 }}/>
-                <OutgoingStamps state={this.state.stampWindow} action={(e) => {
-                    this.setState({stampWindow: e})
-                }}/>
+                <OutgoingOrganization state={this.state.organizationWindow} action={this.organizationWindow}
+                                      select={(id) => {
+                                          OrganizationProvider.show(id, (response) => {
+                                              if (response.status === 404) {
+                                                  toast.error("Организация не найдена");
+                                                  this.setState({fullName: "404"});
+                                              }
+                                              if (response.status === 200) {
+                                                  this.setState({organization: response.data});
+                                                  const type = this.state.departureType;
+                                                  const depData = {};
+                                                  depData[type] = {
+                                                      date: this.state.date,
+                                                  };
+                                                  if (type === 'organization') {
+                                                      if (this.state.organization !== null) {
+                                                          depData[type].address = this.state.organization.id;
+                                                      }
+                                                  }
+                                                  this.props.action('departure_data', depData);
+                                              }
+                                          });
+                                          // this.setState({organization: ""});
+                                      }}/>
+                <OutgoingStamps state={this.state.stampWindow} action={this.stampWindow} select={(id) => {
+                    StampProvider.show(id, (response) => {
+                        if (response.status === 404) {
+                            toast.error("Марка  не найдена");
+                            this.setState({fullName: "404"});
+                        }
+                        if (response.status === 200) {
+                            if (response.data.count === 0) {
+                                toast.error("Недостаточно марок на баллансе!");
+                                return;
+                            }
+                            const stamps = this.state.stamps_used;
+                            stamps.push({
+                                id: response.data.id,
+                                value: response.data.value,
+                                count: 1,
+                                max: response.data.count,
+                            });
+                            this.setState({stamps_used: stamps});
+                            this.props.action('stamps_used', stamps);
+                        }
+                    });
+                }} filter={this.state.stamps_used}/>
             </>
         );
     }

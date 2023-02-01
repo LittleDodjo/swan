@@ -28,8 +28,8 @@ class OutgoingDocumentBody extends Component {
             <div className="flex flex-col">
                 <div className="flex flex-col divide-y bg-white shadow-md border border-gray-400 m-4 rounded-xl">
                     <div className="flex cursor-pointer">
-                        <h1 className="text-xl  m-4">Письмо {this.props.data.type ? "заказное, конверт маркированный" :
-                            "простое, конверт не маркированный"}</h1>
+                        <h1 className="text-xl  m-4">Письмо {!this.props.data.type ? "заказное, конверт не маркированный" :
+                            "простое, конверт маркированный"}</h1>
                         <p className="outgoing-border-date">от {this.props.data.created} г.</p>
                         <h1 className="text-xl  m-4">На основании документа №{this.props.data.registrationNumber}</h1>
                         <p className="outgoing-border-date">от {this.props.data.registrationDate} г.</p>
@@ -54,7 +54,7 @@ class OutgoingDocumentBody extends Component {
                 <div className="flex flex-col divide-y bg-white shadow-md border border-gray-400 m-4 rounded-xl">
                     <div className="flex">
                         <h1 className="text-xl m-4">Документ направлен
-                            {this.props.data.departure.total > 1 ? " нескольким адресатам" : "одному адресату"}</h1>
+                            {this.props.data.departure.total > 1 ? " нескольким адресатам" : " одному адресату"}</h1>
                         {dateEquals ?
                             <p className="outgoing-border-date">{Object.entries(this.props.data.departure)[0][1].date}</p> : ""}
                     </div>

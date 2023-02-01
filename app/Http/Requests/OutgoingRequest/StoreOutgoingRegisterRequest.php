@@ -8,9 +8,18 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * @property mixed $departure_data
+ * @property mixed message_type
  */
 class StoreOutgoingRegisterRequest extends FormRequest
 {
+
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'message_type' => $this->message_type == 'true',
+        ]);
+    }
 
     /**
      * Determine if the user is authorized to make this request.

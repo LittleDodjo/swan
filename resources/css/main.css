@@ -68,7 +68,7 @@
 }
 
 .body-view{
-    @apply relative flex h-full flex-col overflow-y-auto overflow-x-hidden;
+    @apply relative flex h-full flex-col overflow-x-hidden;
 }
 
 .employee-card {

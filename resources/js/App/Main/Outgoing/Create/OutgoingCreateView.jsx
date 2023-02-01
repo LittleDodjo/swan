@@ -2,13 +2,20 @@ import React, {Component} from 'react';
 import Header from "../../../Common/Components/Header";
 import OutgoingBack from "../Components/OutgoingBack";
 import OutgoingCreateBody from "./OutgoingCreateBody";
+import HeadingButton from "../../../Common/Components/HeadingButton";
+import Save24 from "../../../Common/Resources/Save24";
+import withRouter from "../../../withRouter";
+import SplashLoader from "../../../AppLogin/Components/SplashLoader";
+import OutgoingProvider from "../../../Providers/OutgoingProvider";
+import toast from "react-hot-toast";
+import CookieProvider from "../../../Providers/CookieProvider";
 
 class OutgoingCreateView extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            hasMore: true,
+            saving: false,
             outgoingDocument: {
                 envelopes_count: 1,
                 lists_count: 1,
@@ -25,8 +32,18 @@ class OutgoingCreateView extends Component {
         this.save = this.save.bind(this);
     }
 
-    save() {
-
+    save(data) {
+        console.log(data);
+        // return;
+        OutgoingProvider.store(data, (response) => {
+            if(response.status === 200){
+                toast.success("Документ успешно сохранен!");
+                CookieProvider.removeSession('outgoing');
+                this.props.navigate('/app/outgoing/');
+            }else {
+                toast.error("Ошибка сохранения!");
+            }
+        });
     }
 
     updateState(key, value) {
@@ -37,15 +54,19 @@ class OutgoingCreateView extends Component {
 
     render() {
         return (
-            <div className="body-view">
-                <Header heading={<OutgoingBack caption="Создание исходящего документа"/>}>
-                    <p onClick={this.save}>save</p>
-                </Header>
-                <OutgoingCreateBody action={this.updateState} {...this.state.outgoingDocument}/>
-            </div>
+            <>
+                {this.state.saving ? <SplashLoader/> :
+                    <div className="body-view">
+                        <Header heading={<OutgoingBack caption="Создание исходящего документа"/>}>
+                            <HeadingButton svg={<Save24/>} text="Сохранить" action={() => this.save(this.state.outgoingDocument)}/>
+                        </Header>
+                        <OutgoingCreateBody action={this.updateState} {...this.state.outgoingDocument}/>
+                    </div>
+                }
+            </>
         );
     }
 
 }
 
-export default OutgoingCreateView;
+export default withRouter(OutgoingCreateView);
