@@ -7,6 +7,19 @@ class EmployeeProvider {
 
     constructor() {}
 
+    static async index(action)
+    {
+        await axios.get(this.url).then((res) => {
+            console.log(res);
+            action({
+                status: res.status,
+                data: res.data,
+            });
+        }).catch((e) => {
+            console.log("error");
+        });
+    }
+
     //получить сотрудника
     static async employee(id, action) {
         await axios.get(this.url + id).then((res) => {

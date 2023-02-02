@@ -3,6 +3,7 @@
 namespace App\Http\Requests\OutgoingRequest\Stamps;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * @property mixed $balance
@@ -15,7 +16,7 @@ class StoreStampBalanceRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
@@ -25,7 +26,7 @@ class StoreStampBalanceRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['balance' => "string", 'balance.*.id' => "string", 'balance.*.count' => "string"])] public function rules(): array
     {
         return [
             'balance' => 'array|required',

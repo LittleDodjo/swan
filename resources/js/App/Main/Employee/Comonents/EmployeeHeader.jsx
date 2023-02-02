@@ -6,6 +6,7 @@ import Admin24 from "../../../Common/Resources/Admin24";
 import AuthServiceProvider from "../../../Providers/AuthServiceProvider";
 import Header from "../../../Common/Components/Header";
 import EmployeeHeadings from "./EmployeeHeadings";
+import withRouter from "../../../withRouter";
 
 class EmployeeHeader extends Component {
 
@@ -25,7 +26,7 @@ class EmployeeHeader extends Component {
             <Header heading={<EmployeeHeadings fullName={this.props.data.fullName} avatar={this.props.data.avatar}
                                                appointment={this.props.data.appointment}/>}>
                 {this.props.data.isAdmin && this.props.me ?
-                    <HeadingButton svg={<Admin24/>} text="Управление" action={this.props.admin}/> : <></>}
+                    <HeadingButton svg={<Admin24/>} text="Управление" action={() => this.props.navigate('/app/admin/')}/> : <></>}
                 {this.props.me ?
                     <>
                         <HeadingButton svg={<Settings24/>} text="Настройки" action={this.props.settings}/>
@@ -36,4 +37,4 @@ class EmployeeHeader extends Component {
     }
 }
 
-export default EmployeeHeader;
+export default withRouter(EmployeeHeader);

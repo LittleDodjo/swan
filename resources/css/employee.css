@@ -19,6 +19,4 @@
     @apply hover:bg-slate-100 hover:fill-indigo-500;
 }
 
-.employee-view{
-    @apply relative flex h-full flex-col overflow-y-auto overflow-x-hidden;
-}
+

@@ -34,7 +34,7 @@ class OutgoingRegisterController extends Controller
     public function index(): Response
     {
         return response(
-            new OutgoingRegisterResourceCollection(OutgoingRegister::orderby('id', 'desc')->paginate(50))
+            new OutgoingRegisterResourceCollection(OutgoingRegister::orderby('id', 'desc')->paginate(25))
         );
     }
 

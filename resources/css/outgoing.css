@@ -3,24 +3,32 @@
 @tailwind utilities;
 
 
-.table-top{
+.table-top {
     @apply w-full p-2 text-center text-gray-600 font-light hover:bg-slate-50 cursor-pointer;
     @apply transition-colors delay-75;
 }
 
-.table-body-item-line{
+.table-body-item-line {
     @apply flex divide-x transition-colors delay-75 cursor-pointer text-sm;
     @apply hover:bg-slate-50 font-light;
 }
 
-.table-body-item{
+.table-body-item {
     @apply w-full p-2 text-center;
 }
 
-.table-link{
+.table-link {
     @apply underline hover:text-indigo-500;
 }
 
-.header-button{
+.header-button {
     @apply flex p-4 hover:bg-slate-100 hover:fill-indigo-500;
+}
+
+.outgoing-border-date {
+    @apply px-4 my-auto border border-indigo-200 py-2 rounded-lg bg-slate-50 cursor-pointer mx-2
+}
+
+.create-outgoing-select {
+    @apply focus:ring-0 border-none font-light text-lg hover:bg-slate-100 hover:text-indigo-500 h-full rounded-tr-lg;
 }

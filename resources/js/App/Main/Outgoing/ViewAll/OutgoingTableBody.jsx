@@ -22,7 +22,7 @@ class OutgoingTableBody extends Component {
                     <div className="basis-1/6 p-2 text-center">{value.id}</div>
                     <div
                         className="table-body-item">
-                        {value.messageType ? "Заказной не маркированый" : "Простой, маркированый"}
+                        {value.messageType ? "Заказной, не маркированый" : "Простой, маркированый"}
                     </div>
                     <div className="table-body-item">3 Адресата</div>
                     <div className="table-body-item">5 марок</div>

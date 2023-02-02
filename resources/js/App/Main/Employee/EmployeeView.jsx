@@ -70,7 +70,7 @@ class EmployeeView extends Component {
             me: !this.props.params.id,
         };
         return (
-            <div className="employee-view">
+            <div className="body-view">
                 <EmployeeHeader me={!this.props.params.id} data={data} admin={this.admin} settings={this.settings}/>
                 <EmployeeBody me={!this.props.params.id} employee={employee}/>
                 <EmployeeSettings state={this.state.settings} action={this.settings}/>

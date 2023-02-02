@@ -80,6 +80,7 @@ Route::apiResource('outgoing', OutgoingRegisterController::class)
 
 Route::group(['prefix' => 'stamps'], function () {
     Route::get('/register', [StampController::class, 'register']);
+    Route::get('/register/{stamp}', [StampController::class, 'show']);
     Route::post('/register', [StampController::class, 'storeRegister']);
     Route::patch('/register/{stamp}', [StampController::class, 'updateRegister'])
         ->missing(fn() => response(['message' => 'Такой номинал не найден в реестре'], 404));

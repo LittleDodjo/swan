@@ -1,14 +1,15 @@
 import React, {Component} from 'react';
-import OutgoingHeader from "./Components/OutgoingHeader";
-import OutgoingArchive from "./OutgoingArchive";
-import OutgoingFilter from "./OutgoingFilter";
-import OutgoingTable from "./Components/OutgoingTable";
-import OutgoingTableHeader from "./Components/OutgoingTableHeader";
-import SplashLoader from "../../AppLogin/Components/SplashLoader";
-import OutgoingProvider from "../../Providers/OutgoingProvider";
-import OutgoingTableBody from "./Components/OutgoingTableBody";
-import CookieProvider from "../../Providers/CookieProvider";
+import OutgoingHeader from "../Components/OutgoingHeader";
+import OutgoingArchive from "../OutgoingArchive";
+import OutgoingFilter from "../OutgoingFilter";
+import OutgoingTable from "./OutgoingTable";
+import OutgoingTableHeader from "./OutgoingTableHeader";
+import SplashLoader from "../../../AppLogin/Components/SplashLoader";
+import OutgoingProvider from "../../../Providers/OutgoingProvider";
+import OutgoingTableBody from "./OutgoingTableBody";
+import CookieProvider from "../../../Providers/CookieProvider";
 import toast from "react-hot-toast";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 class OutgoingView extends Component {
 
@@ -25,7 +26,8 @@ class OutgoingView extends Component {
         };
 
         this.filter = this.filter.bind(this);
-        this.archive = this.archive.bind(this)
+        this.archive = this.archive.bind(this);
+        this.fetchData = this.fetchData.bind(this);
     }
 
     filter(state) {
@@ -34,6 +36,10 @@ class OutgoingView extends Component {
 
     archive(state) {
         this.setState({archive: state});
+    }
+
+    fetchData() {
+
     }
 
     componentDidMount() {
@@ -53,7 +59,7 @@ class OutgoingView extends Component {
 
     render() {
         return (
-            <>
+            <div className="relative flex h-full flex-col overflow-y-auto overflow-x-hidden">
                 <OutgoingHeader archive={this.archive} filter={this.filter}/>
                 <OutgoingArchive state={this.state.archive} action={this.archive}/>
                 <OutgoingFilter state={this.state.filter} action={this.filter}/>
@@ -63,7 +69,7 @@ class OutgoingView extends Component {
                         <OutgoingTableBody data={this.state.data}/>
                     </OutgoingTable> : <SplashLoader/>
                 }
-            </>
+            </div>
         );
     }
 }

@@ -5,12 +5,26 @@ namespace App\Http\Requests\OutgoingRequest;
 use App\Rules\OutgoingRule\OutgoingRegister\DepartureDataEqualsRule;
 use App\Rules\OutgoingRule\OutgoingRegister\DepartureDataRule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 
 /**
  * @property mixed $departure_data
+ * @property mixed message_type
  */
 class StoreOutgoingRegisterRequest extends FormRequest
 {
+
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'message_type' => $this->message_type == 1,
+        ]);
+        Log::alert([
+            'bool' => $this->message_type == 1 ? "da" : "net",
+            'type' => $this->message_type,
+        ]);
+    }
 
     /**
      * Determine if the user is authorized to make this request.

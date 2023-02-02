@@ -36,8 +36,20 @@ class OutgoingProvider {
         })
     }
 
-    static async store()
-    {}
+    static async store(body, action)
+    {
+        await axios.post(this.url, body).then((res) => {
+            action({
+                status: res.status,
+                data: res.data,
+            });
+        }).catch((e) => {
+            action({
+                status: e.response.status,
+                message: e.response.message,
+            });
+        });
+    }
 
     static async delete(id)
     {}

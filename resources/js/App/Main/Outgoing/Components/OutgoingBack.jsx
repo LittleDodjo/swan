@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Back24 from "../../../Common/Resources/Back24";
+import withRouter from "../../../withRouter";
 
 class OutgoingBack extends Component {
 
@@ -12,12 +13,12 @@ class OutgoingBack extends Component {
     render() {
         return (
             <div className="flex">
-                <Back24 action={this.props.action}/>
+                <Back24 action={() => this.props.navigate("/app/outgoing")}/>
                 <p className="text-2xl font-light">
-                    Просмотр исходящего документа №{this.props.id}</p>
+                    {this.props.caption}{this.props.id}</p>
             </div>
         );
     }
 }
 
-export default OutgoingBack;
+export default withRouter(OutgoingBack);

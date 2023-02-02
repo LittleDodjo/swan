@@ -17,8 +17,8 @@ class OutgoingHeader extends Component {
             <Header heading={<p className="text-2xl font-light">Реестр исходящих документов</p>}>
                 <HeadingButton svg={<Plus24/>} text="Создать новый"
                                action={() => this.props.navigate('/app/create/outgoing')}/>
-                <HeadingButton svg={<Filter24/>} text="Фильтр" action={this.props.filter}/>
-                <HeadingButton svg={<Archive24/>} text="Архив" action={this.props.archive}/>
+                {/*<HeadingButton svg={<Filter24/>} text="Фильтр" action={this.props.filter}/>*/}
+                {/*<HeadingButton svg={<Archive24/>} text="Архив" action={this.props.archive}/>*/}
             </Header>
         );
     }
