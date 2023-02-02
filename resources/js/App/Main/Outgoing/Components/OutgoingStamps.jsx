@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import SplashScreen from "../../../Common/Components/SplashScreen";
-import EmployeeProvider from "../../../Providers/EmployeeProvider";
 import toast from "react-hot-toast";
-import EmployeeCard from "../../../Common/Components/EmployeeCard";
 import StampProvider from "../../../Providers/StampProvider";
 
 class OutgoingStamps extends Component {
@@ -58,7 +56,7 @@ class OutgoingStamps extends Component {
         const filter = this.props.filter.map(v => v.id);
         return (
             <SplashScreen state={this.props.state} action={this.props.action} caption="Реестр марок">
-                <div className="grid grid-cols-4 h-fit overflow-y-auto">
+                <div className="grid grid-cols-4 h-fit overflow-y-auto pb-28">
                     <div className="col-span-4 bg-slate-100 m-4 border-b border-gray-300">
                         <input type="text" placeholder="Найти номинал марки" onChange={this.search}
                                value={this.state.query} name="query"

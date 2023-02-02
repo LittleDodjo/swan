@@ -85,8 +85,10 @@ class OutgoingCreateBody extends Component {
                 date: this.state.date,
             };
         }
-        if (type === 'email') {
-            depData[type].address = this.state.address;
+        if (type === 'mail') {
+            depData[type] = {
+                address : this.state.address
+            };
         }
         this.props.action('departure_data', depData);
         console.log(depData);
@@ -111,8 +113,8 @@ class OutgoingCreateBody extends Component {
                         <h1 className="text-xl p-4 border-r w-full">Новый исхоящий документ</h1>
                         <select className="create-outgoing-select" value={this.state.select}
                                 onChange={this.handleChange} name="message_type">
-                            <option value="false">Письмо простое, конверт маркированный</option>
-                            <option value="true">Письмо заказное, конверт не маркированный</option>
+                            <option value={0}>Письмо простое, конверт маркированный</option>
+                            <option value={1}>Письмо заказное, конверт не маркированный</option>
                         </select>
                     </div>
                     <div className="divide-y border-t border-gray-300">
@@ -128,6 +130,13 @@ class OutgoingCreateBody extends Component {
                             <p className="basis-2/6 my-auto text-lg font-light p-4 border-r">Укажите дату
                                 регистрации</p>
                             <input type="date" name="registration_date" onChange={this.handleChange}
+                                   className="basis-4/6 my-auto h-full border-none focus:ring-0 uppercase"/>
+                        </div>
+                        <div className="flex">
+                            <p className="basis-2/6 my-auto text-lg font-light p-4 border-r">Укажите количество
+                                листов</p>
+                            <input type="number" min={1} max={100} name="lists_count" onChange={this.handleChange}
+                                   value={this.state.lists_count}
                                    className="basis-4/6 my-auto h-full border-none focus:ring-0 uppercase"/>
                         </div>
                         <div className="flex">

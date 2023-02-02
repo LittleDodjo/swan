@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OutgoingRequest\Stamps\StoreStampBalanceRequest;
 use App\Http\Requests\OutgoingRequest\Stamps\StoreStampRegisterRequest;
 use App\Http\Requests\OutgoingRequest\Stamps\UpdateStampRegisterRequest;
+use App\Http\Resources\OutgoingResource\Stamps\StampHistoryResource;
 use App\Http\Resources\OutgoingResource\Stamps\StampHistoryResourceCollection;
 use App\Http\Resources\OutgoingResource\Stamps\StampRegisterResource;
 use App\Http\Resources\OutgoingResource\Stamps\StampRegisterResourceCollection;
@@ -18,6 +19,7 @@ use Illuminate\Http\Response;
 class StampController extends Controller
 {
 
+    use TotalPrice;
 
     /**
      * StampController constructor.
@@ -26,7 +28,6 @@ class StampController extends Controller
     {
 
     }
-
 
     /**
      * Возвразает реестр марок и текущий балланс
@@ -38,7 +39,13 @@ class StampController extends Controller
     }
 
 
-    public function show(StampRegister $stamp){
+    /**
+     * Получить марку и балланс
+     * @param StampRegister $stamp
+     * @return Response|Application|ResponseFactory
+     */
+    public function show(StampRegister $stamp): Response|Application|ResponseFactory
+    {
         return response(new StampRegisterResource($stamp));
     }
 
@@ -123,7 +130,16 @@ class StampController extends Controller
      */
     public function history(): Response|Application|ResponseFactory
     {
+        $lastBalance = StampHistory::where('type', true)->orderBy('created_at', 'desc')->get()->first();
+        $totalPrice = $this->totalPrice($lastBalance);
         $history = StampHistory::orderBy('id', 'desc')->paginate(50);
-        return response(new StampHistoryResourceCollection($history));
+        return response([
+            'history' => new StampHistoryResourceCollection($history),
+            'last' => [
+                'total' => $totalPrice['total'],
+                'price' => $totalPrice['price'],
+                'date' => $lastBalance->created_at,
+            ],
+        ]);
     }
 }

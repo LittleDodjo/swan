@@ -27,6 +27,7 @@ class StampsList extends Component {
                                    const stampsMax = this.props.stamps.filter(stamp => stamp.id === value.id)[0].max;
                                    if (stampsCount + 1 > stampsMax) {
                                        toast.error("Больше нет марок наа баллансе!");
+                                       return;
                                    }
                                    this.props.stamps.filter(stamp => stamp.id === value.id)[0].count++;
                                }}>

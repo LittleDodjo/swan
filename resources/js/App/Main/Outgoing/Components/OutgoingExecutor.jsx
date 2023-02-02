@@ -58,7 +58,7 @@ class OutgoingExecutor extends Component {
         return (
             <SplashScreen action={this.props.action} state={this.props.state} caption="Выбрать исполнителя">
                 {this.state.loaded ?
-                    <div className="grid grid-cols-2 h-fit overflow-y-auto">
+                    <div className="grid grid-cols-2 h-fit overflow-y-auto pb-28">
                         <div className="col-span-2 bg-slate-100 m-4 border-b border-gray-300">
                             <input type="text" placeholder="Найти сотрудника" onChange={this.search}
                                    value={this.state.query} name="query"

@@ -45,6 +45,7 @@ class OutgoingRegister extends Model
         'registration_date',
         'lists_count',
         'envelopes_count',
+        'message_type',
         'copies_count',
     ];
 

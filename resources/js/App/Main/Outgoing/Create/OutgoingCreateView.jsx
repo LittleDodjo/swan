@@ -33,8 +33,6 @@ class OutgoingCreateView extends Component {
     }
 
     save(data) {
-        console.log(data);
-        // return;
         OutgoingProvider.store(data, (response) => {
             if(response.status === 200){
                 toast.success("Документ успешно сохранен!");

@@ -9,6 +9,7 @@ import OutgoingProvider from "../../../Providers/OutgoingProvider";
 import OutgoingTableBody from "./OutgoingTableBody";
 import CookieProvider from "../../../Providers/CookieProvider";
 import toast from "react-hot-toast";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 class OutgoingView extends Component {
 
@@ -25,7 +26,8 @@ class OutgoingView extends Component {
         };
 
         this.filter = this.filter.bind(this);
-        this.archive = this.archive.bind(this)
+        this.archive = this.archive.bind(this);
+        this.fetchData = this.fetchData.bind(this);
     }
 
     filter(state) {
@@ -34,6 +36,10 @@ class OutgoingView extends Component {
 
     archive(state) {
         this.setState({archive: state});
+    }
+
+    fetchData() {
+
     }
 
     componentDidMount() {

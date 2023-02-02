@@ -4,7 +4,7 @@
 
 
 .aside-box {
-    @apply flex h-screen basis-16 flex-col border-r;
+    @apply flex h-screen basis-16 flex-col border-r border-gray-300;
     @apply bg-white  shadow-md;
 }
 
@@ -44,7 +44,7 @@
 }
 
 .splash-screen-line {
-    @apply mx-auto mt-2 h-2 w-60 rounded-full bg-gray-200;
+    @apply mx-auto mt-2 h-1 w-60 rounded-full bg-gray-200 absolute inset-x-0;
 }
 
 .splash-screen-ref {
@@ -54,7 +54,7 @@
 }
 
 .splash-screen-caption{
-    @apply w-full border-b p-2 text-2xl font-light flex justify-between sticky top-0;
+    @apply w-full border-b p-2 my-2 text-2xl font-light flex justify-between sticky top-0;
 }
 
 .redirect-link{
@@ -77,4 +77,9 @@
     @apply hover:bg-indigo-500 hover:text-white;
     @apply cursor-pointer border rounded-lg shadow-xl;
     @apply bg-gray-100 border-gray-400;
+}
+
+
+.body-btn{
+    @apply w-full p-2 text-center transition-colors delay-75 hover:bg-gray-50 hover:text-indigo-500 cursor-pointer;
 }

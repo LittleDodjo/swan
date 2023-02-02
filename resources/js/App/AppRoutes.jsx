@@ -11,6 +11,7 @@ import IngoingView from "./Main/Ingoing/IngoingView";
 import MarksView from "./Main/Marks/MarksView";
 import ReportsView from "./Main/Reports/ReportsView";
 import {Navigate, Routes, Route} from 'react-router-dom';
+import AdminView from "./Main/Admin/AdminView";
 
 class AppRoutes extends Component {
 
@@ -24,7 +25,7 @@ class AppRoutes extends Component {
             <Routes>
                 <>
                     <Route exact path='/' element={
-                        this.props.authState ? <Navigate to="/app/create/outgoing"/> : this.props.children
+                        this.props.authState ? <Navigate to="/app/marks"/> : this.props.children
                     }/>
                     <Route exact path="/app" element={
                         this.props.authState ? <MainView view={<HomeView/>}/> : <Navigate to="/"/>
@@ -52,6 +53,9 @@ class AppRoutes extends Component {
                     }/>
                     <Route path="/app/reports" element={
                         this.props.authState ? <MainView view={<ReportsView/>}/> : <Navigate to="/"/>
+                    }/>
+                    <Route path="/app/admin" element={
+                        this.props.authState ? <MainView view={<AdminView/>}/> : <Navigate to="/"/>
                     }/>
                 </>
                 <>

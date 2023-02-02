@@ -28,7 +28,7 @@ class OutgoingDocumentBody extends Component {
             <div className="flex flex-col">
                 <div className="flex flex-col divide-y bg-white shadow-md border border-gray-400 m-4 rounded-xl">
                     <div className="flex cursor-pointer">
-                        <h1 className="text-xl  m-4">Письмо {!this.props.data.type ? "заказное, конверт не маркированный" :
+                        <h1 className="text-xl  m-4">Письмо {this.props.data.type ? "заказное, конверт не маркированный" :
                             "простое, конверт маркированный"}</h1>
                         <p className="outgoing-border-date">от {this.props.data.created} г.</p>
                         <h1 className="text-xl  m-4">На основании документа №{this.props.data.registrationNumber}</h1>
