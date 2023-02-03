@@ -17,7 +17,7 @@ class RedirectLink extends Component {
     render() {
         return (
             <div className="my-auto">
-                <p className="redirect-link" onClick={this.redirect}>{this.props.caption}</p>
+                <p className={`redirect-link ${this.props.class}`} onClick={this.redirect}>{this.props.caption}</p>
             </div>
         );
     }

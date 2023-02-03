@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import withRouter from "../../../withRouter";
+import withRouter from "../../../../withRouter";
 import OutgoingDocumentHeader from "./OutgoingDocumentHeader";
-import SplashLoader from "../../../AppLogin/Components/SplashLoader";
-import CookieProvider from "../../../Providers/CookieProvider";
-import OutgoingProvider from "../../../Providers/OutgoingProvider";
+import SplashLoader from "../../../../AppLogin/Components/SplashLoader";
+import CookieProvider from "../../../../Providers/CookieProvider";
+import OutgoingProvider from "../../../../Providers/OutgoingProvider";
 import toast from "react-hot-toast";
 import OutgoingDocumentBody from "./OutgoingDocumentBody";
 

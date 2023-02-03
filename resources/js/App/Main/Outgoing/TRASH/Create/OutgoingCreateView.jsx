@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
-import Header from "../../../Common/Components/Header";
+import Header from "../../../../Common/Components/Header";
 import OutgoingBack from "../Components/OutgoingBack";
 import OutgoingCreateBody from "./OutgoingCreateBody";
-import HeadingButton from "../../../Common/Components/HeadingButton";
-import Save24 from "../../../Common/Resources/Save24";
-import withRouter from "../../../withRouter";
-import SplashLoader from "../../../AppLogin/Components/SplashLoader";
-import OutgoingProvider from "../../../Providers/OutgoingProvider";
+import HeadingButton from "../../../../Common/Components/HeadingButton";
+import Save24 from "../../../../Common/Resources/Save24";
+import withRouter from "../../../../withRouter";
+import SplashLoader from "../../../../AppLogin/Components/SplashLoader";
+import OutgoingProvider from "../../../../Providers/OutgoingProvider";
 import toast from "react-hot-toast";
-import CookieProvider from "../../../Providers/CookieProvider";
+import CookieProvider from "../../../../Providers/CookieProvider";
 
 class OutgoingCreateView extends Component {
 

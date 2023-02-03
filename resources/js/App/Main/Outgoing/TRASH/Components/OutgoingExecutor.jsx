@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import SplashScreen from "../../../Common/Components/SplashScreen";
-import SplashLoader from "../../../AppLogin/Components/SplashLoader";
-import EmployeeProvider from "../../../Providers/EmployeeProvider";
-import EmployeeCard from "../../../Common/Components/EmployeeCard";
+import SplashScreen from "../../../../Common/Components/SplashScreen";
+import SplashLoader from "../../../../AppLogin/Components/SplashLoader";
+import EmployeeProvider from "../../../../Providers/EmployeeProvider";
+import EmployeeCard from "../../../../Common/Components/EmployeeCard";
 import toast from "react-hot-toast";
 
 class OutgoingExecutor extends Component {

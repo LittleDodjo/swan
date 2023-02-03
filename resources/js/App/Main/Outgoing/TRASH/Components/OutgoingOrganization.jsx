@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import SplashScreen from "../../../Common/Components/SplashScreen";
-import OrganizationProvider from "../../../Providers/OrganizationProvider";
+import SplashScreen from "../../../../Common/Components/SplashScreen";
+import OrganizationProvider from "../../../../Providers/OrganizationProvider";
 import toast from "react-hot-toast";
-import SplashLoader from "../../../AppLogin/Components/SplashLoader";
+import SplashLoader from "../../../../AppLogin/Components/SplashLoader";
 
 class OutgoingOrganization extends Component {
 

@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import OutgoingHeader from "../Components/OutgoingHeader";
-import OutgoingArchive from "../OutgoingArchive";
-import OutgoingFilter from "../OutgoingFilter";
+import OutgoingArchive from "../../OutgoingArchive";
+import OutgoingFilter from "../../OutgoingFilter";
 import OutgoingTable from "./OutgoingTable";
 import OutgoingTableHeader from "./OutgoingTableHeader";
-import SplashLoader from "../../../AppLogin/Components/SplashLoader";
-import OutgoingProvider from "../../../Providers/OutgoingProvider";
+import SplashLoader from "../../../../AppLogin/Components/SplashLoader";
+import OutgoingProvider from "../../../../Providers/OutgoingProvider";
 import OutgoingTableBody from "./OutgoingTableBody";
-import CookieProvider from "../../../Providers/CookieProvider";
+import CookieProvider from "../../../../Providers/CookieProvider";
 import toast from "react-hot-toast";
 import InfiniteScroll from "react-infinite-scroll-component";
 

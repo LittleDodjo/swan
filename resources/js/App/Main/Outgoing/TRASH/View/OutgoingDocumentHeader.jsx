@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import HeadingButton from "../../../Common/Components/HeadingButton";
-import Header from "../../../Common/Components/Header";
-import Edit24 from "../../../Common/Resources/Edit24";
-import Delete24 from "../../../Common/Resources/Delete24";
-import withRouter from "../../../withRouter";
+import HeadingButton from "../../../../Common/Components/HeadingButton";
+import Header from "../../../../Common/Components/Header";
+import Edit24 from "../../../../Common/Resources/Edit24";
+import Delete24 from "../../../../Common/Resources/Delete24";
+import withRouter from "../../../../withRouter";
 import OutgoingBack from "../Components/OutgoingBack";
 
 class OutgoingDocumentHeader extends Component {

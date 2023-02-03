@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import OutgoingExecutor from "../Components/OutgoingExecutor";
 import OutgoingStamps from "../Components/OutgoingStamps";
-import EmployeeProvider from "../../../Providers/EmployeeProvider";
+import EmployeeProvider from "../../../../Providers/EmployeeProvider";
 import toast from "react-hot-toast";
 import DepartureBlock from "./DepartureBlock";
 import OutgoingOrganization from "../Components/OutgoingOrganization";
-import OrganizationProvider from "../../../Providers/OrganizationProvider";
+import OrganizationProvider from "../../../../Providers/OrganizationProvider";
 import StampsList from "./StampsList";
-import StampProvider from "../../../Providers/StampProvider";
+import StampProvider from "../../../../Providers/StampProvider";
 
 class OutgoingCreateBody extends Component {
 

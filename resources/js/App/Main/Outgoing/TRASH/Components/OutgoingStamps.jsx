@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import SplashScreen from "../../../Common/Components/SplashScreen";
+import SplashScreen from "../../../../Common/Components/SplashScreen";
 import toast from "react-hot-toast";
-import StampProvider from "../../../Providers/StampProvider";
+import StampProvider from "../../../../Providers/StampProvider";
 
 class OutgoingStamps extends Component {
 

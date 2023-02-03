@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import Back24 from "../../../Common/Resources/Back24";
-import withRouter from "../../../withRouter";
+import Back24 from "../../../../Common/Resources/Back24";
+import withRouter from "../../../../withRouter";
 
 class OutgoingBack extends Component {
 
