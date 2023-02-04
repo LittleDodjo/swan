@@ -11,6 +11,9 @@ import OutgoingProvider from "../../../Providers/OutgoingProvider";
 import toast from "react-hot-toast";
 import SplashLoader from "../../../AppLogin/Components/SplashLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
+import Bookmark24 from "../../../Common/Resources/Bookmark24";
+import Build24 from "../../../Common/Resources/Build24";
+import Archive24 from "../../../Common/Resources/Archive24";
 
 class OutgoingAll extends Component {
 
@@ -71,12 +74,16 @@ class OutgoingAll extends Component {
         return (
             <>
                 <div className="flex justify-between">
-                    <h1 className="text-3xl m-4">Реестр исходящих документов</h1>
-                    <RedirectLink caption={"Архивы"} class={"mr-4"}/>
+                    <h1 className="text-3xl m-4">Исходящие документы</h1>
+                    <div className="flex">
+                        <ButtonRounded caption="Архив" svg={<Archive24/>} class={"my-auto px-2"}/>
+                        <ButtonRounded caption="Организации" svg={<Build24/>} class={"my-auto px-2"}/>
+                        <ButtonRounded caption="Марки" svg={<Bookmark24/>} class={"my-auto px-2"}/>
+                    </div>
                 </div>
                 <div className="flex m-2">
                     <ButtonRounded caption="Создать новый" svg={<Plus24/>} class={"basis-2/12"}/>
-                    <ButtonRounded svg={<Filter24 class={"ml-4"}/>} class={"max-w-fit"}/>
+                    <ButtonRounded svg={<Filter24/>} class={"max-w-fit pl-2"}/>
                     <SearchRounded placeholder={"Поиск документа"} class="mr-2" action={(e) => this.setState(e)}/>
                 </div>
                 {this.state.loaded ?

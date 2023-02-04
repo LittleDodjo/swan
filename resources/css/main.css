@@ -90,7 +90,11 @@
 
 .rounded-button {
     @apply flex transition-colors delay-75 py-2 mx-2 rounded-lg cursor-pointer fill-white text-white;
-    @apply bg-indigo-500 hover:bg-indigo-600 basis-1/6 shadow-lg justify-center;
+    @apply bg-indigo-500 hover:bg-indigo-600 shadow-lg justify-center;
+}
+
+.rounded-button > svg {
+    @apply my-auto mr-2;
 }
 
 .rounded-table{
