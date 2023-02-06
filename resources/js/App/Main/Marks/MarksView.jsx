@@ -1,14 +1,9 @@
 import React, {Component} from 'react';
-import Header from "../../Common/Components/Header";
-import AssignBalance from "./Components/AssignBalance";
 import toast from "react-hot-toast";
 import withRouter from "../../withRouter";
 import CookieProvider from "../../Providers/CookieProvider";
 import StampProvider from "../../Providers/StampProvider";
 import SplashLoader from "../../AppLogin/Components/SplashLoader";
-import OutgoingTable from "../Outgoing/TRASH/ViewAll/OutgoingTable";
-import OutgoingTableHeader from "../Outgoing/TRASH/ViewAll/OutgoingTableHeader";
-import OutgoingTableBody from "../Outgoing/TRASH/ViewAll/OutgoingTableBody";
 import MarksTableHeader from "./Components/MarksTableHeader";
 import MarksTableBody from "./Components/MarksTableBody";
 import MarksHistory from "./Components/MarksHistory";
@@ -53,7 +48,6 @@ class MarksView extends Component {
         return (
             this.state.loaded ?
                 <div className="body-view " id="ref">
-                    <Header heading={<p className="text-2xl font-light">Реестр марок</p>}>1</Header>
                     <MarksHeader last={last}>
                         <MarksStatistic/>
                         <MarksHistory>

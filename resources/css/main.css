@@ -89,11 +89,22 @@
 }
 
 .rounded-button {
-    @apply flex transition-colors delay-75 py-2 mx-2 rounded-lg cursor-pointer fill-white text-white;
-    @apply bg-indigo-500 hover:bg-indigo-600 shadow-lg justify-center;
+    @apply flex mx-2 bg-indigo-500 text-white p-2 rounded-lg my-auto;
+    @apply transition-colors delay-75 cursor-pointer shadow-md;
+    @apply hover:bg-indigo-600 hover:shadow-indigo-300;
 }
 
 .rounded-button > svg {
+    @apply my-auto mr-2 fill-white;
+}
+
+.rounded-button-secondary {
+    @apply flex mx-2 bg-white border p-2 rounded-lg my-auto;
+    @apply transition-colors delay-75 cursor-pointer shadow-md;
+    @apply hover:bg-gray-100 hover:fill-indigo-500;
+}
+
+.rounded-button-secondary > svg {
     @apply my-auto mr-2;
 }
 
@@ -115,4 +126,8 @@
 
 .rounded-table > tbody > tr > td {
     @apply border-x p-2 ;
+}
+
+.back-card {
+    @apply flex flex-col bg-white mx-4 border shadow-lg rounded-lg p-4;
 }

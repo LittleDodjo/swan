@@ -4,7 +4,6 @@ import Plus24 from "../../../Common/Resources/Plus24";
 import SearchRounded from "../../../Common/Components/SearchRounded";
 import Table from "../../../Common/Components/Table";
 import Filter24 from "../../../Common/Resources/Filter24";
-import RedirectLink from "../../../Common/Components/RedirectLink";
 import OutgoingTableBody from "../Components/OutgoingTableBody";
 import CookieProvider from "../../../Providers/CookieProvider";
 import OutgoingProvider from "../../../Providers/OutgoingProvider";
@@ -14,8 +13,9 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Bookmark24 from "../../../Common/Resources/Bookmark24";
 import Build24 from "../../../Common/Resources/Build24";
 import Archive24 from "../../../Common/Resources/Archive24";
+import withRouter from "../../../withRouter";
 
-class OutgoingAll extends Component {
+class OutgoingIndex extends Component {
 
     constructor(props) {
         super(props);
@@ -76,14 +76,18 @@ class OutgoingAll extends Component {
                 <div className="flex justify-between">
                     <h1 className="text-3xl m-4">Исходящие документы</h1>
                     <div className="flex">
-                        <ButtonRounded caption="Архив" svg={<Archive24/>} class={"my-auto px-2"}/>
-                        <ButtonRounded caption="Организации" svg={<Build24/>} class={"my-auto px-2"}/>
-                        <ButtonRounded caption="Марки" svg={<Bookmark24/>} class={"my-auto px-2"}/>
+                        <ButtonRounded caption="Архив" svg={<Archive24/>} class={"rounded-button-secondary"}/>
+                        <ButtonRounded caption="Организации" svg={<Build24/>} class={"rounded-button-secondary"}/>
+                        <ButtonRounded caption="Марки" svg={<Bookmark24/>} class={"rounded-button-secondary"}
+                                       action={() => this.props.navigate('/app/marks/')}
+                        />
                     </div>
                 </div>
                 <div className="flex m-2">
-                    <ButtonRounded caption="Создать новый" svg={<Plus24/>} class={"basis-2/12"}/>
-                    <ButtonRounded svg={<Filter24/>} class={"max-w-fit pl-2"}/>
+                    <ButtonRounded caption="Создать новый" svg={<Plus24/>} class={"rounded-button basis-2/12"}
+                                   action={() => this.props.navigate('/app/create/outgoing')}
+                    />
+                    <ButtonRounded svg={<Filter24/>} class={"rounded-button-secondary"}/>
                     <SearchRounded placeholder={"Поиск документа"} class="mr-2" action={(e) => this.setState(e)}/>
                 </div>
                 {this.state.loaded ?
@@ -104,4 +108,4 @@ class OutgoingAll extends Component {
     }
 }
 
-export default OutgoingAll;
+export default withRouter(OutgoingIndex);

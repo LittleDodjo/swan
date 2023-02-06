@@ -14,7 +14,7 @@ class Header extends Component {
         return (
             <div className="bg-white border-b flex justify-between">
                 <div className="flex m-4">
-                    {this.props.back ?
+                    {this.props.link ?
                         <Back24 action={() => this.props.navigate(this.props.url)}/>
                         : ""}
                     <p className="text-2xl font-light">
@@ -27,6 +27,10 @@ class Header extends Component {
             </div>
         );
     }
+}
+
+Header.defaultProps = {
+    link: false,
 }
 
 export default withRouter(Header);
