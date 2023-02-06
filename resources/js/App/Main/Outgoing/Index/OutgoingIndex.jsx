@@ -84,10 +84,9 @@ class OutgoingIndex extends Component {
                     </div>
                 </div>
                 <div className="flex m-2">
-                    <ButtonRounded caption="Создать новый" svg={<Plus24/>} class={"rounded-button basis-2/12"}
+                    <ButtonRounded caption="Создать новый" svg={<Plus24/>}
                                    action={() => this.props.navigate('/app/create/outgoing')}
                     />
-                    <ButtonRounded svg={<Filter24/>} class={"rounded-button-secondary"}/>
                     <SearchRounded placeholder={"Поиск документа"} class="mr-2" action={(e) => this.setState(e)}/>
                 </div>
                 {this.state.loaded ?

@@ -108,6 +108,10 @@
     @apply my-auto mr-2;
 }
 
+.select-button{
+    @apply w-full p-2 rounded-lg border text-center bg-gray-100 hover:bg-gray-200 hover:text-indigo-500 my-auto cursor-pointer;
+}
+
 .rounded-table{
     @apply table-auto w-full rounded-lg;
 }

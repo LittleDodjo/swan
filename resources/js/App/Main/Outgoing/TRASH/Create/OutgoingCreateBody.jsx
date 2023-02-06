@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import DepartureBlock from "./DepartureBlock";
 import OutgoingOrganization from "../Components/OutgoingOrganization";
 import OrganizationProvider from "../../../../Providers/OrganizationProvider";
-import StampsList from "./StampsList";
+import StampsList from "../../Components/StampsList";
 import StampProvider from "../../../../Providers/StampProvider";
 
 class OutgoingCreateBody extends Component {
