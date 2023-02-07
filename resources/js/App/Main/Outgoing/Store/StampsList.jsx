@@ -17,6 +17,13 @@ class StampsList extends Component {
         if (this.props.recomended) recomended = 'border-green-500';
         return (
             <>
+                {isNaN(this.props.price) ? "" :
+                    <div className="flex pb-2 mb-2">
+                        <p className="text-lg text-indigo-500">
+                            Итоговая цена всех марок для конверта - {this.props.price} руб.
+                        </p>
+                    </div>
+                }
                 {this.props.recomended ?
                     <div className="flex pb-2 mb-2">
                         <p className="text-lg text-green-600">
@@ -80,6 +87,12 @@ class StampsList extends Component {
             </>
         );
     }
+
+}
+
+StampsList.defaultProps = {
+    price: 0
+,
 }
 
 export default StampsList;

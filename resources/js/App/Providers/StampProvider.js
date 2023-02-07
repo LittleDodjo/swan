@@ -109,13 +109,7 @@ class StampProvider {
         }
     }
 
-    // [
-    // 0 => [
-    //     id => 5,
-    // value => 10,
-    // count => 50,
-    //     ]
-    // ]
+
     static getStamps(price) {
         if(isNaN(price)) return false;
         const stamps = this.stamps().filter(stamp => stamp.count > 0);
@@ -129,10 +123,12 @@ class StampProvider {
                 filterStamps.push(stamp.id);
             } else {
                 if (needleStamps.find(needle => needle.id === stamp.id) === undefined) {
+                    console.log(stamp);
                     needleStamps.push({
                         id: stamp.id,
                         value: stamp.value,
                         count: 1,
+                        max: stamp.count,
                     });
                     price -= parseFloat(stamp.value);
                     if (isOne) {
@@ -147,7 +143,6 @@ class StampProvider {
                 }
             }
         }
-        console.log(needleStamps);
         return needleStamps;
     }
 }

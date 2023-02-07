@@ -47,7 +47,7 @@ class MarksView extends Component {
         const last = this.state.history.last;
         return (
             this.state.loaded ?
-                <div className="body-view " id="ref">
+                <div className="body-view " id="window">
                     <MarksHeader last={last}>
                         <MarksStatistic/>
                         <MarksHistory>

@@ -27,7 +27,7 @@
 }
 
 .main-subsystem-base {
-    @apply overflow-x-clip flex h-full w-full flex-col overflow-y-auto;
+    @apply overflow-x-hidden flex h-full w-full flex-col overflow-y-auto;
 }
 
 .subsystem-base {
@@ -40,7 +40,7 @@
 }
 
 .splash-screen {
-    @apply absolute h-full w-full backdrop-blur-md overflow-hidden z-10;
+    @apply fixed left-0 bottom-0 h-full w-full backdrop-blur-md overflow-hidden z-10;
 }
 
 .splash-screen-line {
@@ -76,10 +76,10 @@
 }
 
 .employee-card {
-    @apply flex p-2 m-4 ;
+    @apply flex p-4 m-4 ;
     @apply transition-colors delay-75 ease-in-out;
-    @apply hover:bg-indigo-500 hover:text-white;
-    @apply cursor-pointer border rounded-lg shadow-xl;
+    @apply hover:border-indigo-500;
+    @apply cursor-pointer border rounded-lg shadow-md;
     @apply bg-gray-100 border-gray-400;
 }
 
@@ -90,8 +90,8 @@
 
 .rounded-button {
     @apply flex mx-2 bg-indigo-500 text-white p-2 rounded-lg my-auto;
-    @apply transition-colors delay-75 cursor-pointer shadow-md;
-    @apply hover:bg-indigo-600 hover:shadow-indigo-300;
+    @apply transition-colors delay-75 cursor-pointer shadow-md ease-in-out;
+    @apply hover:bg-indigo-600;
 }
 
 .rounded-button > svg {
@@ -100,7 +100,7 @@
 
 .rounded-button-secondary {
     @apply flex mx-2 bg-white border p-2 rounded-lg my-auto;
-    @apply transition-colors delay-75 cursor-pointer shadow-md;
+    @apply transition-colors delay-75 cursor-pointer shadow-md ease-in-out;
     @apply hover:bg-gray-100 hover:fill-indigo-500;
 }
 
@@ -133,5 +133,5 @@
 }
 
 .back-card {
-    @apply flex flex-col bg-white mx-4 border shadow-lg rounded-lg p-4;
+    @apply flex flex-col bg-white border shadow-lg rounded-lg p-4 w-5/6 mx-auto;
 }

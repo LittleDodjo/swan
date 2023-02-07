@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Log;
 /**
  * @property mixed $departure_data
  * @property mixed message_type
+ * @property mixed departure_type
+ * @property mixed departure_address
+ * @property mixed departure_date
+ * @property mixed departure_name
  */
 class StoreOutgoingRegisterRequest extends FormRequest
 {
@@ -19,10 +23,13 @@ class StoreOutgoingRegisterRequest extends FormRequest
     {
         $this->merge([
             'message_type' => $this->message_type == 1,
-        ]);
-        Log::alert([
-            'bool' => $this->message_type == 1 ? "da" : "net",
-            'type' => $this->message_type,
+            'departure_data' => [
+                $this->departure_type => [
+                    'date' => $this->departure_date,
+                    'address' => $this->departure_address,
+                    'name' => $this->departure_name
+                ]
+            ],
         ]);
     }
 

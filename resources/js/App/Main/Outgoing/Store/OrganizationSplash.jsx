@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import SplashScreen from "../../../../Common/Components/SplashScreen";
-import OrganizationProvider from "../../../../Providers/OrganizationProvider";
+import OrganizationProvider from "../../../Providers/OrganizationProvider";
 import toast from "react-hot-toast";
-import SplashLoader from "../../../../AppLogin/Components/SplashLoader";
+import SplashScreen from "../../../Common/Components/SplashScreen";
+import SplashLoader from "../../../AppLogin/Components/SplashLoader";
 
-class OutgoingOrganization extends Component {
+class OrganizationSplash extends Component {
 
     constructor(props) {
         super(props);
@@ -69,16 +69,13 @@ class OutgoingOrganization extends Component {
         return (
             <SplashScreen state={this.props.state} action={this.props.action} caption="Реестр организаций">
                 {this.state.loaded ?
-                    <div className="grid grid-cols-3 h-fit overflow-y-auto">
-                        <div className="col-span-3 bg-slate-100 m-4 border-b border-gray-300">
+                    <div className="flex flex-col h-fit overflow-y-auto">
                             <input type="text" placeholder="Найти организацию" onChange={this.handleChange}
                                    value={this.state.query} name="query"
                                    className="w-full h-full focus:ring-0 border-none px-2"/>
-                        </div>
                         {this.search().map((value, key) => (
                             <div className="border border-gray-300 p-4 m-4 col-span-3 hover:bg-slate-100 cursor-pointer" key={key} onClick={() => {
-                                this.props.select(value.id);
-                                this.props.action(false);
+                                this.props.select(value.id, value.fullName, 'organizationWindow');
                             }
                             }>
                                 {value.fullName}
@@ -91,4 +88,4 @@ class OutgoingOrganization extends Component {
     }
 }
 
-export default OutgoingOrganization;
+export default OrganizationSplash;

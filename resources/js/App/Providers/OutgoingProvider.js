@@ -1,5 +1,4 @@
 import axios from "axios";
-import {act} from "react-dom/test-utils";
 
 class OutgoingProvider {
 
