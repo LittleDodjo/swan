@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import axios from "axios";
 
-axios.defaults.baseURL = "http://172.153.153.12//";
+axios.defaults.baseURL = "http://172.153.153.127/";
 axios.defaults.headers.post["Content-Type"] = "application/json";
 axios.defaults.headers.get['Content-Type'] = 'application/json';
 axios.defaults.headers.patch['Content-Type'] = 'application/json';
