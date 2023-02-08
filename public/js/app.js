@@ -12529,7 +12529,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
-(axios__WEBPACK_IMPORTED_MODULE_3___default().defaults.baseURL) = "http://127.0.0.1:8000/";
+(axios__WEBPACK_IMPORTED_MODULE_3___default().defaults.baseURL) = "http://172.153.153.12//";
 (axios__WEBPACK_IMPORTED_MODULE_3___default().defaults.headers.post["Content-Type"]) = "application/json";
 (axios__WEBPACK_IMPORTED_MODULE_3___default().defaults.headers.get["Content-Type"]) = 'application/json';
 (axios__WEBPACK_IMPORTED_MODULE_3___default().defaults.headers.patch["Content-Type"]) = 'application/json';
