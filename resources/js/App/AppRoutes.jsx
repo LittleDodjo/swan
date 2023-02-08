@@ -4,14 +4,14 @@ import MainView from "./Main/MainView";
 import ChatView from "./Main/Chats/ChatView";
 import HomeView from "./Main/Home/HomeView";
 import EmployeeView from "./Main/Employee/EmployeeView";
-import OutgoingView from "./Main/Outgoing/ViewAll/OutgoingView";
-import OutgoingCreateView from "./Main/Outgoing/Create/OutgoingCreateView";
-import OutgoingDocumentView from "./Main/Outgoing/View/OutgoingDocumentView";
 import IngoingView from "./Main/Ingoing/IngoingView";
 import MarksView from "./Main/Marks/MarksView";
 import ReportsView from "./Main/Reports/ReportsView";
 import {Navigate, Routes, Route} from 'react-router-dom';
 import AdminView from "./Main/Admin/AdminView";
+import OutgoingIndex from "./Main/Outgoing/Index/OutgoingIndex";
+import OutgoingStore from "./Main/Outgoing/Store/OutgoingStore";
+
 
 class AppRoutes extends Component {
 
@@ -25,7 +25,7 @@ class AppRoutes extends Component {
             <Routes>
                 <>
                     <Route exact path='/' element={
-                        this.props.authState ? <Navigate to="/app/marks"/> : this.props.children
+                        this.props.authState ? <Navigate to="/app/create/outgoing"/> : this.props.children
                     }/>
                     <Route exact path="/app" element={
                         this.props.authState ? <MainView view={<HomeView/>}/> : <Navigate to="/"/>
@@ -60,13 +60,13 @@ class AppRoutes extends Component {
                 </>
                 <>
                     <Route path="/app/outgoing" element={
-                        this.props.authState ? <MainView view={<OutgoingView/>}/> : <Navigate to="/"/>
+                        this.props.authState ? <MainView view={<OutgoingIndex/>}/> : <Navigate to="/"/>
                     }/>
                     <Route path="/app/create/outgoing" element={
-                        this.props.authState ? <MainView view={<OutgoingCreateView/>}/> : <Navigate to="/"/>
+                        this.props.authState ? <MainView view={<OutgoingStore/>}/> : <Navigate to="/"/>
                     }/>
-                    <Route path="/app/outgoing/:id" element={
-                        this.props.authState ? <MainView view={<OutgoingDocumentView/>}/> : <Navigate to="/"/>
+                    {/*<Route path="/app/outgoing/:id" element={*/}
+                    {/*    this.props.authState ? <MainView view={<OutgoingDocumentView/>}/> : <Navigate to="/"/>*/}
                     }/>
                     <Route path="/app/marks" element={
                         this.props.authState ? <MainView view={<MarksView/>}/> : <Navigate to="/"/>

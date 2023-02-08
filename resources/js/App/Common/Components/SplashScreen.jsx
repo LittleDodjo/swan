@@ -30,7 +30,7 @@ class SplashScreen extends Component {
     render() {
         const hidden = this.props.state ? "" : " hidden";
         return (
-            <div className={"splash-screen" + hidden}>
+            <div className={`splash-screen ${hidden}`}>
                 <div className="splash-screen-ref" ref={this.wrapperRef}>
                     <div className="splash-screen-line"></div>
                     <div className="splash-screen-caption">

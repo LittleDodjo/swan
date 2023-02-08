@@ -22,7 +22,6 @@ class EmployeeCard extends Component {
     render() {
         return (
             <div className="employee-card" onClick={this.select}>
-                <EmployeeAvatar text={this.props.id}/>
                 <div className="flex flex-col ml-4">
                     <p className="text-xl font-light">{this.props.fullName}</p>
                     <p className="hover:text-white text-sm font-light">{this.props.appointment.name}</p>

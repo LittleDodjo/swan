@@ -5,7 +5,7 @@ class IngoingView extends Component {
     render() {
         return (
             <>
-                <Header heading={<p className="text-2xl font-light">Реестр входящих документов</p>}/>
+                <Header heading={"Реестр входящих документов"}/>
             </>
         );
     }

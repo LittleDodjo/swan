@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import SplashScreen from "../../../Common/Components/SplashScreen";
-import toast from "react-hot-toast";
 import StampProvider from "../../../Providers/StampProvider";
+import toast from "react-hot-toast";
+import SplashScreen from "../../../Common/Components/SplashScreen";
+import CookieProvider from "../../../Providers/CookieProvider";
 
-class OutgoingStamps extends Component {
+class StampsSplash extends Component {
 
     constructor(props) {
         super(props);
@@ -16,23 +17,34 @@ class OutgoingStamps extends Component {
 
         this.search = this.search.bind(this);
         this.loadData = this.loadData.bind(this);
+        this.close = this.close.bind(this);
     }
+
+    close() {
+        this.props.action('stampWindow');
+        this.setState({query: ""});
+    }
+
 
     search(event) {
         this.setState({query: event.target.value});
     }
 
     loadData() {
-        StampProvider.index((data) => {
-            if (data.status === 200) {
-                this.setState({loaded: true, stamps: data.data});
-                return;
-            } else {
-                toast.error(`Ошибка загрузки данных ${data.status}`);
-                this.setState({fails: true});
-                return;
-            }
-        });
+        if(CookieProvider.issetSession('stampsRegister')){
+            this.setState({loaded: true, stamps: CookieProvider.readSession('stampsRegister')});
+        }else {
+            StampProvider.index((data) => {
+                if (data.status === 200) {
+                    this.setState({loaded: true, stamps: data.data});
+                    return;
+                } else {
+                    toast.error(`Ошибка загрузки данных ${data.status}`);
+                    this.setState({fails: true});
+                    return;
+                }
+            });
+        }
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -55,7 +67,7 @@ class OutgoingStamps extends Component {
         const query = this.state.query;
         const filter = this.props.filter.map(v => v.id);
         return (
-            <SplashScreen state={this.props.state} action={this.props.action} caption="Реестр марок">
+            <SplashScreen state={this.props.state} action={this.close} caption="Реестр марок">
                 <div className="grid grid-cols-4 h-fit overflow-y-auto pb-28">
                     <div className="col-span-4 bg-slate-100 m-4 border-b border-gray-300">
                         <input type="text" placeholder="Найти номинал марки" onChange={this.search}
@@ -72,8 +84,8 @@ class OutgoingStamps extends Component {
                         }
                     }).map((value, key) => (
                         <div onClick={() => {
-                            this.props.select(value.id);
-                            this.props.action(false);
+                            this.props.select(value);
+                            this.close();
                         }} key={key}
                              className="border hover:bg-gray-100 shadow-lg hover:border-indigo-500 transition-colors delay-75 hover:text-indigo-500 cursor-pointer rounded-xl m-4 p-4 flex flex-col">
                             <p className="border-b border-gray-300">Почтовая марка</p>
@@ -87,6 +99,7 @@ class OutgoingStamps extends Component {
             </SplashScreen>
         );
     }
+
 }
 
-export default OutgoingStamps;
+export default StampsSplash;

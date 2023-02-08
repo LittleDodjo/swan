@@ -5,8 +5,8 @@ import CookieProvider from "./Providers/CookieProvider";
 const withRouter = WrappedComponent => props => {
     const params = useParams();
     const navigate = useNavigate();
-    const roles = JSON.parse(CookieProvider.readSession('roles'));
-    const user = JSON.parse(CookieProvider.readSession('user'));
+    const roles = CookieProvider.readSession('roles');
+    const user = CookieProvider.readSession('user');
 
     return (
         <WrappedComponent

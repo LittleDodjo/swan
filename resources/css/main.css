@@ -16,7 +16,7 @@
     @apply w-full p-4;
 }
 
-.side-menu > li >  p {
+.side-menu > li > p {
     @apply ml-2;
 }
 
@@ -26,21 +26,21 @@
     @apply hover:bg-slate-100 hover:fill-indigo-500 hover:text-indigo-500;
 }
 
-.main-subsystem-base{
-    @apply overflow-x-clip flex h-full w-full flex-col overflow-y-auto;
+.main-subsystem-base {
+    @apply overflow-x-hidden flex h-full w-full flex-col overflow-y-auto;
 }
 
-.subsystem-base{
+.subsystem-base {
     @apply flex h-screen w-screen flex-row overflow-hidden bg-slate-100;
 }
 
-.mini-sidebar{
+.mini-sidebar {
     @apply border bg-white shadow-md absolute bottom-2 left-20 rounded-lg z-50;
     @apply transition-all delay-150;
 }
 
 .splash-screen {
-    @apply absolute h-full w-full backdrop-blur-md overflow-hidden z-10;
+    @apply fixed left-0 bottom-0 h-full w-full backdrop-blur-md overflow-hidden z-10;
 }
 
 .splash-screen-line {
@@ -53,33 +53,85 @@
     animation: splash 0.2s forwards;
 }
 
-.splash-screen-caption{
+.splash-screen-caption {
     @apply w-full border-b p-2 my-2 text-2xl font-light flex justify-between sticky top-0;
 }
 
-.redirect-link{
+.redirect-link {
     @apply cursor-pointer transition-colors delay-75;
     @apply hover:text-indigo-500 hover:underline;
 }
 
-@keyframes  splash{
-    0% { transform: translateY(100%);}
-    100% { transform: translateY(0%);}
+@keyframes splash {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
 }
 
-.body-view{
+.body-view {
     @apply relative flex h-full flex-col overflow-x-hidden;
 }
 
 .employee-card {
-    @apply flex p-2 m-4 ;
+    @apply flex p-4 m-4 ;
     @apply transition-colors delay-75 ease-in-out;
-    @apply hover:bg-indigo-500 hover:text-white;
-    @apply cursor-pointer border rounded-lg shadow-xl;
+    @apply hover:border-indigo-500;
+    @apply cursor-pointer border rounded-lg shadow-md;
     @apply bg-gray-100 border-gray-400;
 }
 
 
-.body-btn{
+.body-btn {
     @apply w-full p-2 text-center transition-colors delay-75 hover:bg-gray-50 hover:text-indigo-500 cursor-pointer;
+}
+
+.rounded-button {
+    @apply flex mx-2 bg-indigo-500 text-white p-2 rounded-lg my-auto min-w-fit;
+    @apply transition-colors delay-75 cursor-pointer shadow-md ease-in-out;
+    @apply hover:bg-indigo-600;
+}
+
+.rounded-button > svg {
+    @apply my-auto mr-2 fill-white;
+}
+
+.rounded-button-secondary {
+    @apply flex mx-2 bg-white border p-2 rounded-lg my-auto;
+    @apply transition-colors delay-75 cursor-pointer shadow-md ease-in-out;
+    @apply hover:bg-gray-100 hover:fill-indigo-500;
+}
+
+.rounded-button-secondary > svg {
+    @apply my-auto mr-2;
+}
+
+.select-button{
+    @apply w-full p-2 rounded-lg border text-center bg-gray-100 hover:bg-gray-200 hover:text-indigo-500 my-auto cursor-pointer;
+}
+
+.rounded-table{
+    @apply table-auto w-full rounded-lg;
+}
+
+.rounded-table > thead {
+    @apply bg-gray-50 border text-center text-lg rounded-lg;
+}
+
+.rounded-table-th {
+    @apply font-light hover:text-indigo-500 hover:bg-gray-100 cursor-pointer rounded-lg;
+}
+
+.rounded-table > tbody > tr {
+    @apply hover:text-indigo-500 hover:bg-gray-50 border-b text-center cursor-pointer;
+}
+
+.rounded-table > tbody > tr > td {
+    @apply border-x p-2 ;
+}
+
+.back-card {
+    @apply flex flex-col bg-white border shadow-lg rounded-lg p-4 w-5/6 mx-auto;
 }

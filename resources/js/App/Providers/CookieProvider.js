@@ -7,19 +7,19 @@ class CookieProvider{
     }
 
     static readLocal(key){
-        return localStorage.getItem(key);
+        return JSON.parse(localStorage.getItem(key));
     }
 
     static readSession(key){
-        return sessionStorage.getItem(key);
+        return JSON.parse(sessionStorage.getItem(key));
     }
 
     static writeLocal(key, value){
-        return localStorage.setItem(key, value);
+        return localStorage.setItem(key, JSON.stringify(value));
     }
 
     static writeSession(key, value){
-        return sessionStorage.setItem(key, value);
+        return sessionStorage.setItem(key, JSON.stringify(value));
     }
 
     static issetSession(key){
@@ -35,6 +35,23 @@ class CookieProvider{
     static removeSession(key){
         sessionStorage.removeItem(key);
     };
+
+    static unshiftSession(key, object){
+        const data = this.readSession(key);
+        data.unshift(object);
+        this.writeSession(key, data);
+    }
+
+    static pushSession(key, object){
+        const data = this.readSession(key);
+        data.push(object);
+        this.writeSession(key, data);
+    }
+
+    static clear(){
+        sessionStorage.clear();
+    }
+
 }
 
 export default CookieProvider;

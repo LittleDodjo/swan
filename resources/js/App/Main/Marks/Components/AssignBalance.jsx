@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import InputNumber from "./InputNumber";
 import SplashLoader from "../../../AppLogin/Components/SplashLoader";
 import Plus24 from "../../../Common/Resources/Plus24";
+import CookieProvider from "../../../Providers/CookieProvider";
 
 class AssignBalance extends Component {
 
@@ -45,6 +46,8 @@ class AssignBalance extends Component {
                 toast.success('Марки успешно начислены на баланс');
                 this.props.action(false);
                 this.setState({loaded: false});
+                CookieProvider.removeSession('stampsRegister');
+                StampProvider.stamps();
             } else {
                 toast.error(`При сохранении возникла ошибка (${response.status})`);
             }
@@ -55,7 +58,7 @@ class AssignBalance extends Component {
         StampProvider.index((data) => {
             if (data.status === 200) {
                 const stamps = data.data;
-                stamps.map((stamp) => stamp.assign = 1);
+                stamps.map((stamp) => stamp.assign = "");
                 this.setState({loaded: true, balance: stamps});
                 return;
             } else {

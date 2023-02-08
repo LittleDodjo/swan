@@ -18,7 +18,7 @@ axios.interceptors.request.use(async request => {
             "application/json",
         Authorization: Authorization
     }
-    console.log(request);
+    // console.log(request);
     return request;
 }, error => {
     return Promise.reject(error);

@@ -22,7 +22,6 @@ class Sidebar extends Component {
                     <ul className="side-menu">
                         <SidebarButton svg={<Home24/>} link={"/app"} caption="Главная"/>
                         <SidebarButton svg={<FileUpload24/>} link={"/app/outgoing"} caption="Исходящие"/>
-                        <SidebarButton svg={<Bookmark24/>} link={"/app/marks"} caption="Марки"/>
                         <SidebarButton svg={<FileDownload24/>} link={"/app/ingoing"} caption="Входящие"/>
                         <SidebarButton svg={<Report24/>} link={"/app/reports"} caption="Отчеты"/>
                         <SidebarButton link="/app/employee" svg={<User24/>} caption={"Профиль"}/>

@@ -3,6 +3,7 @@ import SplashScreen from "../../../Common/Components/SplashScreen";
 import Plus24 from "../../../Common/Resources/Plus24";
 import StampProvider from "../../../Providers/StampProvider";
 import toast from "react-hot-toast";
+import CookieProvider from "../../../Providers/CookieProvider";
 
 class StampCreate extends Component {
 
@@ -23,6 +24,8 @@ class StampCreate extends Component {
     handleSubmit(e) {
         StampProvider.store(this.state, (response) => {
             if (response.status === 200) {
+                CookieProvider.removeSession('stampsRegister');
+                StampProvider.stamps();
                 toast.success('Номинал успешно добавлен!');
             } else {
                 toast.error(response.message);

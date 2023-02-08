@@ -131,14 +131,22 @@ class StampController extends Controller
     public function history(): Response|Application|ResponseFactory
     {
         $lastBalance = StampHistory::where('type', true)->orderBy('created_at', 'desc')->get()->first();
-        $totalPrice = $this->totalPrice($lastBalance);
+        $totalPrice = [
+            'total' => 0,
+            'price' => 0,
+        ];
+        $date = 'none';
+        if($lastBalance != null) {
+            $totalPrice = $this->totalPrice($lastBalance);
+            $date = $lastBalance->created_at;
+        }
         $history = StampHistory::orderBy('id', 'desc')->paginate(50);
         return response([
             'history' => new StampHistoryResourceCollection($history),
             'last' => [
                 'total' => $totalPrice['total'],
                 'price' => $totalPrice['price'],
-                'date' => $lastBalance->created_at,
+                'date' => $date,
             ],
         ]);
     }
