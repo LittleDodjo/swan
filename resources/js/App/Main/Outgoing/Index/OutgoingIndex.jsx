@@ -3,7 +3,6 @@ import ButtonRounded from "../../../Common/Components/ButtonRounded";
 import Plus24 from "../../../Common/Resources/Plus24";
 import SearchRounded from "../../../Common/Components/SearchRounded";
 import Table from "../../../Common/Components/Table";
-import Filter24 from "../../../Common/Resources/Filter24";
 import OutgoingTableBody from "../Components/OutgoingTableBody";
 import CookieProvider from "../../../Providers/CookieProvider";
 import OutgoingProvider from "../../../Providers/OutgoingProvider";
@@ -53,8 +52,8 @@ class OutgoingIndex extends Component {
             OutgoingProvider.index(this.state.page, (res) => {
                 if (res.status === 200) {
                     this.setState({total: res.data.total, loaded: true, data: res.data.data});
-                    CookieProvider.writeSession('outgoing', JSON.stringify(res.data.data));
-                    CookieProvider.writeSession('outgoingTotal', JSON.stringify(res.data.total));
+                    CookieProvider.writeSession('outgoing', res.data.data);
+                    CookieProvider.writeSession('outgoingTotal', res.data.total);
                 } else {
                     toast.error("Не получилось загрузить данные, возможно у вас нет прав на просмотр раздела");
                     this.setState({fails: true});
@@ -63,8 +62,8 @@ class OutgoingIndex extends Component {
         } else {
             this.setState({
                 loaded: true,
-                data: JSON.parse(CookieProvider.readSession('outgoing')),
-                total: JSON.parse(CookieProvider.readSession('outgoingTotal')),
+                data: CookieProvider.readSession('outgoing'),
+                total: CookieProvider.readSession('outgoingTotal'),
             });
         }
     }
@@ -87,7 +86,7 @@ class OutgoingIndex extends Component {
                     <ButtonRounded caption="Создать новый" svg={<Plus24/>}
                                    action={() => this.props.navigate('/app/create/outgoing')}
                     />
-                    <SearchRounded placeholder={"Поиск документа"} class="mr-2" action={(e) => this.setState(e)}/>
+                    <SearchRounded placeholder={"Поиск документа"} class="w-full mr-2" action={(e) => this.setState(e)}/>
                 </div>
                 {this.state.loaded ?
                     <div className="flex flex-col mx-4 mb-4">

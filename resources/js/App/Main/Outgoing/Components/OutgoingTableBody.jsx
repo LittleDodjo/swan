@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import withRouter from "../../../withRouter";
+import OutgoingProvider from "../../../Providers/OutgoingProvider";
 
 class OutgoingTableBody extends Component {
 
@@ -26,14 +27,17 @@ class OutgoingTableBody extends Component {
         });
     }
 
+
+
+
     render() {
         return (
             this.search().map((value, key) =>
                 <tr key={key} onClick={() => this.props.navigate(`/app/outgoing/${value.id}`)}>
                     <td>{value.id}</td>
-                    <td>{value.messageType ? "Заказное" : "Простое"}</td>
-                    <td>test</td>
-                    <td>test</td>
+                    <td>{!value.messageType ? "Заказное" : "Простое"}</td>
+                    <td>{OutgoingProvider.GetDepartureType(value.departureType)}</td>
+                    <td>{value.stamps} шт.</td>
                     <td>{value.registrationNumber}</td>
                     <td>{value.registrationDate}</td>
                     <td>{value.executor}</td>

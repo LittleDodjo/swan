@@ -8,6 +8,8 @@ import OrganizationSplash from "./OrganizationSplash";
 import StampsSplash from "./StampsSplash";
 import OutgoingProvider from "../../../Providers/OutgoingProvider";
 import toast from "react-hot-toast";
+import withRouter from "../../../withRouter";
+import CookieProvider from "../../../Providers/CookieProvider";
 
 class OutgoingStore extends Component {
 
@@ -44,6 +46,8 @@ class OutgoingStore extends Component {
     store(){
         OutgoingProvider.store(this.state, (res) => {
             if(res.status === 200){
+                toast.success(res.data.message);
+                CookieProvider.unshiftSession('outgoing', res.data.document);
                 this.props.navigate("/app/outgoing");
             }else{
                 toast.error("Ошибка сохранения");

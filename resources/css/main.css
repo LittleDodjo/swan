@@ -89,7 +89,7 @@
 }
 
 .rounded-button {
-    @apply flex mx-2 bg-indigo-500 text-white p-2 rounded-lg my-auto;
+    @apply flex mx-2 bg-indigo-500 text-white p-2 rounded-lg my-auto min-w-fit;
     @apply transition-colors delay-75 cursor-pointer shadow-md ease-in-out;
     @apply hover:bg-indigo-600;
 }

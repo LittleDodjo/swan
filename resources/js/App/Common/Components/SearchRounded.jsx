@@ -18,7 +18,7 @@ class SearchRounded extends Component {
         return (
             <>
                 <input type="text" placeholder={this.props.placeholder} onChange={this.handleChange}
-                       className={`rounded-lg basis-10/12 py-0 px-4 shadow-lg ${this.props.class}`} name={this.props.name}/>
+                       className={`rounded-lg py-0 px-4 shadow-lg ${this.props.class}`} name={this.props.name}/>
             </>
         );
     }

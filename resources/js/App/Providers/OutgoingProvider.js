@@ -43,6 +43,7 @@ class OutgoingProvider {
                 data: res.data,
             });
         }).catch((e) => {
+            console.log(e);
             action({
                 status: e.response.status,
                 message: e.response.message,
@@ -61,6 +62,20 @@ class OutgoingProvider {
 
     static async restore()
     {}
+
+
+    static GetDepartureType(type){
+        switch (type){
+            case 'organization':
+                return 'Организация';
+            case 'people':
+                return 'Гражданин';
+            case 'mail':
+                return 'E-Mail';
+            default:
+                return '(null)';
+        }
+    }
 
 }
 

@@ -85,7 +85,7 @@ class StampProvider {
             return CookieProvider.readSession('stampsRegister');
         } else {
             this.index((res) => {
-                if (res === 2000) {
+                if (res === 200) {
                     CookieProvider.writeSession('stampsRegister', res.data);
                     return this.stamps();
                 }

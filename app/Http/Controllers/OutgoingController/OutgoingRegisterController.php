@@ -7,6 +7,7 @@ use App\Http\Requests\OutgoingRequest\StoreOutgoingRegisterRequest;
 use App\Http\Requests\OutgoingRequest\UpdateOutgoingRegisterRequest;
 use App\Http\Resources\OutgoingResource\OutgoingRegisterResource;
 use App\Http\Resources\OutgoingResource\OutgoingRegisterResourceCollection;
+use App\Http\Resources\OutgoingResource\ShortOutgoingRegisterResource;
 use App\Models\OutgoingModel\OutgoingRegister;
 use App\Models\OutgoingModel\Stamps\StampBalance;
 use App\Models\OutgoingModel\Stamps\StampRegister;
@@ -46,16 +47,19 @@ class OutgoingRegisterController extends Controller
      */
     public function store(StoreOutgoingRegisterRequest $request): Response
     {
-        if(Arr::exists($request->validated(), 'stamps_used')){
+        if (Arr::exists($request->validated(), 'stamps_used')) {
             foreach ($request->stamps_used as $key => $value) {
                 $stamp = StampRegister::find($value['id']);
-                if($stamp->count - $value['count'] < 0) return response(['message' => 'Недостаточно марок на баллансе']);
+                if ($stamp->count - $value['count'] < 0) return response(['message' => 'Недостаточно марок на баллансе']);
             }
         }
         $outgoing = new OutgoingRegister($request->validated());
         $outgoing->employee_id = $request->user()->employee->id;
         $outgoing->save();
-        return response(['message' => 'Исходящий документ создан']);
+        return response([
+            'message' => 'Исходящий документ создан',
+            'document' => new ShortOutgoingRegisterResource($outgoing)
+        ]);
     }
 
     /**
@@ -121,7 +125,8 @@ class OutgoingRegisterController extends Controller
         return \response(['message' => 'Документ удален навсегда, марки возвращены на балланс']);
     }
 
-    public function restore(){
+    public function restore()
+    {
 
     }
 

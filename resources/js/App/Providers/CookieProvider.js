@@ -36,6 +36,18 @@ class CookieProvider{
         sessionStorage.removeItem(key);
     };
 
+    static unshiftSession(key, object){
+        const data = this.readSession(key);
+        data.unshift(object);
+        this.writeSession(key, data);
+    }
+
+    static pushSession(key, object){
+        const data = this.readSession(key);
+        data.push(object);
+        this.writeSession(key, data);
+    }
+
     static clear(){
         sessionStorage.clear();
     }
