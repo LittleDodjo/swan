@@ -18,10 +18,15 @@ class OrganizationSplash extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.search = this.search.bind(this);
         this.loadData = this.loadData.bind(this);
+        this.close = this.close.bind(this);
     }
 
     handleChange(event) {
         this.setState({query: event.target.value});
+    }
+
+    close(){
+        this.props.action('organizationWindow');
     }
 
     search(){
@@ -67,7 +72,7 @@ class OrganizationSplash extends Component {
     render() {
         if (this.state.fails) return <>Ошибка загрузки данных</>
         return (
-            <SplashScreen state={this.props.state} action={this.props.action} caption="Реестр организаций">
+            <SplashScreen state={this.props.state} action={this.close} caption="Реестр организаций">
                 {this.state.loaded ?
                     <div className="flex flex-col h-fit overflow-y-auto">
                             <input type="text" placeholder="Найти организацию" onChange={this.handleChange}

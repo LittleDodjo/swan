@@ -10,6 +10,9 @@ import OutgoingProvider from "../../../Providers/OutgoingProvider";
 import toast from "react-hot-toast";
 import withRouter from "../../../withRouter";
 import CookieProvider from "../../../Providers/CookieProvider";
+import Envelope24 from "../../../Common/Resources/Envelope24";
+import EnvelopeTemplate from "../../../Common/Templates/EnvelopeTemplate";
+import ReactToPrint from "react-to-print";
 
 class OutgoingStore extends Component {
 
@@ -43,13 +46,13 @@ class OutgoingStore extends Component {
         this.handleStamp = this.handleStamp.bind(this);
     }
 
-    store(){
+    store() {
         OutgoingProvider.store(this.state, (res) => {
-            if(res.status === 200){
+            if (res.status === 200) {
                 toast.success(res.data.message);
                 CookieProvider.unshiftSession('outgoing', res.data.document);
                 this.props.navigate("/app/outgoing");
-            }else{
+            } else {
                 toast.error("Ошибка сохранения");
             }
         });
@@ -112,7 +115,18 @@ class OutgoingStore extends Component {
             <div className="body-view " id="window">
                 <div className="flex justify-between w-5/6 mx-auto">
                     <h1 className="text-3xl my-4">Создание исходящего документа</h1>
-                    <ButtonRounded caption="Создать документ" svg={<Plus24/>} action={this.store}/>
+                    <div className="flex">
+                        <ReactToPrint
+                            trigger={() => {
+                                return (<div className="rounded-button-secondary">
+                                    <Envelope24/>
+                                    <p>Конверт</p>
+                                </div>);
+                            }}
+                            content={() => this.componentRef}
+                        />
+                        <ButtonRounded caption="Создать документ" svg={<Plus24/>} action={this.store}/>
+                    </div>
                 </div>
                 <div className="back-card">
                     <div className="flex border-b pb-4 mb-4">
@@ -216,6 +230,9 @@ class OutgoingStore extends Component {
                 />
                 <StampsSplash state={this.state.stampWindow} action={this.splashWindow} select={this.handleStamp}
                               filter={this.state.stamps_used}/>
+                <div className="hidden">
+                    <EnvelopeTemplate ref={el => (this.componentRef = el)} address={this.state.departureFullName} name={this.state.name}/>
+                </div>
             </div>
         );
     }
