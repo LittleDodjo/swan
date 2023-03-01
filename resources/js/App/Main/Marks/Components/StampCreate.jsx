@@ -38,7 +38,7 @@ class StampCreate extends Component {
             <SplashScreen state={this.props.state} action={this.props.action} caption="Добавить номинал">
                 <div className="flex flex-col shadow-lg border-b">
                     <div className="flex border-b">
-                        <p className="p-2 font-light text-xl w-full">Введите номинал марки</p>
+                        <p className="p-2 font-light text-xl w-full border-r">Введите номинал марки</p>
                         <input type="number" placeholder="Не менее 00.01 и не более 99.99"
                                className="w-full border-none focus:ring-0" value={this.state.value}
                                onChange={this.handleChange} min="0.01" max="99.99"/>

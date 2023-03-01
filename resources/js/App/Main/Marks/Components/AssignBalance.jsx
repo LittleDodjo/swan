@@ -6,6 +6,7 @@ import InputNumber from "./InputNumber";
 import SplashLoader from "../../../AppLogin/Components/SplashLoader";
 import Plus24 from "../../../Common/Resources/Plus24";
 import CookieProvider from "../../../Providers/CookieProvider";
+import ButtonRounded from "../../../Common/Components/ButtonRounded";
 
 class AssignBalance extends Component {
 
@@ -96,15 +97,14 @@ class AssignBalance extends Component {
                           caption="Создание поступления марок на баланс">
                 {this.state.loaded ?
                     <div className="h-full overflow-y-scroll pb-28">
-                        <div onClick={this.handleSubmit}
-                             className="border-y p-4 text-xl hover:bg-gray-50 hover:text-indigo-500 cursor-pointer text-center hover:fill-indigo-500 flex justify-center">
-                            <Plus24/>
-                            <p>Начислить на балланс </p>
+                        <div className="flex justify-between mx-4">
+                            <h1 className="text-xl my-4">Доступные номиналы марок</h1>
+                            <ButtonRounded caption="Начислить на балланс" svg={<Plus24/>} action={this.handleSubmit}/>
                         </div>
-                        <div className="flex flex-col divide-y shadow-md border-b text-center">
+                        <div className="flex flex-col divide-y border-b text-center border mx-4 rounded-xl shadow-md">
                             <div className="flex divide-x bg-gray-50">
-                                <p className="p-4 font-light text-lg w-full">Номинал</p>
-                                <p className="p-4 font-light text-lg w-full">Количество</p>
+                                <p className="p-4 font-light text-lg w-full">Номинал марки</p>
+                                <p className="p-4 font-light text-lg w-full">Текущий балланс</p>
                                 <p className="p-4 font-light text-lg w-full">Добавить</p>
                             </div>
                             {this.state.balance.map((value, key) => (

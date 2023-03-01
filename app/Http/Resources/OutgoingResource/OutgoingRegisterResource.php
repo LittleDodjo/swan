@@ -3,8 +3,6 @@
 namespace App\Http\Resources\OutgoingResource;
 
 use App\Http\Resources\BaseResource\Employee\SmallEmployeeResource;
-use App\Http\Resources\OutgoingResource\Stamps\StampRegisterResourceResource;
-use App\Models\OutgoingModel\Stamps\StampRegister;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -23,6 +21,7 @@ use JsonSerializable;
  * @property mixed history
  * @property mixed message_type
  * @property mixed id
+ * @property mixed executor
  * @method used()
  * @method departure()
  */
@@ -36,6 +35,7 @@ class OutgoingRegisterResource extends JsonResource
      */
     public function toArray($request): array|JsonSerializable|Arrayable
     {
+        $departure = $this->departure();
         return [
             'id' => $this->id,
             'registrationNumber' => $this->registration_number,
@@ -43,10 +43,11 @@ class OutgoingRegisterResource extends JsonResource
             'envelopes' => $this->envelopes_count,
             'lists' => $this->lists_count,
             'copies' => $this->copies,
-            'departure' => $this->departure(),
+            'departure' => $departure,
             'stamps' => $this->used(),
             'created' => $this->created_at,
             'type' => $this->message_type,
+            'executor' => new SmallEmployeeResource($this->executor),
             'author' => new SmallEmployeeResource($this->employee),
             'history' => new OutgoingHistoryResourceCollection($this->history),
         ];

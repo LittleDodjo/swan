@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import AssignBalance from "./AssignBalance";
 import StampCreate from "./StampCreate";
+import ArrowLeft24 from "../../../Common/Resources/ArrowLeft24";
+import ButtonRounded from "../../../Common/Components/ButtonRounded";
 
 class MarksHeader extends Component {
 
@@ -27,23 +29,18 @@ class MarksHeader extends Component {
         const last = this.props.last;
         return (
             <>
-                <div className="flex h-full flex-col">
-                    <div className="mx-10 my-4 flex h-fit flex-col divide-y rounded-xl border bg-white shadow-lg">
-                        <div className="flex divide-x">
-                            <p className="body-btn rounded-l-xl" onClick={() => this.stampsWindow(true)}>Начислить
-                                на балланс</p>
-                            <p className="body-btn rounded-r-xl" onClick={() => this.stampCreate(true)}>Добавить номинал</p>
-                            <p className="body-btn rounded-r-xl">Создать отчет</p>
+                    <div className="flex mx-10 justify-between">
+                        <div className="flex">
+                            <ArrowLeft24 link="/app/outgoing"/>
+                            <h1 className="text-3xl my-4">Почтовые марки</h1>
                         </div>
-                        <div className="flex flex-wrap">
-                            <p className="p-2 font-light">Последнее поступление</p>
-                            <p className="p-2 text-indigo-500">{last.date}</p>
-                            <p className="p-2 font-light">на сумму</p>
-                            <p className="p-2 text-indigo-500">{last.price} руб.</p>
-                            <p className="p-2 font-light">марок добавлено</p>
-                            <p className="p-2 text-indigo-500">{last.total} шт.</p>
+                        <div className="flex">
+                            <ButtonRounded caption="Создать отчет" action={() => console.log("test")}/>
+                            <ButtonRounded caption="Начислить" action={() => this.stampsWindow(true)} class="rounded-button-secondary"/>
+                            <ButtonRounded caption="Создать номинал" action={() => this.stampCreate(true)} class="rounded-button-secondary"/>
                         </div>
                     </div>
+                <div className="flex h-full flex-col">
                     {this.props.children}
                 </div>
                 <AssignBalance state={this.state.stampsWindow} action={this.stampsWindow}/>

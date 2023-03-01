@@ -8,7 +8,6 @@ import MarksTableHeader from "./Components/MarksTableHeader";
 import MarksTableBody from "./Components/MarksTableBody";
 import MarksHistory from "./Components/MarksHistory";
 import MarksHeader from "./Components/MarksHeader";
-import MarksStatistic from "./Components/MarksStatistic";
 
 class MarksView extends Component {
 
@@ -49,7 +48,6 @@ class MarksView extends Component {
             this.state.loaded ?
                 <div className="body-view " id="window">
                     <MarksHeader last={last}>
-                        <MarksStatistic/>
                         <MarksHistory>
                             <MarksTableHeader data={this.state.table}/>
                             <MarksTableBody data={history}/>

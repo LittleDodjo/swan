@@ -87,27 +87,21 @@ class OutgoingRegister extends Model
     public function departure()
     {
         $departure = $this->departure_data;
-        if (count($departure) == 1) {
-            $departure['equals'] = true;
-            $departure['total'] = 1;
+        if (Arr::exists($departure, 'organization')) {
+            $departure['type'] = 'organization';
+            $departure[$departure['type']] =
+                new OrganizationRegisterResource(OrganizationRegister::find($this->departure_data[$departure['type']]['address']));
         }
-        $equals = true;
-        $total = 0;
-        $prevDate = Arr::first($departure)['date'];
-        foreach ($departure as $key => $value) {
-            if (gettype($value) != 'boolean' && gettype($value) != 'integer') {
-                if ($prevDate != $value['date']) $equals = false;
-                if ($key == 'organization') {
-                    $departure['organization']['address'] = new OrganizationRegisterResource(
-                        OrganizationRegister::find($departure['organization']['address'])
-                    );
-                }
-                $prevDate = $value['date'];
-                $total++;
-            }
+        if (Arr::exists($departure, 'people')) {
+            $departure['type'] = 'people';
+            $departure[$departure['type']]['name'] = $this->departure_data[$departure['type']]['name'];
+            $departure[$departure['type']]['address'] = $this->departure_data[$departure['type']]['address'];
         }
-        $departure['equals'] = $equals;
-        $departure['total'] = $total;
+        if (Arr::exists($departure, 'mail')) {
+            $departure['type'] = 'mail';
+            $departure[$departure['type']]['address'] = $this->departure_data[$departure['type']]['address'];
+        }
+        $departure['date'] = $this->departure_data[$departure['type']]['date'];
         return $departure;
     }
 
@@ -116,9 +110,12 @@ class OutgoingRegister extends Model
         return $this->BelongsTo(Employee::class);
     }
 
-    public function executor()
+    /**
+     * @return BelongsTo
+     */
+    public function executor(): BelongsTo
     {
-        $this->belongsTo(Employee::class, 'executor_id');
+        return $this->belongsTo(Employee::class, 'executor_id');
     }
 
     public function history(): HasMany

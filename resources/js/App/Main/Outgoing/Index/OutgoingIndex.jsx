@@ -11,8 +11,8 @@ import SplashLoader from "../../../AppLogin/Components/SplashLoader";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Bookmark24 from "../../../Common/Resources/Bookmark24";
 import Build24 from "../../../Common/Resources/Build24";
-import Archive24 from "../../../Common/Resources/Archive24";
 import withRouter from "../../../withRouter";
+import Employee24 from "../../../Common/Resources/Employee24";
 
 class OutgoingIndex extends Component {
 
@@ -75,7 +75,7 @@ class OutgoingIndex extends Component {
                 <div className="flex justify-between">
                     <h1 className="text-3xl m-4">Исходящие документы</h1>
                     <div className="flex">
-                        <ButtonRounded caption="Архив" svg={<Archive24/>} class={"rounded-button-secondary"}/>
+                        <ButtonRounded caption="Сотрудники" svg={<Employee24/>} class={"rounded-button-secondary"}/>
                         <ButtonRounded caption="Организации" svg={<Build24/>} class={"rounded-button-secondary"}/>
                         <ButtonRounded caption="Марки" svg={<Bookmark24/>} class={"rounded-button-secondary"}
                                        action={() => this.props.navigate('/app/marks/')}

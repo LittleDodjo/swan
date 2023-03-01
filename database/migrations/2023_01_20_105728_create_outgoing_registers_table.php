@@ -24,8 +24,6 @@ return new class extends Migration {
             $table->date('registration_date');
             $table->boolean('message_type')->default(false);
             $table->integer('lists_count')->default(1);
-            $table->integer('envelopes_count')->default(1);
-            $table->integer('copies_count')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });

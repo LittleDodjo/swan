@@ -4,8 +4,33 @@ namespace App\Http\Requests\OutgoingRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+
+/**
+ * @property mixed $departure_data
+ * @property mixed message_type
+ * @property mixed departure_type
+ * @property mixed departure_address
+ * @property mixed departure_date
+ * @property mixed departure_name
+ */
 class UpdateOutgoingRegisterRequest extends FormRequest
 {
+
+
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'message_type' => $this->message_type == 1,
+            'departure_data' => [
+                $this->departure_type => [
+                    'date' => $this->departure_date,
+                    'address' => $this->departure_address,
+                    'name' => $this->departure_name
+                ]
+            ],
+        ]);
+    }
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -67,10 +92,9 @@ class UpdateOutgoingRegisterRequest extends FormRequest
             'stamps_used' => 'array|nullable',
             'stamps_used.*.id' => 'exists:stamp_registers,id|required|sometimes',
             'stamps_used.*.count' => 'integer|min:1|required|sometimes',
-            'envelopes_count' => 'min:1|integer',
+            'executor_id' => 'exists:employees,id|required',
             'lists_count' => 'min:1|integer',
             'message_type' => 'boolean',
-            'copies_count' => 'min:1|integer',
         ];
     }
 

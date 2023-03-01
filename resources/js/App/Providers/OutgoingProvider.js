@@ -51,17 +51,33 @@ class OutgoingProvider {
         });
     }
 
-    static async delete(id)
-    {}
+    static async delete(id, action)
+    {
+        console.log(this.url+"/"+id);
+        await axios.delete(this.url+"/"+id).then((res) => {
+            action({
+                status: res.status,
+                data: res.data,
+            });
+        }).catch((e) => {
+            action({
+                status: e.response.status,
+            });
+        })
+    }
 
-    static async forceDelete(id)
-    {}
-
-    static async archive()
-    {}
-
-    static async restore()
-    {}
+    static async update(id, body, action){
+        await axios.patch(this.url+'/'+id, body).then((res) => {
+            action({
+                status: res.status,
+                data: res.data,
+            });
+        }).catch((e) => {
+            action({
+                status: e.response.status,
+            });
+        })
+    }
 
 
     static GetDepartureType(type){

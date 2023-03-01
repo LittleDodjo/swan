@@ -1,25 +1,28 @@
 import React, {Component} from 'react';
+import ArrowLeft24 from "../../../Common/Resources/ArrowLeft24";
 import ButtonRounded from "../../../Common/Components/ButtonRounded";
 import Plus24 from "../../../Common/Resources/Plus24";
-import StampProvider from "../../../Providers/StampProvider";
-import StampsList from "./StampsList";
-import ExecutorSplash from "./ExecutorSplash";
-import OrganizationSplash from "./OrganizationSplash";
-import StampsSplash from "./StampsSplash";
+import CookieProvider from "../../../Providers/CookieProvider";
 import OutgoingProvider from "../../../Providers/OutgoingProvider";
 import toast from "react-hot-toast";
 import withRouter from "../../../withRouter";
-import CookieProvider from "../../../Providers/CookieProvider";
-import Envelope24 from "../../../Common/Resources/Envelope24";
+import Save24 from "../../../Common/Resources/Save24";
+import Fails from "../../../Common/Components/Fails";
+import StampsList from "../Store/StampsList";
+import StampProvider from "../../../Providers/StampProvider";
+import ExecutorSplash from "../Store/ExecutorSplash";
+import OrganizationSplash from "../Store/OrganizationSplash";
+import StampsSplash from "../Store/StampsSplash";
 import EnvelopeTemplate from "../../../Common/Templates/EnvelopeTemplate";
-import ReactToPrint from "react-to-print";
-import ArrowLeft24 from "../../../Common/Resources/ArrowLeft24";
 
-class OutgoingStore extends Component {
+class OutgoingUpdate extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+            loaded: false,
+            fails: false,
+            data: null,
             fullName: "",
             departureFullName: "",
             stampWindow: false,
@@ -34,11 +37,12 @@ class OutgoingStore extends Component {
             departure_date: "",
             departure_address: "",
             departure_name: "",
-            copies_сount: 1,
             stamps_used: [],
+            lists_count: 1,
         }
 
-        this.store = this.store.bind(this);
+        this.update = this.update.bind(this);
+        this.setData = this.setData.bind(this);
         this.splashWindow = this.splashWindow.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleWeight = this.handleWeight.bind(this);
@@ -48,17 +52,18 @@ class OutgoingStore extends Component {
         this.handleStamp = this.handleStamp.bind(this);
     }
 
-    store() {
-        OutgoingProvider.store(this.state, (res) => {
-            if (res.status === 200) {
-                toast.success(res.data.message);
-                CookieProvider.unshiftSession('outgoing', res.data.document);
-                this.props.navigate("/app/outgoing");
-            } else {
-                toast.error("Ошибка сохранения");
+    update() {
+        OutgoingProvider.update(this.props.params.id, this.state, (res)=> {
+            if(res.status === 200){
+                CookieProvider.removeSession('outgoing.'+this.props.params.id);
+                this.props.navigate('/app/outgoing/'+this.props.params.id);
+                toast.success("Документ успешно изменен");
+            }else{
+                toast.error("Ошибка изменения документа");
             }
         });
     }
+
 
     splashWindow(key, value = false) {
         this.setState({[key]: value});
@@ -107,30 +112,78 @@ class OutgoingStore extends Component {
         this.setState({stamps_used: stamps});
     }
 
+    setData(data) {
+        const stamps = [];
+        Object.entries(data.stamps).map((value, key) => {
+            if (value[0] !== 'total' && value[0] !== 'price') {
+                stamps.push(value[1]);
+            }
+        });
+        if (data.departure.type === 'organization') {
+            this.setState({
+                departureFullName: data.departure[data.departure.type].fullName,
+                departure_address: data.departure[data.departure.type].id
+            });
+            if (data.departure.type === 'people') {
+                this.setState({
+                    departure_address: data.departure[data.departure.type].address,
+                    departure_name: data.departure[data.departure.type].name,
+                });
+            }
+            if (data.departure.type === 'mail') {
+                this.setState({
+                    departure_address: data.departure[data.departure.type].address,
+                });
+            }
+            this.setState({
+                executor_id: data.executor.id,
+                fullName: data.executor.fullName,
+                message_type: data.type,
+                registration_number: data.registrationNumber,
+                registration_date: data.registrationDate,
+                departure_type: data.departure.type,
+                departure_date: data.departure.date,
+                stamps_used: stamps,
+                lists_count: data.lists,
+            });
+        }
+    }
+
     componentDidMount() {
-        const date = new Date();
-        this.setState({departure_date: date.toISOString().split('T')[0]});
+        if (!CookieProvider.issetSession('outgoing.' + this.props.params.id)) {
+            OutgoingProvider.show(this.props.params.id, (res) => {
+                if (res.status === 200) {
+                    this.setState({loaded: true, data: res.data});
+                    CookieProvider.writeSession('outgoing.' + this.props.params.id, res.data);
+                    this.setData(res.data);
+                } else {
+                    this.setState({
+                        loaded: true,
+                        fails: true,
+                    })
+                    toast.error("Ошибка загрузки (" + res.status + ")");
+                }
+            });
+        } else {
+            this.setState({
+                loaded: true,
+                data: CookieProvider.readSession('outgoing.' + this.props.params.id)
+            });
+            this.setData(CookieProvider.readSession('outgoing.' + this.props.params.id));
+        }
     }
 
     render() {
+        if (this.state.fails) return <Fails/>
         return (
-            <div className="body-view " id="window">
+            <div className="body-view" id="update">
                 <div className="flex justify-between w-5/6 mx-auto">
                     <div className="flex">
                         <ArrowLeft24 link="/app/outgoing"/>
-                        <h1 className="text-3xl my-4">Создание исходящего документа</h1>
+                        <h1 className="text-3xl my-4">Изменение исходящего документа</h1>
                     </div>
                     <div className="flex">
-                        <ReactToPrint
-                            trigger={() => {
-                                return (<div className="rounded-button-secondary">
-                                    <Envelope24/>
-                                    <p>Конверт</p>
-                                </div>);
-                            }}
-                            content={() => this.componentRef}
-                        />
-                        <ButtonRounded caption="Создать документ" svg={<Plus24/>} action={this.store}/>
+                        <ButtonRounded caption="Сохранить" svg={<Save24/>} action={this.update}/>
                     </div>
                 </div>
                 <div className="back-card">
@@ -159,11 +212,11 @@ class OutgoingStore extends Component {
                         <input type="date" className="rounded-lg w-full" name="registration_date"
                                value={this.state.registration_date} onChange={this.handleChange}/>
                     </div>
-                    <div className="flex pb-4">
-                        <p className="text-lg my-auto basis-2/6">Укажите номер регистрации</p>
+                    <div className="flex pb-4 mb-4 border-b">
+                        <p className="text-lg my-auto basis-2/6">Укажите количество листов</p>
                         <input type="number" className="rounded-lg w-full" placeholder="Количество листов"
                                onChange={this.handleChange}
-                               name="copies_сount" value={this.state.copies_сount}/>
+                               name="lists_count" value={this.state.lists_count}/>
                     </div>
                     <div className="flex pb-4 border-b mb-4">
                         <p className="text-lg my-auto basis-2/6">Выберете исполнителя</p>
@@ -187,7 +240,8 @@ class OutgoingStore extends Component {
                     {this.state.departure_type === "organization" ?
                         <div className="flex pb-4 mb-4">
                             <p className="text-lg my-auto basis-2/6">Выберете организацию</p>
-                            <p className="select-button" onClick={() => this.splashWindow('organizationWindow', true)}>
+                            <p className="select-button"
+                               onClick={() => this.splashWindow('organizationWindow', true)}>
                                 {this.state.departureFullName === "" ? "Выбрать" : this.state.departureFullName}</p>
                         </div>
                         : ""}
@@ -196,13 +250,15 @@ class OutgoingStore extends Component {
                         <>
                             <div className="flex pb-4 mb-4">
                                 <p className="text-lg my-auto basis-2/6">Укажите адрес получателя</p>
-                                <input type="text" className="rounded-lg w-full" placeholder="Введите адрес получателя"
+                                <input type="text" className="rounded-lg w-full"
+                                       placeholder="Введите адрес получателя"
                                        onChange={this.handleChange}
                                        name="departure_address" value={this.state.departure_address}/>
                             </div>
                             <div className="flex pb-4 border-b mb-4">
                                 <p className="text-lg my-auto basis-2/6">Укажите ФИО получателя</p>
-                                <input type="text" className="rounded-lg w-full" placeholder="Укажите ФИО получателя"
+                                <input type="text" className="rounded-lg w-full"
+                                       placeholder="Укажите ФИО получателя"
                                        onChange={this.handleChange}
                                        name="departure_name" value={this.state.departure_name}/>
                             </div>
@@ -235,19 +291,15 @@ class OutgoingStore extends Component {
                                 action={(stamps) => this.setState({stamps_used: stamps, recomended: false})}/>
                 </div>
                 <ExecutorSplash state={this.state.executorWindow} action={this.splashWindow}
-                                select={this.handleExecutor}/>
+                                select={this.handleExecutor} ref={'update'}/>
                 <OrganizationSplash state={this.state.organizationWindow} action={this.splashWindow}
                                     select={this.handleOrganization}
                 />
                 <StampsSplash state={this.state.stampWindow} action={this.splashWindow} select={this.handleStamp}
                               filter={this.state.stamps_used}/>
-                <div className="hidden">
-                    <EnvelopeTemplate ref={el => (this.componentRef = el)} address={this.state.departureFullName}
-                                      name={this.state.name}/>
-                </div>
             </div>
         );
     }
 }
 
-export default withRouter(OutgoingStore);
+export default withRouter(OutgoingUpdate);

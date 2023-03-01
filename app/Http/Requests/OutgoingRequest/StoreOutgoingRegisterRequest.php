@@ -94,10 +94,8 @@ class StoreOutgoingRegisterRequest extends FormRequest
             'stamps_used' => 'array|nullable',
             'stamps_used.*.id' => 'exists:stamp_registers,id|required|sometimes',
             'stamps_used.*.count' => 'integer|min:1|required|sometimes',
-            'envelopes_count' => 'min:1|integer',
             'lists_count' => 'min:1|integer',
             'message_type' => 'boolean|required',
-            'copies_count' => 'min:1|integer',
             'executor_id' => 'required|exists:employees,id',
         ];
     }

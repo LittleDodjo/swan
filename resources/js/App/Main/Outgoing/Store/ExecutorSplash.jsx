@@ -49,14 +49,6 @@ class ExecutorSplash extends Component {
             if (!this.state.loaded) {
                 this.loadData();
             }
-            const el = document.getElementById('window');
-            if (this.props.state) {
-                // el.scroll(0,0);
-                el.classList.add('overflow-hidden');
-
-            } else {
-                el.classList.remove('overflow-hidden');
-            }
         }
     }
 
@@ -99,6 +91,10 @@ class ExecutorSplash extends Component {
         );
     }
 
+}
+
+ExecutorSplash.defaultProps = {
+    ref: 'window',
 }
 
 export default ExecutorSplash;

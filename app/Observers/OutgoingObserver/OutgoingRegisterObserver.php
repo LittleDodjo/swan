@@ -67,18 +67,12 @@ class OutgoingRegisterObserver
     public
     function deleted(OutgoingRegister $outgoingRegister)
     {
-        OutgoingHistory::create([
-            'outgoing_register_id' => $outgoingRegister->id,
-            'touched_fields' => json_encode([
-                'is_deleted' => true,
-            ], true)
-        ]);
         $stamps = $outgoingRegister->stamps_used;
         foreach ($stamps as $key => $value) {
             $stamp = StampRegister::find($value['id']);
             $stamp->update(['count' => $stamp->count + $value['count']]);
         }
-        $outgoingRegister->stampHistory->update(['stamps' => []]);
+        $outgoingRegister->stampHistory->delete();
     }
 
     /**

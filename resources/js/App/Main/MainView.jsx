@@ -34,7 +34,7 @@ class MainView extends Component {
     render() {
         return (
             <div className="subsystem-base">
-                <Sidebar/>
+                {/*<Sidebar/>*/}
                 <main className="main-subsystem-base" id={"ref"}>
                     {this.props.view}
                 </main>
